@@ -1,0 +1,73 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .hover-service {
+    @apply shadow-lg flex flex-col gap-4 w-full border rounded p-4 border-slate-200 hover:border-slate-400 hover:bg-[#1e2c45] cursor-pointer transition-all ease-in duration-200 transform hover:scale-[1.05];
+  }
+
+  .pri-btn {
+    @apply text-white text-sm font-semibold border  tracking-wide bg-gradient-to-br from-[#0a2540] to-blue-800 border-[#0a2540]  rounded-full py-2 px-4 cursor-pointer transition-all ease-in duration-150 hover:opacity-75 center gap-2;
+  }
+
+  .sec-btn {
+    @apply text-sm font-semibold border  rounded-full py-2 px-4 center gap-2  cursor-pointer transition-all ease-in duration-300;
+  }
+
+}
+
+
+* {
+  font-family: "Poppins", sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url("/background.jpg");
+  background-position: center center;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+
+.navbar-chevron {
+  transition: transform 0.3s ease-in-out;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: 20rem 1fr;
+  grid-template-rows: auto 1fr;
+  background-color: #10121b66;
+  min-width: 1800px;
+  max-height: 860px;
+  height: 95vh;
+  overflow: hidden;
+  position: relative;
+  border-radius: 14px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  
+}
+
+.active {
+  background-color: #0f111a1a;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
