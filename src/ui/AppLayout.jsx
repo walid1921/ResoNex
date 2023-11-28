@@ -2,10 +2,10 @@ import { Outlet } from 'react-router-dom'
 import Sidebar from './Sidebar'
 import Header from './Header'
 
-const AppLayout = () => {
+const AppLayout = ({appsData, resourcesData}) => {
   return (
-    <div className='app'>
-      <Sidebar />
+    <div className='appLayout'>
+      <Sidebar appsData={appsData} resourcesData={resourcesData}/>
       <Header />
       <main className='p-6'>
         <Outlet />

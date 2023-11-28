@@ -1,0 +1,25 @@
+import { HiOutlineChartSquareBar } from "react-icons/hi";
+
+const appsData = [
+  {
+    id: 1,
+    name: 'Tracker',
+    path: '/apps/tracker',
+    // icon: <HiOutlineChartSquareBar size={23} />,
+  },
+  {
+    id: 2,
+    name: 'Tasks',
+    path: '/apps/tasks',
+    // icon: <HiOutlineChartSquareBar size={23} />,
+  },
+  {
+    id: 3,
+    name: 'Schedule',
+    path: '/apps/schedule',
+    // icon: <HiOutlineChartSquareBar size={23} />,
+  }
+];
+
+
+export default appsData;

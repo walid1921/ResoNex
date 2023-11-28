@@ -1,11 +1,13 @@
 import Logo from "./Logo"
 import Navbar from "./Navbar"
+import Profile from "./Profile"
 
-function Sidebar() {
+function Sidebar({appsData, resourcesData}) {
   return (
-    <aside className="row-span-full flex flex-col gap-3 py-2 border-r border-slate-400">
+    <aside className="row-span-full flex flex-col  py-2 border-r border-slate-400">
       <Logo />
-      <Navbar />
+      <Profile />
+      <Navbar appsData={appsData} resourcesData={resourcesData}/>
     </aside>
   )
 }
