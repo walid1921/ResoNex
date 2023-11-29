@@ -12,7 +12,7 @@ const Attendance = () => {
     <div>
       Attendance
 
-      <img src="https://cnijnmiqlomynvbikeaa.supabase.co/storage/v1/object/public/projects-images/pro.png" alt="example" />
+      {/* <img src="https://cnijnmiqlomynvbikeaa.supabase.co/storage/v1/object/public/projects-images/pro.png" alt="example" /> */}
 
       
     </div>

@@ -4,7 +4,14 @@ import App from './App.jsx'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <>
+    <video autoPlay muted loop id="video-background">
+      <source src="https://assets.codepen.io/3364143/7btrrd.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>,
+  </>
 )
