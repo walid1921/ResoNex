@@ -1,8 +1,8 @@
-import React from 'react'
+
 
 const Header = () => {
   return (
-    <header className=' px-9 py-10 border-b border-slate-400'>
+    <header className=' px-9 py-10 border-b border-slate-600'>
       Header
     </header>
   )

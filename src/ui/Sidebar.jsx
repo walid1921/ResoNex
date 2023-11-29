@@ -4,7 +4,7 @@ import Profile from "./Profile"
 
 function Sidebar({appsData, resourcesData}) {
   return (
-    <aside className="row-span-full flex flex-col  py-2 border-r border-slate-400">
+    <aside className="row-span-full flex flex-col  py-2 border-r border-slate-600">
       <Logo />
       <Profile />
       <Navbar appsData={appsData} resourcesData={resourcesData}/>

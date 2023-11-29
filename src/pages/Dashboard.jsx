@@ -1,8 +1,13 @@
-
+import PrimaryBtn from "../ui/buttons/PrimaryBtn"
+import SecondaryBtn from "../ui/buttons/SecondaryBtn"
 
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
+    <div>
+      <h1>Dashboard</h1>
+      <PrimaryBtn/>
+      <SecondaryBtn />
+      </div>
   )
 }
 
