@@ -33,13 +33,16 @@ html {
 body {
   background-repeat: no-repeat;
   background-size: cover;
-  /* background-image: url("/background.jpg"); */
+  background-image: url("/background.jpg");
   background-position: center center;
   width: auto;
   min-height: 100vh;
   padding: 50px;
   color: #fff;
 }
+
+
+
 
 #video-background {
   position: fixed;
@@ -50,6 +53,7 @@ body {
   width: auto;
   height: auto;
   z-index: -1;
+  
 }
 
 
@@ -58,7 +62,7 @@ body {
   grid-template-columns: 20rem 1fr;
   grid-template-rows: auto 1fr;
   height: 89vh;
-  background-color: #10121b66;
+  background-color: #10121ba1;
   border-radius: 14px;
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px);
