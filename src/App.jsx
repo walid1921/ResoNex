@@ -14,6 +14,7 @@ import Tasks from "./pages/Tasks";
 import Design from "./pages/Design";
 import Web from "./pages/Web";
 import Study from "./pages/Study";
+import Attendance from "./pages/Attendance";
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
             <Route path="resources/study" element={<Study />} />
 
             <Route path="apps/tracker" element={<Tracker />} />
+            <Route path="apps/attendance" element={<Attendance />} />
             <Route path="apps/tasks" element={<Tasks />} />
             
             <Route path="help" element={<Help />} />
