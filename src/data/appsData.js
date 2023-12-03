@@ -15,8 +15,8 @@ const appsData = [
   },
   {
     id: 3,
-    name: 'Schedule',
-    path: '/apps/schedule',
+    name: 'Calendar',
+    path: '/apps/calendar',
     // icon: <HiOutlineChartSquareBar size={23} />,
   },
   {

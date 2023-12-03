@@ -19,9 +19,11 @@ import Attendance from "./pages/Attendance";
 export default function App() {
   return (
     <>
+      
+
       <BrowserRouter>
         <Routes>
-          <Route element={<AppLayout appsData={appsData} resourcesData={resourcesData}  />}>
+          <Route element={<AppLayout appsData={appsData} resourcesData={resourcesData} />}>
             <Route index element={<Navigate replace to='dashboard' />} />
             <Route path="dashboard" element={<Dashboard />} />
 
@@ -32,7 +34,7 @@ export default function App() {
             <Route path="apps/tracker" element={<Tracker />} />
             <Route path="apps/attendance" element={<Attendance />} />
             <Route path="apps/tasks" element={<Tasks />} />
-            
+
             <Route path="help" element={<Help />} />
             <Route path="account" element={<Account />} />
             <Route path="settings" element={<Settings />} />

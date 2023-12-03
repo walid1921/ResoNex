@@ -19,16 +19,15 @@ const Navbar = ({ appsData, resourcesData }) => {
 
 
           {/* Resources */}
-          <li
-            onClick={() => setIsResourcesExpanded(!isResourcesExpanded)}
-          >
+          <li onClick={() => setIsResourcesExpanded(isExpanded => !isExpanded)}>
+
             <div className='flex justify-between items-center text-slate-200 gap-3 cursor-pointer py-2 px-4 hover:bg-[#0c0f194d]  hover:text-[#3a6df0] transition-all ease-in-out duration-150 '>
               <div className="flex items-center gap-3">
                 <HiOutlineFolder size={23} />
                 <span>Resources</span>
               </div>
 
-              <HiOutlineChevronDown className="navbar-chevron" size={23} style={{ transform: isResourcesExpanded ? "rotate(180deg)" : "rotate(0)" }} />
+              <HiOutlineChevronDown className={`navbar-chevron transition-transform duration-300 transform ${isResourcesExpanded ? "rotate-180" : "rotate-0"} ${isResourcesExpanded ? 'text-[#3a6df0]' : 'text-slate-200'} hover:text-[#3a6df0]`} size={23} />
             </div>
 
             <ul className={`transition-all ease-in-out duration-300 overflow-hidden text-sm ${isResourcesExpanded ? 'max-h-[200px]' : 'max-h-0'}`}>
@@ -48,7 +47,7 @@ const Navbar = ({ appsData, resourcesData }) => {
 
           {/* Apps */}
           <li
-            onClick={() => setIsAppsExpanded(!isAppsExpanded)}
+            onClick={() => setIsAppsExpanded(isExpanded => !isExpanded)}
           >
             <div className='flex justify-between items-center text-slate-200 gap-3 cursor-pointer py-2 px-4 hover:bg-[#0c0f194d]  hover:text-[#3a6df0] transition-all ease-in-out duration-150 '>
               <div className="flex items-center gap-3">
@@ -56,7 +55,7 @@ const Navbar = ({ appsData, resourcesData }) => {
                 <span>Apps</span>
               </div>
 
-              <HiOutlineChevronDown className="navbar-chevron" size={23} style={{ transform: isAppsExpanded ? "rotate(180deg)" : "rotate(0)" }} />
+              <HiOutlineChevronDown className={`navbar-chevron transition-transform duration-300 transform ${isAppsExpanded ? "rotate-180" : "rotate-0"} ${isAppsExpanded ? 'text-[#3a6df0]' : 'text-slate-200'} hover:text-[#3a6df0]`} size={23} />
             </div>
 
             <ul className={`transition-all ease-in-out duration-300 overflow-hidden text-sm ${isAppsExpanded ? 'max-h-[200px]' : 'max-h-0'}`}>
