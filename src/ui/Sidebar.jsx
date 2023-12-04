@@ -1,6 +1,7 @@
 import { useStateContext } from '../contexts/ContextProvider'
-import AsideBig from './AsideBig';
-import SmallNav from "./AsideSmall";
+import AsideBig from './AsideBig'
+import AsideSmall from './AsideSmall'
+
 
 
 function Sidebar() {
@@ -8,7 +9,11 @@ function Sidebar() {
 
   return (
     <>
-      {activeMenu ? <AsideBig /> : <SmallNav />}
+      {activeMenu ?
+       <AsideBig /> 
+       : 
+       <AsideSmall />
+       }
     </>
   )
 }

@@ -10,7 +10,11 @@ const initialState = {
 
 export const ContextProvider = ({ children }) => {
   const [activeMenu, setActiveMenu] = useState(true);
-  // const [state, setState] = useState(initialState);
+  const [isClicked, setIsClicked] = useState(initialState);
+
+  const handleClick = (name) => {
+    setIsClicked({ ...isClicked, [name]: !isClicked[name] });
+  }
 
   // const toggleUserProfile = () => {
   //   setState({ ...state, userProfile: !state.userProfile });
@@ -21,7 +25,7 @@ export const ContextProvider = ({ children }) => {
   // }
 
   return (
-    <StateContext.Provider value={{ activeMenu, setActiveMenu }}>
+    <StateContext.Provider value={{ activeMenu, setActiveMenu, isClicked, setIsClicked, handleClick }}>
       {children}
     </StateContext.Provider>
   )

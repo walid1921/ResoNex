@@ -3,7 +3,6 @@ import Sidebar from './Sidebar';
 import Header from './Header';
 import styled, { css } from 'styled-components';
 import { useStateContext } from '../contexts/ContextProvider';
-import { HiArrowCircleLeft } from 'react-icons/hi';
 
 const DIV = styled.div`
   display: grid;
@@ -14,17 +13,18 @@ const DIV = styled.div`
   border-radius: 14px;
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px);
+  transition: all 0.5s ease;
 
   ${props =>
     props.activeMenu &&
     css`
   grid-template-columns: 20rem 1fr;
-
+  transition: all 0.1s ease;
     `}
 `;
 
 const AppLayout = () => {
-  const { activeMenu, setActiveMenu } = useStateContext();
+  const { activeMenu } = useStateContext();
 
 
   return (

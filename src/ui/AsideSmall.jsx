@@ -62,20 +62,26 @@ function AsideSmall() {
   const [isAppsExpanded, setIsAppsExpanded] = useState(false)
 
 
-  let TooltipAnimation = {
-    open: { effect: 'FadeIn', duration: 300, delay: 0 },
-  };
+    let TooltipAnimation = {
+      open: { effect: 'FadeIn', duration: 300, delay: 0 },
+    };
 
   return (
-    <aside className='row-span-full flex flex-col py-2 border-r border-slate-600 ease-in-out duration-500 relative '>
+    <aside className='row-span-full flex flex-col py-2 border-r border-slate-600 ease-in-out duration-500 relative'>
 
-      <div onClick={() => setActiveMenu(() => !activeMenu)} className='absolute -right-[14px] top-[20px]  cursor-pointer text-[#e2e2e2] opacity-50 hover:opacity-100 transition-all ease-in-out duration-300'><HiArrowCircleRight size={30} /></div>
+
+      {/* Menu Btn */}
+      <div onClick={() => setActiveMenu(() => !activeMenu)} className='absolute -right-[14px] top-[20px]  cursor-pointer text-[#e2e2e2] opacity-50 hover:opacity-100 transition-all ease-in-out duration-300'>
+        <TooltipComponent content='Expand sidebar' position='RightCenter' offsetY={-5} animation={TooltipAnimation}>
+          <button className={!activeMenu ?  `text-[#3a6df0] hover:text-[#3a6df0] transition-all ease-in-out duration-200` : 'text-[#e2e2e2]'}><HiArrowCircleRight size={30} /></button>
+        </TooltipComponent>
+      </div>
 
       {/* Logo */}
       <div className="flex justify-center py-8 border-b border-slate-600">
         <TooltipComponent content='ResoNex' position='RightCenter' offsetY={-5} animation={TooltipAnimation}>
           <Link to="/" className='flex justify-center px-2  transition-all ease-in-out duration-150  '>
-          <img src="../../public/logox.png" alt="logoIcon" className='h-[40px]' />
+            <img src="../../public/logox.png" alt="logoIcon" className='h-[40px]' />
           </Link>
         </TooltipComponent>
       </div>
