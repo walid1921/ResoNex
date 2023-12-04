@@ -1,8 +1,58 @@
 import { useState } from "react";
-import { HiOutlineChevronDown, HiOutlineChip, HiOutlineCog, HiOutlineExclamationCircle, HiOutlineFolder, HiOutlineLogout, HiOutlineViewGrid } from "react-icons/hi";
+import { HiOutlineCalendar, HiOutlineChevronDown, HiOutlineChip, HiOutlineClipboardList, HiOutlineCog, HiOutlineCube, HiOutlineExclamationCircle, HiOutlineFolder, HiOutlineLink, HiOutlineLogout, HiOutlineSparkles, HiOutlineViewGrid } from "react-icons/hi";
+import { HiOutlineChartSquareBar } from "react-icons/hi";
 import { NavLink } from 'react-router-dom'
 
-const Navbar = ({ appsData, resourcesData }) => {
+const appsData = [
+  {
+    id: 1,
+    name: 'Tracker',
+    path: '/apps/tracker',
+    icon: <HiOutlineChartSquareBar size={19} />,
+  },
+  {
+    id: 2,
+    name: 'Attendance',
+    path: '/apps/Attendance',
+    icon: <HiOutlineChartSquareBar size={19} />,
+  },
+  {
+    id: 3,
+    name: 'Tasks',
+    path: '/apps/tasks',
+    icon: <HiOutlineClipboardList size={19} />,
+  },
+  {
+    id: 4,
+    name: 'Calendar',
+    path: '/apps/calendar',
+    icon: <HiOutlineCalendar size={19} />,
+  }
+];
+
+const resourcesData = [
+  {
+    id: 1,
+    name: 'Design',
+    path: '/resources/design',
+    icon: <HiOutlineSparkles size={19} />,
+  },
+  {
+    id: 2,
+    name: 'Webs',
+    path: '/resources/web',
+    icon: <HiOutlineLink size={19} />,
+  },
+  {
+    id: 3,
+    name: 'Study',
+    path: '/resources/study',
+    icon: <HiOutlineCube size={19} />,
+  }
+];
+
+
+const Navbar = () => {
   const [isAppsExpanded, setIsAppsExpanded] = useState(false)
   const [isResourcesExpanded, setIsResourcesExpanded] = useState(false)
 
@@ -27,7 +77,7 @@ const Navbar = ({ appsData, resourcesData }) => {
                 <span>Resources</span>
               </div>
 
-              <HiOutlineChevronDown className={`navbar-chevron transition-transform duration-300 transform ${isResourcesExpanded ? "rotate-180" : "rotate-0"} ${isResourcesExpanded ? 'text-[#3a6df0]' : 'text-slate-200'} hover:text-[#3a6df0]`} size={23} />
+              <HiOutlineChevronDown className={`transition-transform duration-300 transform ${isResourcesExpanded ? "rotate-180" : "rotate-0"} ${isResourcesExpanded ? 'text-[#3a6df0]' : 'text-slate-200'} hover:text-[#3a6df0]`} size={23} />
             </div>
 
             <ul className={`transition-all ease-in-out duration-300 overflow-hidden text-sm ${isResourcesExpanded ? 'max-h-[200px]' : 'max-h-0'}`}>
@@ -55,7 +105,7 @@ const Navbar = ({ appsData, resourcesData }) => {
                 <span>Apps</span>
               </div>
 
-              <HiOutlineChevronDown className={`navbar-chevron transition-transform duration-300 transform ${isAppsExpanded ? "rotate-180" : "rotate-0"} ${isAppsExpanded ? 'text-[#3a6df0]' : 'text-slate-200'} hover:text-[#3a6df0]`} size={23} />
+              <HiOutlineChevronDown className={`transition-transform duration-300 transform ${isAppsExpanded ? "rotate-180" : "rotate-0"} ${isAppsExpanded ? 'text-[#3a6df0]' : 'text-slate-200'} hover:text-[#3a6df0]`} size={23} />
             </div>
 
             <ul className={`transition-all ease-in-out duration-300 overflow-hidden text-sm ${isAppsExpanded ? 'max-h-[200px]' : 'max-h-0'}`}>
@@ -70,11 +120,8 @@ const Navbar = ({ appsData, resourcesData }) => {
               ))}
             </ul>
           </li>
-
-
-
-
         </div>
+
         <div className="flex flex-col gap-3">
           <li>
             <NavLink to="/help" className='flex items-center text-slate-200 gap-3  py-2 px-4 hover:bg-[#0c0f194d]  hover:text-[#3a6df0] transition-all ease-in-out duration-150  ' >

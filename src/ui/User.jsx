@@ -1,6 +1,6 @@
 import { HiOutlineChevronDown } from "react-icons/hi"
 
-function Profile() {
+function User() {
   return (
     <div className="flex justify-between items-center text-md py-5 px-4 gap-4 border-b border-slate-600 hover:cursor-pointer">
       <div className="flex items-center gap-3">
@@ -19,4 +19,4 @@ function Profile() {
   )
 }
 
-export default Profile
+export default User

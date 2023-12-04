@@ -1,14 +1,15 @@
-import Logo from "./Logo"
-import Navbar from "./Navbar"
-import Profile from "./Profile"
+import { useStateContext } from '../contexts/ContextProvider'
+import AsideBig from './AsideBig';
+import SmallNav from "./AsideSmall";
 
-function Sidebar({appsData, resourcesData}) {
+
+function Sidebar() {
+  const { activeMenu } = useStateContext();
+
   return (
-    <aside className="row-span-full flex flex-col  py-2 border-r border-slate-600">
-      <Logo />
-      <Profile />
-      <Navbar appsData={appsData} resourcesData={resourcesData}/>
-    </aside>
+    <>
+      {activeMenu ? <AsideBig /> : <SmallNav />}
+    </>
   )
 }
 
