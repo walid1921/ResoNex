@@ -9,8 +9,8 @@ const DIV = styled.div`
   grid-template-rows: auto 1fr;
   grid-template-columns: 4rem 1fr;
   height: 89vh;
-  background-color: #10121ba1;
   border-radius: 14px;
+  background-color: #10121ba1;
   backdrop-filter: blur(30px);
   -webkit-backdrop-filter: blur(30px);
   transition: all 0.5s ease;

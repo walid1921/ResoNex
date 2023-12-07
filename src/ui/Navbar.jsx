@@ -152,8 +152,8 @@ const Navbar = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/settings" className='flex items-center text-slate-200 gap-3  py-2 px-4 hover:bg-[#0c0f194d]  hover:text-[#3a6df0] transition-all ease-in-out duration-150  ' >
-              <HiOutlineCog size={23} />
+            <NavLink to="/settings" className='flex items-center text-slate-200 gap-3  py-2 px-4 hover:bg-[#0c0f194d]  hover:text-[#3a6df0] transition-all ease-in-out duration-150 ' >
+              <HiOutlineCog size={23} className="rotate-icon" />
               <span>Settings</span>
             </NavLink>
           </li>

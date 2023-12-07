@@ -16,5 +16,21 @@ export async function getCalendar () {
 
   return data
 
+}
+
+export async function deleteCalendar (id) {
+  
+const {data, error } = await supabase
+.from('Calendar')
+.delete()
+.eq('id', id)
+
+
+  if (error) {
+    console.error(error)
+    throw new Error('Your Calendar data could not be deleted.')
+  }
+
+  return data
 
 }

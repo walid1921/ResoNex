@@ -15,6 +15,7 @@ import Attendance from "./pages/Attendance";
 import Calendar from "./pages/Calendar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Toaster } from "react-hot-toast"; // npm i react-hot-toast (you can check the docs for more customization options)
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,7 +29,7 @@ const queryClient = new QueryClient({
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools/>
+      <ReactQueryDevtools />
       <BrowserRouter>
         <Routes>
           <Route element={<AppLayout />}>
@@ -59,6 +60,19 @@ export default function App() {
 
         </Routes>
       </BrowserRouter>
+
+      <Toaster position="top-center" gutter={12} containerStyle={{ margin: "8px" }} toastOptions={{
+        success: { duration: 3000 },
+        error: { duration: 5000 },
+        style: {
+          fontSize: "14px",
+          maxWidth: "400px",
+          padding: "14px 20px",
+          backgroundColor: "#10121b92",
+          color: "#fff",
+        },
+
+      }} />
     </QueryClientProvider>
   )
 }
