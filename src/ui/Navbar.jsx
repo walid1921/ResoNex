@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useRef } from "react";
 import { useState } from "react";
 import { HiOutlineCalendar, HiOutlineChevronDown, HiOutlineChip, HiOutlineClipboardList, HiOutlineCog, HiOutlineCube, HiOutlineExclamationCircle, HiOutlineFolder, HiOutlineLink, HiOutlineLogout, HiOutlineSparkles, HiOutlineViewGrid } from "react-icons/hi";
 import { HiOutlineChartSquareBar } from "react-icons/hi";
@@ -52,9 +54,28 @@ const resourcesData = [
 ];
 
 
+
+
 const Navbar = () => {
   const [isAppsExpanded, setIsAppsExpanded] = useState(false)
   const [isResourcesExpanded, setIsResourcesExpanded] = useState(false)
+
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsResourcesExpanded(false);
+        setIsAppsExpanded(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isResourcesExpanded, isAppsExpanded]);
 
   return (
     <nav className="h-full py-4">
@@ -69,7 +90,7 @@ const Navbar = () => {
 
 
           {/* Resources */}
-          <li onClick={() => setIsResourcesExpanded(isExpanded => !isExpanded)}>
+          <li ref={dropdownRef} onClick={() => setIsResourcesExpanded(isExpanded => !isExpanded, setIsAppsExpanded(false))}>
 
             <div className='flex justify-between items-center text-slate-200 gap-3 cursor-pointer py-2 px-4 hover:bg-[#0c0f194d]  hover:text-[#3a6df0] transition-all ease-in-out duration-150 '>
               <div className="flex items-center gap-3">
@@ -96,8 +117,8 @@ const Navbar = () => {
 
 
           {/* Apps */}
-          <li
-            onClick={() => setIsAppsExpanded(isExpanded => !isExpanded)}
+          <li ref={dropdownRef}
+            onClick={() => setIsAppsExpanded(isExpanded => !isExpanded, setIsResourcesExpanded(false))}
           >
             <div className='flex justify-between items-center text-slate-200 gap-3 cursor-pointer py-2 px-4 hover:bg-[#0c0f194d]  hover:text-[#3a6df0] transition-all ease-in-out duration-150 '>
               <div className="flex items-center gap-3">

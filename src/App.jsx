@@ -13,12 +13,22 @@ import Web from "./pages/Web";
 import Study from "./pages/Study";
 import Attendance from "./pages/Attendance";
 import Calendar from "./pages/Calendar";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 0,
+    }
+  }
+})
 
 
 export default function App() {
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools/>
       <BrowserRouter>
         <Routes>
           <Route element={<AppLayout />}>
@@ -49,6 +59,6 @@ export default function App() {
 
         </Routes>
       </BrowserRouter>
-    </>
+    </QueryClientProvider>
   )
 }

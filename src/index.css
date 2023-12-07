@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
-@import url("https://cdn.syncfusion.com/ej2/tailwind.css");
+@import url("https://cdn.syncfusion.com/ej2/tailwind-dark.css");
 
 @tailwind base;
 @tailwind components;
@@ -45,9 +45,13 @@ body {
 }
 
 .active {
-  background-color: #0f111a1a;
+  /* background-color: #4b5563; */
   border-left: 2px solid #3a6df0;
   color: #3a6df0;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
+
+
+
+

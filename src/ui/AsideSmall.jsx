@@ -1,5 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 
 import { HiArrowCircleRight, HiOutlineCalendar, HiOutlineChartSquareBar, HiOutlineChip, HiOutlineClipboardList, HiOutlineCog, HiOutlineCube, HiOutlineExclamationCircle, HiOutlineFolder, HiOutlineLink, HiOutlineLogout, HiOutlineSparkles, HiOutlineViewGrid } from "react-icons/hi";
@@ -61,6 +61,23 @@ function AsideSmall() {
   const [isResourcesExpanded, setIsResourcesExpanded] = useState(false)
   const [isAppsExpanded, setIsAppsExpanded] = useState(false)
 
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsResourcesExpanded(false);
+        setIsAppsExpanded(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isResourcesExpanded, isAppsExpanded]);
+
 
     let TooltipAnimation = {
       open: { effect: 'FadeIn', duration: 300, delay: 0 },
@@ -112,7 +129,7 @@ function AsideSmall() {
 
 
           {/* Resources */}
-          <li className="relative" onClick={() => setIsResourcesExpanded(isExpanded => !isExpanded)}>
+          <li className="relative"  ref={dropdownRef} onClick={() => setIsResourcesExpanded(isExpanded => !isExpanded, setIsAppsExpanded(false))}>
 
             <TooltipComponent content='Resources' position='RightCenter' offsetY={-5} animation={TooltipAnimation}>
               <div className='flex justify-between items-center text-slate-200 gap-3 cursor-pointer py-2 px-4 hover:bg-[#0c0f194d]  hover:text-[#3a6df0] transition-all ease-in-out duration-150 '>
@@ -137,7 +154,8 @@ function AsideSmall() {
 
           {/* Apps */}
           <li className="relative"
-            onClick={() => setIsAppsExpanded(isExpanded => !isExpanded)}
+            ref={dropdownRef}
+            onClick={() => setIsAppsExpanded(isExpanded => !isExpanded, setIsResourcesExpanded(false))}
           >
             <TooltipComponent content='Apps' position='RightCenter' offsetY={-5} animation={TooltipAnimation}>
               <div className='flex justify-between items-center text-slate-200 gap-3 cursor-pointer py-2 px-4 hover:bg-[#0c0f194d]  hover:text-[#3a6df0] transition-all ease-in-out duration-150 '>

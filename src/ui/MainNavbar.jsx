@@ -15,7 +15,7 @@ let TooltipAnimation = {
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
 
   <TooltipComponent content={title} position='BottomCenter' offsetY={-5} animation={TooltipAnimation}>
-    <button onClick={customFunc} type='button' className="hover:text-[#3a6df0] transition-all ease-in-out duration-200 relative">
+    <button onClick={customFunc} type='button' className="hover:text-[#3a6df0] opacity-70 transition-all ease-in-out duration-200 relative">
 
       <span style={{ background: dotColor }} className='absolute inline-flex rounded-full h-2 w-2 right-1 top-1' />
       {icon}
@@ -32,8 +32,10 @@ function MainNavbar() {
   return (
     <nav className='flex justify-end items-center gap-4'>
 
+      {/* Notification */}
       <NavButton customFunc={() => handleClick('notification')} title='Notifications' dotColor='#3a6df0' icon={<HiOutlineBell size={25} />} />
 
+      {/* UseProfile */}
       <TooltipComponent content='User_Name' position='BottomCenter' offsetY={-5} animation={TooltipAnimation}>
 
         <div onClick={() => handleClick('userProfile')} className='flex items-center cursor-pointer gap-2 p-1 rounded-lg'>
