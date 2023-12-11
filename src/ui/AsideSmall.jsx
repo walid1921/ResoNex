@@ -37,18 +37,12 @@ const appsData = [
   },
   {
     id: 2,
-    name: 'Attendance',
-    path: '/apps/Attendance',
-    icon: <HiOutlineChartSquareBar size={23} />,
-  },
-  {
-    id: 3,
     name: 'Tasks',
     path: '/apps/tasks',
     icon: <HiOutlineClipboardList size={23} />,
   },
   {
-    id: 4,
+    id: 3,
     name: 'Calendar',
     path: '/apps/calendar',
     icon: <HiOutlineCalendar size={23} />,

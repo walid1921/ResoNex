@@ -14,18 +14,12 @@ const appsData = [
   },
   {
     id: 2,
-    name: 'Attendance',
-    path: '/apps/Attendance',
-    icon: <HiOutlineChartSquareBar size={19} />,
-  },
-  {
-    id: 3,
     name: 'Tasks',
     path: '/apps/tasks',
     icon: <HiOutlineClipboardList size={19} />,
   },
   {
-    id: 4,
+    id: 3,
     name: 'Calendar',
     path: '/apps/calendar',
     icon: <HiOutlineCalendar size={19} />,
@@ -90,7 +84,7 @@ const Navbar = () => {
 
 
           {/* Resources */}
-          <li ref={dropdownRef} onClick={() => setIsResourcesExpanded(isExpanded => !isExpanded, setIsAppsExpanded(false))}>
+          <li ref={dropdownRef} onClick={() => setIsResourcesExpanded(!isResourcesExpanded, setIsAppsExpanded(false))}>
 
             <div className='flex justify-between items-center text-slate-200 gap-3 cursor-pointer py-2 px-4 hover:bg-[#0c0f194d]  hover:text-[#3a6df0] transition-all ease-in-out duration-150 '>
               <div className="flex items-center gap-3">
@@ -118,7 +112,7 @@ const Navbar = () => {
 
           {/* Apps */}
           <li ref={dropdownRef}
-            onClick={() => setIsAppsExpanded(isExpanded => !isExpanded, setIsResourcesExpanded(false))}
+            onClick={() => setIsAppsExpanded(!isAppsExpanded, setIsResourcesExpanded(false))}
           >
             <div className='flex justify-between items-center text-slate-200 gap-3 cursor-pointer py-2 px-4 hover:bg-[#0c0f194d]  hover:text-[#3a6df0] transition-all ease-in-out duration-150 '>
               <div className="flex items-center gap-3">
