@@ -73,9 +73,9 @@ function AsideSmall() {
   }, [isResourcesExpanded, isAppsExpanded]);
 
 
-    let TooltipAnimation = {
-      open: { effect: 'FadeIn', duration: 300, delay: 0 },
-    };
+  let TooltipAnimation = {
+    open: { effect: 'FadeIn', duration: 300, delay: 0 },
+  };
 
   return (
     <aside className='row-span-full flex flex-col py-2 border-r border-slate-600 ease-in-out duration-500 relative'>
@@ -84,7 +84,7 @@ function AsideSmall() {
       {/* Menu Btn */}
       <div onClick={() => setActiveMenu(() => !activeMenu)} className='absolute -right-[14px] top-[20px]  cursor-pointer text-[#e2e2e2] opacity-50 hover:opacity-100 transition-all ease-in-out duration-300'>
         <TooltipComponent content='Expand sidebar' position='RightCenter' offsetY={-5} animation={TooltipAnimation}>
-          <button className={!activeMenu ?  `text-[#3a6df0] hover:text-[#3a6df0] transition-all ease-in-out duration-200` : 'text-[#e2e2e2]'}><HiArrowCircleRight size={30} /></button>
+          <button className={!activeMenu ? `text-[#3a6df0] hover:text-[#3a6df0] transition-all ease-in-out duration-200` : 'text-[#e2e2e2]'}><HiArrowCircleRight size={30} /></button>
         </TooltipComponent>
       </div>
 
@@ -92,7 +92,7 @@ function AsideSmall() {
       <div className="flex justify-center py-8 border-b border-slate-600">
         <TooltipComponent content='ResoNex' position='RightCenter' offsetY={-5} animation={TooltipAnimation}>
           <Link to="/" className='flex justify-center px-2  transition-all ease-in-out duration-150  '>
-            <img src="../../public/logox.png" alt="logoIcon" className='h-[40px]' />
+            <img src="../logox.png" alt="logoIcon" className='h-[40px]' />
           </Link>
         </TooltipComponent>
       </div>
@@ -123,7 +123,7 @@ function AsideSmall() {
 
 
           {/* Resources */}
-          <li className="relative"  ref={dropdownRef} onClick={() => setIsResourcesExpanded(isExpanded => !isExpanded, setIsAppsExpanded(false))}>
+          <li className="relative" ref={dropdownRef} onClick={() => setIsResourcesExpanded(isExpanded => !isExpanded, setIsAppsExpanded(false))}>
 
             <TooltipComponent content='Resources' position='RightCenter' offsetY={-5} animation={TooltipAnimation}>
               <div className='flex justify-between items-center text-slate-200 gap-3 cursor-pointer py-2 px-4 hover:bg-[#0c0f194d]  hover:text-[#3a6df0] transition-all ease-in-out duration-150 '>

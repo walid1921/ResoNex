@@ -15,6 +15,7 @@ export const ContextProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [calendarData, setCalendarData] = useState([]);
 
+
   const handleClick = (name) => {
     setIsClicked({ ...isClicked, [name]: !isClicked[name] });
   }

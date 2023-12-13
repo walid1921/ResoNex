@@ -33,7 +33,7 @@ const AsideBig = () => {
 
         <Link to='/'>
           {/* <span className='text-3xl font-semibold text-transparent bg-clip-text bg-gradient-to-br from-[#2660f3] to-[#41596d]'>ResoNex</span> */}
-          <img src="../../public/logo.png" alt="logoIcon" />
+          <img src="../logo.png" alt="logoIcon" />
 
         </Link>
       </div>
