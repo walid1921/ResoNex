@@ -18,7 +18,7 @@ const DIV = styled.div`
   ${props =>
     props.activeMenu &&
     css`
-  grid-template-columns: 18rem 1fr;
+  grid-template-columns: 16rem 1fr;
   transition: all 0.1s ease;
     `}
 `;

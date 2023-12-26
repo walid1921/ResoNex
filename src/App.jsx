@@ -7,7 +7,7 @@ import PageNotFound from "./pages/PageNotFound";
 import AppLayout from "./ui/AppLayout";
 import Login from "./pages/Login";
 import Account from "./pages/Account";
-import Tasks from "./pages/Tasks";
+import ToDoList from "./pages/ToDoList";
 import Design from "./pages/Design";
 import Web from "./pages/Web";
 import Study from "./pages/Study";
@@ -35,7 +35,7 @@ export default function App() {
 
             {/* Apps */}
             <Route path="apps/tracker" element={<Tracker />} />
-            <Route path="apps/tasks" element={<Tasks />} />
+            <Route path="apps/todolist" element={<ToDoList />} />
             <Route path="apps/calendar" element={<Calendar />} />
 
             {/* Settings */}

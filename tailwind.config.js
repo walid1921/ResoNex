@@ -38,6 +38,19 @@ module.exports = {
         'hero-pattern':
           "url('https://i.ibb.co/MkvLDfb/Rectangle-4389.png')",
       },
+      keyframes: {
+        lightInfinite : {
+          '0%, 20%, 50%, 80%, 100%': {
+            opacity: 0.2,
+          },
+          '40%': {
+            opacity: 1
+          }
+        }
+      },
+      animation: {
+        lightInfinite: 'lightInfinite 1.5s linear infinite',
+      },  
     },
   },
   plugins: []

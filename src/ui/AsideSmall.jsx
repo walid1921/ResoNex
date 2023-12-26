@@ -37,8 +37,8 @@ const appsData = [
   },
   {
     id: 2,
-    name: 'Tasks',
-    path: '/apps/tasks',
+    name: 'To Do List',
+    path: '/apps/todolist',
     icon: <HiOutlineClipboardList size={23} />,
   },
   {
