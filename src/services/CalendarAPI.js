@@ -16,7 +16,7 @@ import toast from 'react-hot-toast';
 
 
 // const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-const BACKEND_URL = 'http://localhost:5000/api';
+const BACKEND_URL = 'http://localhost:5001/api';
 
 
 const useCalendarAPI = () => {

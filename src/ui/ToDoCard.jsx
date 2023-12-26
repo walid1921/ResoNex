@@ -1,8 +1,9 @@
 import { TooltipComponent } from "@syncfusion/ej2-react-popups"
-import { HiOutlinePencil, HiOutlineMinusSm } from "react-icons/hi"
+import { HiOutlineMinusSm } from "react-icons/hi"
 import Modal from 'react-modal'; //npm install react-modal
 import SecondaryBtn from "./buttons/SecondaryBtn";
 import { useState } from "react";
+import { BsExclamation } from "react-icons/bs";
 
 
 
@@ -14,7 +15,7 @@ let TooltipAnimation = {
 
 
 
-function ToDoCard({id, title, description, date, status, handleDeleteTask }) {
+function ToDoCard({id, title, description, date, status, handleDeleteTask, openTask }) {
 
   const [isDeleteTaskModalOpen, setIsDeleteTaskModalOpen] = useState(false);
 
@@ -30,23 +31,25 @@ function ToDoCard({id, title, description, date, status, handleDeleteTask }) {
     setIsDeleteTaskModalOpen(false);
   }
 
+  
+
   return (
-    <div className={`flex flex-col w-[45%] h-[80px] bg-[rgba(148,163,184,0.26)] rounded-md px-4 py-2 border ${status === 'Done' ? 'border-[#5fcf65a3]' : 'border-[#c4b131a2]'}`}>
+    <div  className={`flex flex-col w-[45%] h-[80px] bg-[rgba(148,163,184,0.26)] rounded-md px-4 py-2 border ${status === 'Done' ? 'border-[#5fcf65a3]' : 'border-[#c4b131a2]'}`}>
       <div className="flex items-center justify-between">
         <h4>{title}</h4>
         <div className="flex gap-2">
 
 
-          <TooltipComponent content='Edit' position='TopCenter' offsetY={-5} animation={TooltipAnimation}>
-            <button className=" p-1 bg-[#94a3b866] hover:bg[#94a3b8b5] rounded-full">
-              <HiOutlinePencil size={7} />
+          <TooltipComponent content='See details' position='TopCenter' offsetY={-5} animation={TooltipAnimation}>
+            <button className="bg-[#94a3b866] hover:bg-[#94a3b8b4] rounded-full" onClick={()=> openTask(id)}>
+              <BsExclamation size={13} />
             </button>
           </TooltipComponent>
 
 
           <TooltipComponent content='Delete' position='TopCenter' offsetY={-5} animation={TooltipAnimation}>
-            <button className="bg-[#ff4d4dad] hover:bg-[#c6141d9d] p-1 rounded-full" onClick={openDeleteTaskModal}>
-              <HiOutlineMinusSm size={7} />
+            <button className="bg-[#ff4d4dad] hover:bg-[#c6141d9d]  rounded-full" onClick={openDeleteTaskModal}>
+              <HiOutlineMinusSm size={13} />
             </button>
           </TooltipComponent>
 
