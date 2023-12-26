@@ -1,0 +1,85 @@
+@import url("https://cdn.syncfusion.com/ej2/tailwind-dark.css");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: "Poppins", sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-repeat: no-repeat;
+  background-size: cover;
+  /* background-image: url("/background.jpg"); */
+  background-position: center center;
+  background-image: linear-gradient(180deg, hsla(0, 0%, 9%, 0), #171717),
+    linear-gradient(270deg, #534cda, #de8d98);
+  width: 100%;
+  min-height: 100vh;
+  padding: 50px;
+  color: #fff;
+  overflow: hidden;
+}
+
+#video-background {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -1;
+  object-fit: cover;
+}
+
+.active {
+  /* background-color: #4b5563; */
+  border-left: 2px solid #3a6df0;
+  color: #3a6df0;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+@keyframes rotate360 {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* .rotate-icon {
+  animation: rotate360 infinite 5s linear;
+} */
+
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 3px;
+  margin-right: 2px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(148,163,184,0.50);
+  border-radius: 0.25em;
+}
+
+.custom-scrollbar {
+  scrollbar-width: 2px;
+  scrollbar-color: rgba(148,163,184,0.60) transparent;
+}
+
+
