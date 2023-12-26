@@ -24,6 +24,8 @@ export default function App() {
         <Routes>
           <Route element={<AppLayout />}>
 
+
+{/* test */}
             {/* Dashboard */}
             <Route index element={<Navigate replace to='dashboard' />} />
             <Route path="dashboard" element={<Dashboard />} />
