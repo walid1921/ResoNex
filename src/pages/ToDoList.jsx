@@ -1,14 +1,20 @@
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { HiOutlinePlus, HiOutlineMinusSm } from "react-icons/hi";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
+import { LuEye } from "react-icons/lu";
 import ToDoCard from "../ui/ToDoCard";
 import Modal from "react-modal"; //npm install react-modal
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PrimaryBtn from "../ui/buttons/PrimaryBtn";
 import SecondaryBtn from "../ui/buttons/SecondaryBtn";
-import { CircularProgressbar, buildStyles } from "react-circular-progressbar"; //npm install react-circular-progressbar
-import "react-circular-progressbar/dist/styles.css"; // Import the styles
+// import { CircularProgressbar, buildStyles } from "react-circular-progressbar"; //npm install react-circular-progressbar
+import "react-circular-progressbar/dist/styles.css";
+// import {Line} from "react-progress-bar"; // npm install react-progress-bar
+import ProgressBar from "react-progress-bar-plus";
+import "react-progress-bar-plus/lib/progress-bar.css";
 import toast from "react-hot-toast";
+import TaskChart from "../ui/LineChart";
+import BarChart from "../ui/BarChart";
 
 let TooltipAnimation = {
   open: { effect: "FadeIn", duration: 300, delay: 0 },
@@ -85,6 +91,54 @@ const ToDoList = () => {
     },
   ]);
 
+  const chartData = {
+    labels: ["Date 1", "Date 2", "Date 3"], // Replace with your actual dates
+    datasets: [
+      {
+        label: "Time Created",
+        borderColor: "rgba(255, 99, 132, 1)",
+        backgroundColor: "rgba(255, 99, 132, 0.2)",
+        data: [10, 20, 30], // Replace with your actual data
+      },
+      {
+        label: "Time Finished",
+        borderColor: "rgba(75, 192, 192, 1)",
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        data: [15, 25, 35], // Replace with your actual data
+      },
+      {
+        label: "Spent Time",
+        borderColor: "rgba(255, 206, 86, 1)",
+        backgroundColor: "rgba(255, 206, 86, 0.2)",
+        data: [5, 5, 5], // Replace with your actual data
+      },
+    ],
+  };
+
+  const chartOptions = {
+    scales: {
+      x: {
+        type: "time",
+        time: {
+          unit: "day", // You can customize the time unit
+        },
+      },
+      y: {
+        beginAtZero: true,
+      },
+    },
+  };
+
+  const [tasksDataChart, setTasksDataChart] = useState([
+    { day: "Sun", percentage: 30 },
+    { day: "Mon", percentage: 45 },
+    { day: "Tue", percentage: 20 },
+    { day: "Wed", percentage: 15 },
+    { day: "Thu", percentage: 60 },
+    { day: "Fri", percentage: 35 },
+    { day: "Sat", percentage: 100 },
+  ]);
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -101,6 +155,26 @@ const ToDoList = () => {
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
+  const [isTitleValid, setIsTitleValid] = useState(false);
+
+  const [barsView, setBarsView] = useState(false);
+
+  const [loading, setLoading] = useState(0);
+
+  const showBarsView = () => {
+    setBarsView(!barsView);
+  };
+
+  useEffect(() => {
+    // Simulate progress update
+    const interval = setInterval(() => {
+      setLoading((prevProgress) =>
+        prevProgress < 100 ? prevProgress + 10 : 100
+      );
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const numTasks = tasksData.length;
   const numDoneTasks = tasksData.filter(
@@ -139,6 +213,14 @@ const ToDoList = () => {
 
   //! Edit Task
   const handleEditTask = () => {
+    if (formData.title.trim() === "") {
+      toast.error("Title is required!");
+      return;
+    } else if (formData.description.trim() === "") {
+      toast.error("Description is required!");
+      return;
+    }
+
     const updatedTasks = tasksData.map((task) =>
       task.id === editingTask
         ? {
@@ -165,6 +247,11 @@ const ToDoList = () => {
 
   //! Add Task
   const handleAddTask = () => {
+    if (formData.title.trim() === "") {
+      toast.error("Title is required!");
+      return;
+    }
+
     const newTask = {
       id: tasksData.length + 1,
       title: formData.title,
@@ -202,7 +289,9 @@ const ToDoList = () => {
 
   //! handle change
   const handleTitleChange = (e) => {
-    setFormData({ ...formData, title: e.target.value });
+    const newTitle = e.target.value;
+    setFormData({ ...formData, title: newTitle });
+    setIsTitleValid(newTitle.trim() !== "");
   };
 
   const handleDescriptionChange = (e) => {
@@ -258,12 +347,18 @@ const ToDoList = () => {
 
   return (
     <div>
+      <ProgressBar
+        className=" px-3 pt-[2px] rounded-md"
+        percent={loading}
+        autoIncrement
+      />
+
       <h2>To Do List</h2>
 
-      <div className="mt-10 justify-center items-center h-[540px]  flex gap-10 ">
-        <div className=" h-full w-[60%] rounded-md border border-slate-600">
+      <div className="mt-5 justify-center items-center h-[574px]  flex gap-10 ">
+        <div className=" h-full w-[50%] rounded-md border border-slate-600">
           <div className="flex items-center justify-between  mt-5 mx-5 ">
-            <div className="flex flex-col gap-6">
+            <div className="flex items-center justify-between w-full">
               <div className="flex gap-3 items-center">
                 <h3 className="text-lg">Your Tasks</h3>
 
@@ -283,386 +378,457 @@ const ToDoList = () => {
                 </TooltipComponent>
               </div>
 
-              <div className="flex gap-3 ml-2">
+              <div className="flex gap-3">
                 <TooltipComponent
-                  content={
-                    numDoneTasks
-                      ? `${numDoneTasks} already Done `
-                      : `No Done Tasks`
-                  }
+                  content="Sort"
                   position="TopCenter"
                   offsetY={-5}
                   animation={TooltipAnimation}
                 >
-                  <div
-                    className={
-                      "h-3 w-3 rounded-full cursor-pointer bg-[#5fcf65a3]"
-                    }
-                  ></div>
-                </TooltipComponent>
-
-                <TooltipComponent
-                  content={
-                    numPendingTasks
-                      ? ` ${numPendingTasks} Pending Tasks`
-                      : `No Pending Tasks`
-                  }
-                  position="TopCenter"
-                  offsetY={-5}
-                  animation={TooltipAnimation}
-                >
-                  <div
-                    className={`${
-                      !numPendingTasks
-                        ? "h-3 w-3 rounded-full cursor-pointer bg-[#c4b131a2] "
-                        : "h-3 w-3 rounded-full cursor-pointer bg-[#c4b131a2]  animate-lightInfinite"
-                    }`}
-                  ></div>
-                </TooltipComponent>
-              </div>
-            </div>
-            <div className="flex gap-3">
-              <TooltipComponent
-                content="Sort"
-                position="TopCenter"
-                offsetY={-5}
-                animation={TooltipAnimation}
-              >
-                <select
-                  className=" hover:cursor-pointer px-2 py-[1px] rounded-md w-[85px] text-[#fff] font-extralight"
-                  value={sortBy}
-                  onChange={(e) => handleSortChange(e.target.value)}
-                  style={{ backgroundColor: "#76829285" }}
-                >
-                  <option value="pending">Pending</option>
-                  <option value="done">Done</option>
-                  <option value="date">Date</option>
-                </select>
-              </TooltipComponent>
-
-              <TooltipComponent
-                content="Delete all"
-                position="TopCenter"
-                offsetY={-5}
-                animation={TooltipAnimation}
-              >
-                <button
-                  className="bg-[#ff4d4dad] p-1 rounded-md"
-                  onClick={openDeleteModal}
-                >
-                  <HiOutlineMinusSm size={11} />
-                </button>
-              </TooltipComponent>
-
-              <TooltipComponent
-                content="Add"
-                position="TopCenter"
-                offsetY={-5}
-                animation={TooltipAnimation}
-              >
-                <button
-                  className="bg-[rgba(58,111,240,0.60)] p-1 rounded-md"
-                  onClick={openAddModal}
-                >
-                  <HiOutlinePlus size={11} />
-                </button>
-              </TooltipComponent>
-
-              {/* Adding Window Form */}
-              <Modal
-                isOpen={isAddModalOpen}
-                onRequestClose={closeAddModal}
-                contentLabel="Add Task"
-                style={{
-                  overlay: {
-                    backgroundColor: "rgba(0, 0, 0, 0.4)",
-                    backdropFilter: "blur(2px)",
-                  },
-                  content: {
-                    background: "rgba(0, 0, 0, 0.6)",
-                    borderRadius: "16px",
-                    boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-                    backdropFilter: "blur(5px)",
-                    WebkitBackdropFilter: "blur(5px)",
-                    border: "1px solid rgba(0, 0, 0, 0.3)",
-                    color: "#fff",
-                    width: "25%",
-                    height: "70%",
-                    margin: "auto",
-                  },
-                }}
-              >
-                <div className="flex flex-col h-full mx-3">
-                  <h2 className="text-xl">Add Task</h2>
-
-                  <label className="mt-8">Title:</label>
-                  <input
-                    className="p-2 rounded-md bg-transparent border border-slate-600  mt-2"
-                    type="text"
-                    value={formData.title}
-                    onChange={handleTitleChange}
-                  />
-
-                  <label className="mt-8">Description:</label>
-                  <textarea
-                    rows={5}
-                    className="p-2 resize-none  rounded-md bg-transparent border border-slate-600  mt-2"
-                    value={formData.description}
-                    onChange={handleDescriptionChange}
-                  />
-
-                  <label className="mt-8">Date:</label>
-                  <input
-                    className="p-4 rounded-md bg-transparent border border-slate-600  mt-2"
-                    type="datetime-local"
-                    value={date}
-                    onChange={handleDateChange}
-                  />
-
-                  <label className="mt-8">Status:</label>
                   <select
-                    className="p-2 rounded-md bg-transparent border border-slate-600  mt-2"
-                    value={formData.status}
-                    onChange={handleStatusChange}
+                    className=" hover:cursor-pointer px-2 py-[1px] rounded-md w-[85px] text-[#fff] font-extralight"
+                    value={sortBy}
+                    onChange={(e) => handleSortChange(e.target.value)}
+                    style={{ backgroundColor: "#76829285" }}
                   >
-                    <option className="text-black" value="Pending">
-                      Pending
-                    </option>
-                    <option className="text-black" value="Done">
-                      Done
-                    </option>
+                    <option value="pending">Pending</option>
+                    <option value="done">Done</option>
+                    <option value="date">Date</option>
                   </select>
+                </TooltipComponent>
 
-                  <div className="flex justify-center items-center mt-6 gap-3">
-                    <PrimaryBtn onClick={handleAddTask} text={"Add"} />
-                    <SecondaryBtn onClick={closeAddModal} text={"Cancel"} />
-                  </div>
-                </div>
-              </Modal>
+                <TooltipComponent
+                  content="Delete all"
+                  position="TopCenter"
+                  offsetY={-5}
+                  animation={TooltipAnimation}
+                >
+                  <button
+                    className="bg-[#ff4d4dad] p-1 rounded-md"
+                    onClick={openDeleteModal}
+                  >
+                    <HiOutlineMinusSm size={11} />
+                  </button>
+                </TooltipComponent>
 
-              {/* Deleting all tasks Confirmation */}
+                <TooltipComponent
+                  content="Add"
+                  position="TopCenter"
+                  offsetY={-5}
+                  animation={TooltipAnimation}
+                >
+                  <button
+                    className="bg-[rgba(58,111,240,0.60)] p-1 rounded-md"
+                    onClick={openAddModal}
+                  >
+                    <HiOutlinePlus size={11} />
+                  </button>
+                </TooltipComponent>
 
-              <Modal
-                isOpen={isDeleteModalOpen}
-                onRequestClose={closeDeleteModal}
-                contentLabel="Delete All Tasks"
-                style={{
-                  overlay: {
-                    backgroundColor: "rgba(0, 0, 0, 0.4)",
-                    backdropFilter: "blur(2px)",
-                  },
-                  content: {
-                    background: "rgba(0, 0, 0, 0.6)",
-                    borderRadius: "16px",
-                    boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-                    backdropFilter: "blur(5px)",
-                    WebkitBackdropFilter: "blur(5px)",
-                    border: "1px solid rgba(0, 0, 0, 0.3)",
-                    color: "#fff",
-                    width: "25%",
-                    height: "18%",
-                    margin: "auto",
-                  },
-                }}
-              >
-                <div className="flex flex-col h-full">
-                  <h2 className="flex justify-center mt-3">
-                    Are you sure you want to delete all tasks?
-                  </h2>
-                  <div className="flex justify-center items-center my-8 gap-6">
-                    <button
-                      className="border border-[#ff3333] hover:bg-[#ff4d4dde] bg-[#ff4d4dad] px-4 py-2 rounded-md text-sm transition-all ease-in duration-150 hover:opacity-75 gap-2"
-                      onClick={handleDeleteAllTasks}
+                {/* Adding Window Form */}
+                <Modal
+                  isOpen={isAddModalOpen}
+                  onRequestClose={closeAddModal}
+                  contentLabel="Add Task"
+                  style={{
+                    overlay: {
+                      backgroundColor: "rgba(0, 0, 0, 0.4)",
+                      backdropFilter: "blur(2px)",
+                    },
+                    content: {
+                      background: "rgba(0, 0, 0, 0.6)",
+                      borderRadius: "16px",
+                      boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+                      backdropFilter: "blur(5px)",
+                      WebkitBackdropFilter: "blur(5px)",
+                      border: "1px solid rgba(0, 0, 0, 0.3)",
+                      color: "#fff",
+                      width: "25%",
+                      height: "70%",
+                      margin: "auto",
+                    },
+                  }}
+                >
+                  <div className="flex flex-col h-full mx-3">
+                    <h2 className="text-xl">Add Task</h2>
+
+                    <label className="mt-8">Title:</label>
+                    <input
+                      className="p-2 rounded-md bg-transparent border border-slate-600  mt-2"
+                      type="text"
+                      value={formData.title}
+                      onChange={handleTitleChange}
+                    />
+
+                    <label className="mt-8">Description:</label>
+                    <textarea
+                      rows={5}
+                      className="p-2 resize-none  rounded-md bg-transparent border border-slate-600  mt-2"
+                      value={formData.description}
+                      onChange={handleDescriptionChange}
+                    />
+
+                    <label className="mt-8">Date:</label>
+                    <input
+                      className="p-4 rounded-md bg-transparent border border-slate-600  mt-2"
+                      type="datetime-local"
+                      value={date}
+                      onChange={handleDateChange}
+                    />
+
+                    <label className="mt-8">Status:</label>
+                    <select
+                      className="p-2 rounded-md bg-transparent border border-slate-600  mt-2"
+                      value={formData.status}
+                      onChange={handleStatusChange}
                     >
-                      Delete
-                    </button>
-                    <SecondaryBtn onClick={closeDeleteModal} text={"Cancel"} />
+                      <option className="text-black" value="Pending">
+                        Pending
+                      </option>
+                      <option className="text-black" value="Done">
+                        Done
+                      </option>
+                    </select>
+
+                    <div className="flex justify-center items-center mt-6 gap-3">
+                      <PrimaryBtn onClick={handleAddTask} text={"Add"} />
+                      <SecondaryBtn onClick={closeAddModal} text={"Cancel"} />
+                    </div>
                   </div>
-                </div>
-              </Modal>
+                </Modal>
 
-              {/* Task Details */}
-              <Modal
-                isOpen={selectedTask !== null}
-                onRequestClose={closeTask}
-                contentLabel="Task Details"
-                style={{
-                  overlay: {
-                    backgroundColor: "rgba(0, 0, 0, 0.4)",
-                    backdropFilter: "blur(2px)",
-                  },
-                  content: {
-                    background: "rgba(0, 0, 0, 0.6)",
-                    borderRadius: "16px",
-                    boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-                    backdropFilter: "blur(5px)",
-                    WebkitBackdropFilter: "blur(5px)",
-                    border: "1px solid rgba(0, 0, 0, 0.3)",
-                    color: "#fff",
-                    width: "25%",
-                    height: "49%",
-                    margin: "auto",
-                  },
-                }}
-              >
-                <div className="flex flex-col h-full ">
-                  {selectedTask !== null && (
-                    <div
-                      className="flex flex-col justify-between h-full px-3"
-                      key={selectedTask}
-                    >
-                      <h2 className="text-xl text-center my-5 pb-5 border-b-1 border-slate-600">
-                        {tasksData
-                          .filter((task) => task.id === selectedTask)
-                          .map((task) => task.title)}
-                      </h2>
+                {/* Deleting all tasks Confirmation */}
 
-                      <div>
-                        <p className="text-center mb-10">
-                          {
-                            tasksData.find((task) => task.id === selectedTask)
-                              .description
-                          }
-                        </p>
-                        <div className="flex justify-between items-center">
-                          <div className="flex items-center gap-2">
-                            <div
-                              className={`w-[20px] h-[4px] rounded-sm cursor-pointer ${
-                                tasksData.find(
-                                  (task) => task.id === selectedTask
-                                ).status === "Done"
-                                  ? "bg-[#5fcf65a3]"
-                                  : tasksData.find(
-                                      (task) => task.id === selectedTask
-                                    ).status === "Pending"
-                                  ? "bg-[#c4b131a2] animate-lightInfinite"
-                                  : ""
-                              }`}
-                            ></div>
+                <Modal
+                  isOpen={isDeleteModalOpen}
+                  onRequestClose={closeDeleteModal}
+                  contentLabel="Delete All Tasks"
+                  style={{
+                    overlay: {
+                      backgroundColor: "rgba(0, 0, 0, 0.4)",
+                      backdropFilter: "blur(2px)",
+                    },
+                    content: {
+                      background: "rgba(0, 0, 0, 0.6)",
+                      borderRadius: "16px",
+                      boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+                      backdropFilter: "blur(5px)",
+                      WebkitBackdropFilter: "blur(5px)",
+                      border: "1px solid rgba(0, 0, 0, 0.3)",
+                      color: "#fff",
+                      width: "25%",
+                      height: "18%",
+                      margin: "auto",
+                    },
+                  }}
+                >
+                  <div className="flex flex-col h-full">
+                    <h2 className="flex justify-center mt-3">
+                      Are you sure you want to delete all tasks?
+                    </h2>
+                    <div className="flex justify-center items-center my-8 gap-6">
+                      <button
+                        className="border border-[#ff3333] hover:bg-[#ff4d4dde] bg-[#ff4d4dad] px-4 py-2 rounded-md text-sm transition-all ease-in duration-150 hover:opacity-75 gap-2"
+                        onClick={handleDeleteAllTasks}
+                      >
+                        Delete
+                      </button>
+                      <SecondaryBtn
+                        onClick={closeDeleteModal}
+                        text={"Cancel"}
+                      />
+                    </div>
+                  </div>
+                </Modal>
 
-                            <p className="text-sm">
+                {/* Task Details */}
+                <Modal
+                  isOpen={selectedTask !== null}
+                  onRequestClose={closeTask}
+                  contentLabel="Task Details"
+                  style={{
+                    overlay: {
+                      backgroundColor: "rgba(0, 0, 0, 0.4)",
+                      backdropFilter: "blur(2px)",
+                    },
+                    content: {
+                      background: "rgba(0, 0, 0, 0.6)",
+                      borderRadius: "16px",
+                      boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+                      backdropFilter: "blur(5px)",
+                      WebkitBackdropFilter: "blur(5px)",
+                      border: "1px solid rgba(0, 0, 0, 0.3)",
+                      color: "#fff",
+                      width: "25%",
+                      height: "49%",
+                      margin: "auto",
+                    },
+                  }}
+                >
+                  <div className="flex flex-col h-full ">
+                    {selectedTask !== null && (
+                      <div
+                        className="flex flex-col justify-between h-full px-3"
+                        key={selectedTask}
+                      >
+                        <h2 className="text-xl text-center my-5 pb-5 border-b-1 border-slate-600">
+                          {tasksData
+                            .filter((task) => task.id === selectedTask)
+                            .map((task) => task.title)}
+                        </h2>
+
+                        <div>
+                          <p className="text-center mb-10">
+                            {
+                              tasksData.find((task) => task.id === selectedTask)
+                                .description
+                            }
+                          </p>
+                          <div className="flex justify-between items-center">
+                            <div className="flex items-center gap-2">
+                              <div
+                                className={`w-[20px] h-[4px] rounded-sm cursor-pointer ${
+                                  tasksData.find(
+                                    (task) => task.id === selectedTask
+                                  ).status === "Done"
+                                    ? "bg-[#5fcf65a3]"
+                                    : tasksData.find(
+                                        (task) => task.id === selectedTask
+                                      ).status === "Pending"
+                                    ? "bg-[#c4b131a2] animate-lightInfinite"
+                                    : ""
+                                }`}
+                              ></div>
+
+                              <p className="text-sm">
+                                {
+                                  tasksData.find(
+                                    (task) => task.id === selectedTask
+                                  ).status
+                                }
+                              </p>
+                            </div>
+
+                            <div className="text-slate-400 text-sm">
                               {
                                 tasksData.find(
                                   (task) => task.id === selectedTask
-                                ).status
+                                ).date
                               }
-                            </p>
-                          </div>
-
-                          <div className="text-slate-400 text-sm">
-                            {
-                              tasksData.find((task) => task.id === selectedTask)
-                                .date
-                            }
+                            </div>
                           </div>
                         </div>
+
+                        <div className="flex justify-center items-center my-8 gap-6">
+                          <button
+                            className="border border-[#ffbb33] hover:bg-[#ffbb33] bg-[#d19b31] px-4 py-2 rounded-md text-sm transition-all ease-in duration-150 hover:opacity-75 gap-2"
+                            onClick={() => openEditModal(selectedTask)}
+                          >
+                            Edit
+                          </button>
+                          <button
+                            className="border border-[#ff3333] hover:bg-[#ff4d4dde] bg-[#ff4d4dad] px-4 py-2 rounded-md text-sm transition-all ease-in duration-150 hover:opacity-75 gap-2"
+                            onClick={() => handleDeleteTask(selectedTask)}
+                          >
+                            Delete
+                          </button>
+                          <SecondaryBtn onClick={closeTask} text={"Cancel"} />
+                        </div>
                       </div>
-
-                      <div className="flex justify-center items-center my-8 gap-6">
-                        <button
-                          className="border border-[#ffbb33] hover:bg-[#ffbb33] bg-[#d19b31] px-4 py-2 rounded-md text-sm transition-all ease-in duration-150 hover:opacity-75 gap-2"
-                          onClick={() => openEditModal(selectedTask)}
-                        >
-                          Edit
-                        </button>
-                        <button
-                          className="border border-[#ff3333] hover:bg-[#ff4d4dde] bg-[#ff4d4dad] px-4 py-2 rounded-md text-sm transition-all ease-in duration-150 hover:opacity-75 gap-2"
-                          onClick={() => handleDeleteTask(selectedTask)}
-                        >
-                          Delete
-                        </button>
-                        <SecondaryBtn onClick={closeTask} text={"Cancel"} />
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </Modal>
-
-              {/* Edit Task */}
-              <Modal
-                isOpen={isEditModalOpen}
-                onRequestClose={closeEditModal}
-                contentLabel="Edit Task"
-                style={{
-                  overlay: {
-                    backgroundColor: "rgba(0, 0, 0, 0)",
-                  },
-                  content: {
-                    background: "rgba(0, 0, 0, 0.6)",
-                    borderRadius: "16px",
-                    boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-                    backdropFilter: "blur(5px)",
-                    WebkitBackdropFilter: "blur(5px)",
-                    border: "1px solid rgba(0, 0, 0, 0.3)",
-                    color: "#fff",
-                    width: "25%",
-                    height: "60%",
-                    margin: "auto",
-                    left: "60%",
-                    top: "5%",
-                  },
-                }}
-              >
-                <div className="flex flex-col h-full mx-3">
-                  <h2 className="text-xl">Edit Task</h2>
-
-                  <label className="mt-8">Title:</label>
-                  <input
-                    className="p-2 rounded-md bg-transparent border border-slate-600 mt-2"
-                    type="text"
-                    value={formData.title}
-                    onChange={handleTitleChange}
-                  />
-
-                  <label className="mt-8">Description:</label>
-                  <textarea
-                    rows={5}
-                    className="p-2 resize-none rounded-md bg-transparent border border-slate-600 mt-2"
-                    value={formData.description}
-                    onChange={handleDescriptionChange}
-                  />
-
-                  <label className="mt-8">Status:</label>
-                  <select
-                    className="p-2 rounded-md bg-transparent border border-slate-600 mt-2"
-                    value={formData.status}
-                    onChange={handleStatusChange}
-                  >
-                    <option className="text-black" value="Pending">
-                      Pending
-                    </option>
-                    <option className="text-black" value="Done">
-                      Done
-                    </option>
-                  </select>
-
-                  <div className="flex justify-center items-center mt-6 gap-3">
-                    <PrimaryBtn onClick={handleEditTask} text={"Save"} />
-                    <SecondaryBtn onClick={closeEditModal} text={"Cancel"} />
+                    )}
                   </div>
-                </div>
-              </Modal>
+                </Modal>
+
+                {/* Edit Task */}
+                <Modal
+                  isOpen={isEditModalOpen}
+                  onRequestClose={closeEditModal}
+                  contentLabel="Edit Task"
+                  style={{
+                    overlay: {
+                      backgroundColor: "rgba(0, 0, 0, 0)",
+                    },
+                    content: {
+                      background: "rgba(0, 0, 0, 0.6)",
+                      borderRadius: "16px",
+                      boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+                      backdropFilter: "blur(5px)",
+                      WebkitBackdropFilter: "blur(5px)",
+                      border: "1px solid rgba(0, 0, 0, 0.3)",
+                      color: "#fff",
+                      width: "25%",
+                      height: "60%",
+                      margin: "auto",
+                      left: "60%",
+                      top: "5%",
+                    },
+                  }}
+                >
+                  <div className="flex flex-col h-full mx-3">
+                    <h2 className="text-xl">Edit Task</h2>
+
+                    <label className="mt-8">Title:</label>
+                    <input
+                      className="p-2 rounded-md bg-transparent border border-slate-600 mt-2"
+                      type="text"
+                      value={formData.title}
+                      onChange={handleTitleChange}
+                    />
+
+                    <label className="mt-8">Description:</label>
+                    <textarea
+                      rows={5}
+                      className="p-2 resize-none rounded-md bg-transparent border border-slate-600 mt-2"
+                      value={formData.description}
+                      onChange={handleDescriptionChange}
+                    />
+
+                    <label className="mt-8">Status:</label>
+                    <select
+                      className="p-2 rounded-md bg-transparent border border-slate-600 mt-2"
+                      value={formData.status}
+                      onChange={handleStatusChange}
+                    >
+                      <option className="text-black" value="Pending">
+                        Pending
+                      </option>
+                      <option className="text-black" value="Done">
+                        Done
+                      </option>
+                    </select>
+
+                    <div className="flex justify-center items-center mt-6 gap-3">
+                      <PrimaryBtn onClick={handleEditTask} text={"Save"} />
+                      <SecondaryBtn onClick={closeEditModal} text={"Cancel"} />
+                    </div>
+                  </div>
+                </Modal>
+              </div>
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-5 justify-center mt-8 h-[78%] overflow-y-scroll custom-scrollbar mr-3">
-            {tasksData.map((task) => (
-              <ToDoCard
-                key={task.id}
-                id={task.id}
-                title={task.title}
-                description={task.description}
-                date={task.date}
-                status={task.status}
-                handleDeleteTask={handleDeleteTask}
-                openTask={openTask}
-              />
-            ))}
-          </div>
+          {tasksData.length === 0 ? (
+            <div className="h-[70%] flex justify-center items-center  ">
+              <span className="text-xl font-light px-4 py-2 border bg-[#c4b03117] border-[#c4b131a2] text-[#ffffff6f] rounded-md">
+                No tasks found. Start by adding new tasks.
+              </span>
+            </div>
+          ) : (
+            <div className="flex flex-wrap gap-5 justify-center mt-8 h-[78%] overflow-y-scroll custom-scrollbar mr-3">
+              {tasksData.map((task) => (
+                <ToDoCard
+                  key={task.id}
+                  id={task.id}
+                  title={task.title}
+                  description={task.description}
+                  date={task.date}
+                  status={task.status}
+                  handleDeleteTask={handleDeleteTask}
+                  openTask={openTask}
+                />
+              ))}
+            </div>
+          )}
         </div>
 
-        <div className=" h-full flex justify-center items-end w-[40%] border border-slate-600 rounded-md">
-          <TooltipComponent
+        <div className=" h-full flex flex-col w-[50%] px-4 border border-slate-600 rounded-md">
+          <div className="flex justify-between items-center">
+            <h3 className="text-md mr-5 my-6">Your Progress Details</h3>
+            <div className="flex items-center gap-3 justify-end ">
+              <TooltipComponent
+                content={
+                  numDoneTasks
+                    ? `${numDoneTasks} already Done `
+                    : `No Done Tasks`
+                }
+                position="TopCenter"
+                offsetY={-5}
+                animation={TooltipAnimation}
+              >
+                <div
+                  className={
+                    "h-3 w-3 rounded-full cursor-pointer bg-[#5fcf65a3]"
+                  }
+                ></div>
+              </TooltipComponent>
+
+              <TooltipComponent
+                content={
+                  numPendingTasks
+                    ? ` ${numPendingTasks} Pending Tasks`
+                    : `No Pending Tasks`
+                }
+                position="TopCenter"
+                offsetY={-5}
+                animation={TooltipAnimation}
+              >
+                <div
+                  className={`${
+                    !numPendingTasks
+                      ? "h-3 w-3 rounded-full cursor-pointer bg-[#c4b131a2] "
+                      : "h-3 w-3 rounded-full cursor-pointer bg-[#c4b131a2]  animate-lightInfinite"
+                  }`}
+                ></div>
+              </TooltipComponent>
+            </div>
+          </div>
+
+          <div className="mt-20 flex items-center justify-between">
+            <div className="flex items-center gap-3 ml-3">
+              <p className="text-sm">Today's Progress</p>
+              <div className="w-[200px]">
+                <div className="w-[100%] h-1 rounded-full bg-[rgba(58,111,240,0.20)]">
+                  <div
+                    className={`${
+                      percentage <= 25
+                        ? "bg-[rgb(255,51,51,0.5)]"
+                        : percentage <= 50
+                        ? "bg-[rgb(255,187,51,0.5)]"
+                        : "bg-[rgb(46,204,113,0.5)]"
+                    } h-full rounded-full transition-all ease-in-out duration-200`}
+                    style={{ width: `${percentage}%` }}
+                  ></div>
+                </div>
+              </div>
+
+              <span className="text-[10px] text-slate-400">{percentage}%</span>
+
+              <TooltipComponent
+                content={
+                  numTasks
+                    ? `You have ${numTasks} tasks to do | ${percentage}%`
+                    : `Let's get started`
+                }
+                position="TopCenter"
+              >
+                <div className="rounded-full opacity-50 hover:opacity-100 hover:cursor-pointer">
+                  <BsFillExclamationCircleFill size={13} />
+                </div>
+              </TooltipComponent>
+            </div>
+
+            <TooltipComponent
+              content={!barsView ? `Bars View` : `Line View`}
+              position="TopCenter"
+            >
+              <div
+                onClick={showBarsView}
+                className="rounded-full opacity-50 hover:opacity-100 hover:cursor-pointer"
+              >
+                <LuEye size={15} />
+              </div>
+            </TooltipComponent>
+          </div>
+
+          <div>
+            {barsView ? (
+              <BarChart tasksData={tasksDataChart} />
+            ) : (
+              <TaskChart tasksData={tasksDataChart} />
+            )}
+          </div>
+
+          {/* <TooltipComponent
             content={
               numTasks
                 ? `You have ${numTasks} tasks to do | ${percentage}%`
@@ -687,7 +853,7 @@ const ToDoList = () => {
                 })}
               />
             </div>
-          </TooltipComponent>
+          </TooltipComponent> */}
         </div>
       </div>
     </div>

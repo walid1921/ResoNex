@@ -21,6 +21,7 @@
     "@syncfusion/ej2-react-richtexteditor": "^19.4.50",
     "@syncfusion/ej2-react-schedule": "^19.4.50",
     "axios": "^1.6.2",
+    "chart.js": "^4.4.1",
     "react": "^18.2.0",
     "react-circle": "^1.1.1",
     "react-circular-progressbar": "^2.1.0",
@@ -28,8 +29,11 @@
     "react-hot-toast": "^2.4.1",
     "react-icons": "^4.12.0",
     "react-modal": "^3.16.1",
+    "react-progress-bar": "^0.1.0",
+    "react-progress-bar-plus": "^1.3.1",
     "react-router-dom": "^6.20.0",
     "react-select": "^5.8.0",
+    "react-top-loading-bar": "^2.3.1",
     "styled-components": "^6.1.1"
   },
   "devDependencies": {
