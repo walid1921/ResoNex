@@ -53,7 +53,7 @@ function LineChart({ tasksData }) {
               context.mode === "default" &&
               !delay
             ) {
-              delay = context.dataIndex * 100 + context.datasetIndex * 100;
+              delay = context.dataIndex * 300 + context.datasetIndex * 100;
             }
             return delay;
           },
@@ -62,7 +62,7 @@ function LineChart({ tasksData }) {
         scales: {
           y: {
             beginAtZero: true,
-            max: 100, // Assuming percentage values
+            max: 100, 
           },
         },
       },
@@ -70,7 +70,7 @@ function LineChart({ tasksData }) {
   }, [tasksData]);
 
   const canvasStyle = {
-    width: "840px",
+    width: "830px",
     height: "430px",
   };
 

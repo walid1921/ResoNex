@@ -13,11 +13,21 @@ import "react-circular-progressbar/dist/styles.css";
 import ProgressBar from "react-progress-bar-plus";
 import "react-progress-bar-plus/lib/progress-bar.css";
 import toast from "react-hot-toast";
-import TaskChart from "../ui/LineChart";
 import BarChart from "../ui/BarChart";
+import LineChart from "../ui/LineChart";
 
 let TooltipAnimation = {
   open: { effect: "FadeIn", duration: 300, delay: 0 },
+};
+
+const todayDate = () => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  const dayOfWeek = now.toLocaleDateString("en-US", { weekday: "short" });
+
+  return `${dayOfWeek}, ${day}-${month}-${year}`;
 };
 
 const getCurrentDate = () => {
@@ -91,44 +101,6 @@ const ToDoList = () => {
     },
   ]);
 
-  const chartData = {
-    labels: ["Date 1", "Date 2", "Date 3"], // Replace with your actual dates
-    datasets: [
-      {
-        label: "Time Created",
-        borderColor: "rgba(255, 99, 132, 1)",
-        backgroundColor: "rgba(255, 99, 132, 0.2)",
-        data: [10, 20, 30], // Replace with your actual data
-      },
-      {
-        label: "Time Finished",
-        borderColor: "rgba(75, 192, 192, 1)",
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
-        data: [15, 25, 35], // Replace with your actual data
-      },
-      {
-        label: "Spent Time",
-        borderColor: "rgba(255, 206, 86, 1)",
-        backgroundColor: "rgba(255, 206, 86, 0.2)",
-        data: [5, 5, 5], // Replace with your actual data
-      },
-    ],
-  };
-
-  const chartOptions = {
-    scales: {
-      x: {
-        type: "time",
-        time: {
-          unit: "day", // You can customize the time unit
-        },
-      },
-      y: {
-        beginAtZero: true,
-      },
-    },
-  };
-
   const [tasksDataChart, setTasksDataChart] = useState([
     { day: "Sun", percentage: 30 },
     { day: "Mon", percentage: 45 },
@@ -146,6 +118,7 @@ const ToDoList = () => {
   });
 
   const [date, setDate] = useState(getCurrentDate());
+  const [today, setToday] = useState(todayDate());
 
   const [sortBy, setSortBy] = useState("pending");
   const [selectedTask, setSelectedTask] = useState(null);
@@ -156,6 +129,8 @@ const ToDoList = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
   const [isTitleValid, setIsTitleValid] = useState(false);
+  const [isCompletedModalOpen, setIsCompletedModalOpen] = useState(false);
+  const [completed, setCompleted] = useState(null);
 
   const [barsView, setBarsView] = useState(false);
 
@@ -183,6 +158,7 @@ const ToDoList = () => {
   const numPendingTasks = tasksData.filter(
     (task) => task.status === "Pending"
   ).length;
+
   const percentage = Math.round((numDoneTasks / numTasks) * 100);
 
   const openAddModal = () => {
@@ -211,6 +187,44 @@ const ToDoList = () => {
     setIsEditModalOpen(false);
   };
 
+  const openCompletedModal = (taskId) => {
+    setCompleted(taskId);
+    setIsCompletedModalOpen(true);
+  };
+
+  const closeCompletedModal = () => {
+    setCompleted(null);
+    setIsCompletedModalOpen(false);
+  };
+
+  //! Edit Completed
+  const handleCompleted = () => {
+    const updatedTasks = tasksData.map((task) =>
+      task.id === completed
+        ? {
+            ...task,
+            status: formData.status,
+          }
+        : task
+    );
+
+    setTasksData(updatedTasks);
+
+    setFormData({
+      status: "Pending",
+    });
+
+    closeCompletedModal();
+
+    if (formData.status === "Done") {
+      toast.success("Task completed");
+    } else {
+      toast("Task Pending!", {
+        icon: <span className="text-xl">⏳</span>,
+      });
+    }
+  };
+
   //! Edit Task
   const handleEditTask = () => {
     if (formData.title.trim() === "") {
@@ -221,28 +235,41 @@ const ToDoList = () => {
       return;
     }
 
-    const updatedTasks = tasksData.map((task) =>
-      task.id === editingTask
-        ? {
-            ...task,
-            title: formData.title,
-            description: formData.description,
-            date: date,
-            status: formData.status,
-          }
-        : task
+    // Simulating save action
+    toast.promise(
+      new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const updatedTasks = tasksData.map((task) =>
+            task.id === editingTask
+              ? {
+                  ...task,
+                  title: formData.title,
+                  description: formData.description,
+                  date: date,
+                  status: formData.status,
+                }
+              : task
+          );
+
+          setTasksData(updatedTasks);
+
+          setFormData({
+            title: "",
+            description: "",
+            status: "Pending",
+          });
+
+          closeEditModal();
+
+          resolve();
+        }, 1000);
+      }),
+      {
+        loading: "Saving...",
+        success: <p>Task Updated!</p>,
+        error: <p>Could not save.</p>,
+      }
     );
-
-    setTasksData(updatedTasks);
-
-    setFormData({
-      title: "",
-      description: "",
-      status: "Pending",
-    });
-
-    closeEditModal();
-    toast.success("Task Edited Successfully");
   };
 
   //! Add Task
@@ -269,7 +296,7 @@ const ToDoList = () => {
     });
 
     closeAddModal();
-    toast.success("Task Added Successfully");
+    toast.success("New Task Added Successfully");
   }; //!
 
   //! Delete Task
@@ -703,14 +730,67 @@ const ToDoList = () => {
                     </div>
                   </div>
                 </Modal>
+
+                {/* Complete a task */}
+                <Modal
+                  isOpen={isCompletedModalOpen}
+                  onRequestClose={closeCompletedModal}
+                  contentLabel="Complete Task"
+                  style={{
+                    overlay: {
+                      backgroundColor: "rgba(0, 0, 0, 0.4)",
+                      backdropFilter: "blur(2px)",
+                    },
+                    content: {
+                      background: "rgba(0, 0, 0, 0.6)",
+                      borderRadius: "16px",
+                      boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+                      backdropFilter: "blur(5px)",
+                      WebkitBackdropFilter: "blur(5px)",
+                      border: "1px solid rgba(0, 0, 0, 0.3)",
+                      color: "#fff",
+                      width: "25%",
+                      height: "30%",
+                      margin: "auto",
+                    },
+                  }}
+                >
+                  <div className="flex flex-col h-full">
+                    <label className="flex justify-center my-6">
+                      Update your task status
+                    </label>
+                    <select
+                      className="p-2 rounded-md bg-transparent border border-slate-600 mt-2"
+                      value={formData.status}
+                      onChange={handleStatusChange}
+                    >
+                      <option className="text-black" value="Pending">
+                        Pending
+                      </option>
+                      <option className="text-black" value="Done">
+                        Done
+                      </option>
+                    </select>
+
+                    <div className="flex justify-center items-center my-8 gap-3">
+                      <PrimaryBtn onClick={handleCompleted} text={"Save"} />
+
+                      <SecondaryBtn
+                        onClick={closeCompletedModal}
+                        text={"Cancel"}
+                      />
+                    </div>
+                  </div>
+                </Modal>
               </div>
             </div>
           </div>
 
           {tasksData.length === 0 ? (
             <div className="h-[70%] flex justify-center items-center  ">
-              <span className="text-xl font-light px-4 py-2 border bg-[#c4b03117] border-[#c4b131a2] text-[#ffffff6f] rounded-md">
-                No tasks found. Start by adding new tasks.
+              <span className="text-xl text-center font-light px-4 py-8 border bg-[rgba(148,163,184,0.26)] border-[#c4b131a2] text-[#ffffff6f] rounded-md">
+                No tasks found. <br />
+                Start by adding new tasks.
               </span>
             </div>
           ) : (
@@ -725,6 +805,11 @@ const ToDoList = () => {
                   status={task.status}
                   handleDeleteTask={handleDeleteTask}
                   openTask={openTask}
+                  openCompletedModal={openCompletedModal}
+                  closeCompletedModal={closeCompletedModal}
+                  isCompletedModalOpen={isCompletedModalOpen}
+                  handleCompleted={handleCompleted}
+                  selectedTask={selectedTask}
                 />
               ))}
             </div>
@@ -773,7 +858,7 @@ const ToDoList = () => {
             </div>
           </div>
 
-          <div className="mt-20 flex items-center justify-between">
+          <div className="mt-16 flex items-center justify-between">
             <div className="flex items-center gap-3 ml-3">
               <p className="text-sm">Today's Progress</p>
               <div className="w-[200px]">
@@ -782,16 +867,18 @@ const ToDoList = () => {
                     className={`${
                       percentage <= 25
                         ? "bg-[rgb(255,51,51,0.5)]"
-                        : percentage <= 50
+                        : percentage <= 60
                         ? "bg-[rgb(255,187,51,0.5)]"
                         : "bg-[rgb(46,204,113,0.5)]"
                     } h-full rounded-full transition-all ease-in-out duration-200`}
-                    style={{ width: `${percentage}%` }}
+                    style={{ width: `${percentage ? percentage : 0}%` }}
                   ></div>
                 </div>
               </div>
 
-              <span className="text-[10px] text-slate-400">{percentage}%</span>
+              <span className="text-[10px] text-slate-400">
+                {percentage ? percentage : 0}%
+              </span>
 
               <TooltipComponent
                 content={
@@ -820,40 +907,17 @@ const ToDoList = () => {
             </TooltipComponent>
           </div>
 
-          <div>
+          <div className="mt-8">
             {barsView ? (
               <BarChart tasksData={tasksDataChart} />
             ) : (
-              <TaskChart tasksData={tasksDataChart} />
+              <LineChart tasksData={tasksDataChart} />
             )}
           </div>
 
-          {/* <TooltipComponent
-            content={
-              numTasks
-                ? `You have ${numTasks} tasks to do | ${percentage}%`
-                : `Let's get started`
-            }
-            position="TopCenter"
-            offsetY={-5}
-            animation={TooltipAnimation}
-          >
-            <div className="w-20 h-20">
-              <CircularProgressbar
-                value={percentage}
-                text={numTasks ? `${percentage}%` : "0%"}
-                styles={buildStyles({
-                  textSize: "14px",
-                  pathTransitionDuration: 0.5,
-                  textColor: "#fff",
-                  pathColor: `rgba(255, 255, 255, ${
-                    numTasks ? percentage / 100 : 0
-                  })`,
-                  trailColor: "#38444d",
-                })}
-              />
-            </div>
-          </TooltipComponent> */}
+          <p className="text-sm text-slate-400 flex justify-end items-end h-full mb-2 mr-2">
+            {today}
+          </p>
         </div>
       </div>
     </div>
@@ -861,3 +925,41 @@ const ToDoList = () => {
 };
 
 export default ToDoList;
+
+// const chartData = {
+//   labels: ["Date 1", "Date 2", "Date 3"], // Replace with your actual dates
+//   datasets: [
+//     {
+//       label: "Time Created",
+//       borderColor: "rgba(255, 99, 132, 1)",
+//       backgroundColor: "rgba(255, 99, 132, 0.2)",
+//       data: [10, 20, 30], // Replace with your actual data
+//     },
+//     {
+//       label: "Time Finished",
+//       borderColor: "rgba(75, 192, 192, 1)",
+//       backgroundColor: "rgba(75, 192, 192, 0.2)",
+//       data: [15, 25, 35], // Replace with your actual data
+//     },
+//     {
+//       label: "Spent Time",
+//       borderColor: "rgba(255, 206, 86, 1)",
+//       backgroundColor: "rgba(255, 206, 86, 0.2)",
+//       data: [5, 5, 5], // Replace with your actual data
+//     },
+//   ],
+// };
+
+// const chartOptions = {
+//   scales: {
+//     x: {
+//       type: "time",
+//       time: {
+//         unit: "day", // You can customize the time unit
+//       },
+//     },
+//     y: {
+//       beginAtZero: true,
+//     },
+//   },
+// };
