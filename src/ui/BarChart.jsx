@@ -1,14 +1,14 @@
 import { useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
 
-function BarChart({ tasksData }) {
+function BarChart({ tasksDataChart }) {
   const chartRef = useRef(null);
 
   useEffect(() => {
     const ctx = chartRef.current.getContext("2d");
 
-    const taskLabels = tasksData.map((task) => task.day);
-    const taskData = tasksData.map((task) => task.percentage);
+    const taskLabels = tasksDataChart.map((task) => task.day);
+    const taskData = tasksDataChart.map((task) => task.percentage);
 
     new Chart(ctx, {
       type: "bar",
@@ -35,7 +35,7 @@ function BarChart({ tasksData }) {
         },
       },
     });
-  }, [tasksData]);
+  }, [tasksDataChart]);
 
   const canvasStyle = {
     width: "840px",

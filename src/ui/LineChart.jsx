@@ -1,8 +1,11 @@
 import { useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
 
-function LineChart({ tasksData }) {
+function LineChart({ tasksDataChart }) {
   const chartRef = useRef(null);
+  const chartInstance = useRef(null); // Ref to store the Chart instance
+
+  console.log(tasksDataChart);
 
   Chart.defaults.color = "rgb(148 163 184)";
 
@@ -15,12 +18,17 @@ function LineChart({ tasksData }) {
 
     let delayed;
 
-    const labels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    const labels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-    const taskLabels = tasksData.map((task) => task.day);
-    const taskData = tasksData.map((task) => task.percentage);
+    // Destroy the existing Chart instance
+    if (chartInstance.current) {
+      chartInstance.current.destroy();
+    }
 
-    new Chart(ctx, {
+    const taskData = tasksDataChart.map((task) => task.percentage);
+
+    // Create a new Chart instance
+    chartInstance.current = new Chart(ctx, {
       type: "line",
       data: {
         labels,
@@ -62,12 +70,12 @@ function LineChart({ tasksData }) {
         scales: {
           y: {
             beginAtZero: true,
-            max: 100, 
+            max: 100,
           },
         },
       },
     });
-  }, [tasksData]);
+  }, [tasksDataChart]);
 
   const canvasStyle = {
     width: "830px",
