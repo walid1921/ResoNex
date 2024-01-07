@@ -1,6 +1,7 @@
 import ToDoCard from "../ui/ToDoCard";
 import { useState, useEffect } from "react";
 import { MdOutlineSaveAlt } from "react-icons/md";
+import { HiOutlineClipboardList, HiOutlineSearch } from "react-icons/hi";
 // import { CircularProgressbar, buildStyles } from "react-circular-progressbar"; //npm install react-circular-progressbar
 import "react-circular-progressbar/dist/styles.css";
 // import {Line} from "react-progress-bar"; // npm install react-progress-bar
@@ -27,6 +28,9 @@ import SaveBtn from "../ui/buttons/SaveBtn";
 import SaveTasksModal from "../ui/SaveTasksModal";
 import SeeAllTasksModal from "../ui/SeeAllTasksModal";
 import SeeAllTasksBtn from "../ui/buttons/SeeAllTasksBtn";
+import { TooltipComponent } from "@syncfusion/ej2-react-popups";
+import { LuEye } from "react-icons/lu";
+import UpdateChartBtn from "../ui/buttons/UpdateChartBtn";
 
 const getCurrentDate = () => {
   const now = new Date();
@@ -54,7 +58,7 @@ const ToDoList = () => {
       description: "Finish all the tasks related to Project A.",
       date: "02/01/2024 14:30",
       status: "Done",
-      day: "Tue",
+      day: "Wed",
     },
     {
       id: 2,
@@ -62,7 +66,7 @@ const ToDoList = () => {
       description: "Discuss the project status with the team.",
       date: "02/01/2024 15:45",
       status: "Pending",
-      day: "Tue",
+      day: "Wed",
     },
     {
       id: 3,
@@ -70,7 +74,7 @@ const ToDoList = () => {
       description: "Create a presentation for the upcoming client meeting.",
       date: "02/01/2024 12:00",
       status: "Pending",
-      day: "Tue",
+      day: "Wed",
     },
     {
       id: 4,
@@ -78,7 +82,7 @@ const ToDoList = () => {
       description: "Schedule and conduct a call with the client.",
       date: "02/01/2024 16:30",
       status: "Done",
-      day: "Tue",
+      day: "Wed",
     },
     {
       id: 5,
@@ -86,7 +90,7 @@ const ToDoList = () => {
       description: "Revise and update project documentation.",
       date: "02/01/2024 11:15",
       status: "Pending",
-      day: "Tue",
+      day: "Wed",
     },
     {
       id: 6,
@@ -94,7 +98,7 @@ const ToDoList = () => {
       description: "Conduct a training session for the team.",
       date: "02/01/2024 14:30",
       status: "Done",
-      day: "Tue",
+      day: "Wed",
     },
     {
       id: 7,
@@ -102,7 +106,7 @@ const ToDoList = () => {
       description: "Plan tasks and milestones for the next project phase.",
       date: "02/01/2024 09:00",
       status: "Pending",
-      day: "Tue",
+      day: "Wed",
     },
     {
       id: 8,
@@ -110,7 +114,7 @@ const ToDoList = () => {
       description: "Review and provide feedback on the team's code.",
       date: "02/01/2024 13:45",
       status: "Done",
-      day: "Tue",
+      day: "Wed",
     },
   ]);
 
@@ -128,14 +132,14 @@ const ToDoList = () => {
     {
       id: 1,
       savedDay: "02/01/2024 13:45",
-      percentage: 50,
+      percentage: 20,
       tasks: [
         {
           id: 1,
           title: "Complete Project A",
           description: "Finish all the tasks related to Project A.",
           date: "02/01/2024 14:30",
-          status: "Done",
+          status: "Pending",
           day: "Tue",
         },
         {
@@ -353,24 +357,6 @@ const ToDoList = () => {
     setAllTasksOpen(false);
   };
 
-  //! Update Chart
-  const updateChart = () => {
-    const updatedChartData = tasksDataChart.map((chartItem) => {
-      const dayTasks = tasksData.filter((task) => task.day === chartItem.day);
-      const totalTasks = dayTasks.length;
-      const doneTasks = dayTasks.filter(
-        (task) => task.status === "Done"
-      ).length;
-      const percentage = totalTasks === 0 ? 0 : (doneTasks / totalTasks) * 100;
-
-      // Return the updated chart item
-      return { ...chartItem, percentage };
-    });
-
-    // Update tasksDataChart
-    setTasksDataChart(updatedChartData);
-  };
-
   //! Edit Completed
   const handleCompleted = () => {
     const updatedTasks = tasksData.map((task) =>
@@ -494,6 +480,17 @@ const ToDoList = () => {
     toast.success("All Tasks Deleted Successfully");
   }; //!
 
+  //! Delete All Saved Tasks
+  const handleDeleteAllSavedTasks = () => {
+    if (savedTasks.length === 0) {
+      toast.error("No saved tasks to delete!");
+      return;
+    }
+
+    setSavedTasks([]);
+    toast.success("All Saved Tasks Deleted Successfully");
+  }; //!
+
   //! handle change
   const handleTitleChange = (e) => {
     const newTitle = e.target.value;
@@ -580,9 +577,26 @@ const ToDoList = () => {
         autoIncrement
       />
 
-      <div className="flex justify-between">
-        <h2>To Do List</h2>
-        <SeeAllTasksBtn openAllTasksModal={openAllTasksModal} />
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-semibold flex items-center gap-3"><HiOutlineClipboardList size={25} /> Task Tracker</h2>
+
+        <div className="flex items-center gap-4 ">
+          <div className="relative text-slate-400 transition-all ease-in-out duration-300">
+            <input
+              type="text"
+              placeholder="Search"
+              name="search"
+              className="border border-gray-700 focus:border-gray-700 bg-[rgba(148,163,184,0.26)]  focus:pr-16 pl-3 py-2 rounded-full text-sm focus:outline-none transition-all ease-in-out duration-300 "
+            />
+            <button
+              type="submit"
+              className="absolute right-0 top-[10px] mr-3 border-l border-slate-400 pl-2 "
+            >
+              <HiOutlineSearch size={20} />
+            </button>
+          </div>
+          <SeeAllTasksBtn openAllTasksModal={openAllTasksModal} />
+        </div>
       </div>
 
       <div className="mt-5 justify-center items-center h-[574px]  flex gap-10 ">
@@ -670,6 +684,7 @@ const ToDoList = () => {
                   savedTasks={savedTasks}
                   closeAllTasksModal={closeAllTasksModal}
                   openAllTasksModal={openAllTasksModal}
+                  handleDeleteAllSavedTasks={handleDeleteAllSavedTasks}
                 />
               </div>
             </div>
@@ -709,17 +724,33 @@ const ToDoList = () => {
             />
           </div>
 
-          <BarProgress
-            percentage={percentage}
-            numTasks={numTasks}
-            barsView={barsView}
-            showBarsView={showBarsView}
-            handleUpdateChartClick={handleUpdateChartClick}
-            openUpdateModal={openUpdateModal}
-            closeUpdateModal={closeUpdateModal}
-            isUpdateModalOpen={isUpdateModalOpen}
-            getCurrentDay={getCurrentDay}
-          />
+          <div className="mt-2 flex items-center justify-between">
+            <BarProgress
+              percentage={percentage}
+              numTasks={numTasks}
+              barsView={barsView}
+              showBarsView={showBarsView}
+              handleUpdateChartClick={handleUpdateChartClick}
+              openUpdateModal={openUpdateModal}
+              closeUpdateModal={closeUpdateModal}
+              isUpdateModalOpen={isUpdateModalOpen}
+              getCurrentDay={getCurrentDay}
+            />
+
+            <TooltipComponent
+              content={!barsView ? `Bars View` : `Line View`}
+              position="TopCenter"
+            >
+              <div
+                onClick={showBarsView}
+                className="rounded-full opacity-50 hover:opacity-100 hover:cursor-pointer"
+              >
+                <LuEye size={15} />
+              </div>
+            </TooltipComponent>
+
+            
+          </div>
 
           <div className="mt-8">
             {barsView ? (

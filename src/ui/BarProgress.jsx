@@ -1,5 +1,3 @@
-import { TooltipComponent } from "@syncfusion/ej2-react-popups";
-import { LuEye } from "react-icons/lu";
 import InfoTaskBtn from "./buttons/InfoTaskBtn";
 import UpdateChartBtn from "./buttons/UpdateChartBtn";
 
@@ -15,7 +13,7 @@ function BarProgress({
   getCurrentDay,
 }) {
   return (
-    <div className="mt-16 flex items-center justify-between">
+    <div className="flex flex-col items-center gap-4">
       <div className="flex items-center gap-3 ml-3">
         <p className="text-sm">Today's Progress</p>
         <div className="w-[200px]">
@@ -38,27 +36,16 @@ function BarProgress({
         </span>
 
         <InfoTaskBtn numTasks={numTasks} percentage={percentage} size={18} />
-        <UpdateChartBtn
-          handleUpdateChartClick={handleUpdateChartClick}
-          openUpdateModal={openUpdateModal}
-          closeUpdateModal={closeUpdateModal}
-          isUpdateModalOpen={isUpdateModalOpen}
-          getCurrentDay={getCurrentDay}
-          percentage={percentage}
-        />
       </div>
 
-      <TooltipComponent
-        content={!barsView ? `Bars View` : `Line View`}
-        position="TopCenter"
-      >
-        <div
-          onClick={showBarsView}
-          className="rounded-full opacity-50 hover:opacity-100 hover:cursor-pointer"
-        >
-          <LuEye size={15} />
-        </div>
-      </TooltipComponent>
+      <UpdateChartBtn
+        handleUpdateChartClick={handleUpdateChartClick}
+        openUpdateModal={openUpdateModal}
+        closeUpdateModal={closeUpdateModal}
+        isUpdateModalOpen={isUpdateModalOpen}
+        getCurrentDay={getCurrentDay}
+        percentage={percentage}
+      />
     </div>
   );
 }

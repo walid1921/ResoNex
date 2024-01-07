@@ -1,8 +1,7 @@
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
-import { MdUpdate } from "react-icons/md";
+import { HiOutlineRefresh } from "react-icons/hi";
 import SecondaryBtn from "./SecondaryBtn";
 import Modal from "react-modal"; //npm install react-modal
-import PrimaryBtn from "./PrimaryBtn";
 import { IoCloudDoneSharp } from "react-icons/io5";
 import { BsFillExclamationCircleFill } from "react-icons/bs";
 import { hasChartBeenUpdatedToday } from "../../utils/utils";
@@ -30,10 +29,10 @@ function UpdateChartBtn({
         animation={TooltipAnimation}
       >
         <button
-          className="bg-[rgba(58,111,240,0.60)] p-1 rounded-full"
+          className="border-[#3654ff] hover:bg-[#3a6ef0cb] bg-[#3a6df0] px-2 py-2 rounded-md flex gap-2"
           onClick={openUpdateModal}
         >
-          <MdUpdate size={15} />
+          <HiOutlineRefresh size={15} /> Update Chart
         </button>
       </TooltipComponent>
 
