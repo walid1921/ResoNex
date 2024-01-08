@@ -30,6 +30,10 @@ import SeeAllTasksBtn from "../ui/buttons/SeeAllTasksBtn";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { LuEye } from "react-icons/lu";
 
+let TooltipAnimation = {
+  open: { effect: "FadeIn", duration: 300, delay: 0 },
+};
+
 const getCurrentDate = () => {
   const now = new Date();
   const year = now.getFullYear();
@@ -48,7 +52,7 @@ const getCurrentDay = () => {
   return daysOfWeek[dayIndex];
 };
 
-function ToDoList({
+function TasksTracker({
   tasksData,
   setTasksData,
   tasksDataChart,
@@ -469,12 +473,12 @@ function ToDoList({
           <div className="flex items-center justify-between  mt-5 mx-5 ">
             <div className="flex items-center justify-between w-full">
               <div className="flex gap-3 items-center">
-                <h3 className="text-lg">Your Tasks</h3>
+                <h3 className="text-lg">Project Tasks</h3>
 
                 <InfoTaskBtn numTasks={numTasks} percentage={percentage} />
               </div>
 
-              <div className="flex gap-3">
+              <div className="flex items-center gap-3">
                 <SortTasksBtn
                   sortBy={sortBy}
                   handleSortChange={handleSortChange}
@@ -558,7 +562,9 @@ function ToDoList({
           {tasksData.length === 0 ? (
             <NoTasks />
           ) : (
-            <div className="flex flex-wrap gap-5 justify-center mt-8 h-[78%] overflow-y-scroll custom-scrollbar mr-3">
+            <div
+              className={`flex flex-col gap-5 justify-center mt-8 pt-52 h-[82%] overflow-y-scroll custom-scrollbar mx-4`}
+            >
               {tasksData.map((task) => (
                 <ToDoCard
                   key={task.id}
@@ -574,6 +580,7 @@ function ToDoList({
                   isCompletedModalOpen={isCompletedModalOpen}
                   handleCompleted={handleCompleted}
                   selectedTask={selectedTask}
+             
                 />
               ))}
             </div>
@@ -582,55 +589,46 @@ function ToDoList({
 
         <div className=" h-full flex flex-col w-[50%] px-4 border border-slate-600 rounded-md">
           <div className="flex justify-between items-center">
-            <h3 className="text-md mr-5 my-6">Your Progress Details</h3>
-            <TaskStatus
-              numDoneTasks={numDoneTasks}
-              numPendingTasks={numPendingTasks}
-            />
+            <h3 className="text-lg mr-5 my-6">Progress Details</h3>
+            <div className="flex items-center gap-5">
+              <TodayDate />
+              <TaskStatus
+                numDoneTasks={numDoneTasks}
+                numPendingTasks={numPendingTasks}
+              />
+            </div>
           </div>
 
-          <div className="mt-2 flex items-center justify-between">
-            <BarProgress
-              percentage={percentage}
-              numTasks={numTasks}
-              barsView={barsView}
-              showBarsView={showBarsView}
-              handleUpdateChartClick={handleUpdateChartClick}
-              openUpdateModal={openUpdateModal}
-              closeUpdateModal={closeUpdateModal}
-              isUpdateModalOpen={isUpdateModalOpen}
-              getCurrentDay={getCurrentDay}
-            />
+          <div className="flex flex-col items-center">
+            <div className="mt-2 flex items-center justify-between">
+              <BarProgress
+                percentage={percentage}
+                numTasks={numTasks}
+                barsView={barsView}
+                showBarsView={showBarsView}
+                handleUpdateChartClick={handleUpdateChartClick}
+                openUpdateModal={openUpdateModal}
+                closeUpdateModal={closeUpdateModal}
+                isUpdateModalOpen={isUpdateModalOpen}
+                getCurrentDay={getCurrentDay}
+              />
+            </div>
 
-            <TooltipComponent
-              content={!barsView ? `Bars View` : `Line View`}
-              position="TopCenter"
-            >
-              <div
-                onClick={showBarsView}
-                className="rounded-full opacity-50 hover:opacity-100 hover:cursor-pointer"
-              >
-                <LuEye size={15} />
-              </div>
-            </TooltipComponent>
+            <div className="mt-8 w-[600px] h-[800px]">
+              {barsView ? (
+                <BarChart tasksDataChart={tasksDataChart} />
+              ) : (
+                <LineChart tasksDataChart={tasksDataChart} />
+              )}
+            </div>
           </div>
-
-          <div className="mt-8">
-            {barsView ? (
-              <BarChart tasksDataChart={tasksDataChart} />
-            ) : (
-              <LineChart tasksDataChart={tasksDataChart} />
-            )}
-          </div>
-
-          <TodayDate />
         </div>
       </div>
     </div>
   );
 }
 
-export default ToDoList;
+export default TasksTracker;
 
 // const chartData = {
 //   labels: ["Date 1", "Date 2", "Date 3"], // Replace with your actual dates

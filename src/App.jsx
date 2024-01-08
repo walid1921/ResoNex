@@ -2,12 +2,12 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Settings from "./pages/Settings";
 import Help from "./pages/Help";
-import Tracker from "./pages/Tracker";
+import Tracker from "./pages/CodingTracker";
 import PageNotFound from "./pages/PageNotFound";
 import AppLayout from "./ui/AppLayout";
 import Login from "./pages/Login";
 import Account from "./pages/Account";
-import ToDoList from "./pages/ToDoList";
+import ToDoList from "./pages/TasksTracker";
 import Design from "./pages/Design";
 import Web from "./pages/Web";
 import Study from "./pages/Study";
@@ -16,69 +16,69 @@ import { Toaster } from "react-hot-toast"; // npm i react-hot-toast (you can che
 import { useState } from "react";
 
 export default function App() {
-
   //! To do list data
   const [tasksData, setTasksData] = useState([
     {
       id: 1,
-      title: "Complete Project A",
-      description: "Finish all the tasks related to Project A.",
+      title: "Implement Feature A",
+      description: "Write code to implement Feature A in the project.",
       date: "02/01/2024 14:30",
       status: "Done",
       day: "Wed",
     },
     {
       id: 2,
-      title: "Review Meeting",
-      description: "Discuss the project status with the team.",
+      title: "Code Review Meeting",
+      description: "Discuss and review the code changes with the team.",
       date: "02/01/2024 15:45",
       status: "Pending",
       day: "Wed",
     },
     {
       id: 3,
-      title: "Prepare Presentation",
-      description: "Create a presentation for the upcoming client meeting.",
+      title: "Bug Fixing Session",
+      description: "Identify and fix bugs reported in the project.",
       date: "02/01/2024 12:00",
       status: "Pending",
       day: "Wed",
     },
     {
       id: 4,
-      title: "Call with Client",
-      description: "Schedule and conduct a call with the client.",
+      title: "Pair Programming",
+      description: "Collaborate with a team member for pair programming.",
       date: "02/01/2024 16:30",
       status: "Done",
       day: "Wed",
     },
     {
       id: 5,
-      title: "Update Documentation",
-      description: "Revise and update project documentation.",
+      title: "Update Code Documentation",
+      description: "Enhance and update code documentation for clarity.",
       date: "02/01/2024 11:15",
       status: "Pending",
       day: "Wed",
     },
     {
       id: 6,
-      title: "Team Training",
-      description: "Conduct a training session for the team.",
+      title: "Tech Talk Session",
+      description:
+        "Lead a tech talk session for sharing knowledge within the team.",
       date: "02/01/2024 14:30",
       status: "Done",
       day: "Wed",
     },
     {
       id: 7,
-      title: "Project Planning",
-      description: "Plan tasks and milestones for the next project phase.",
+      title: "Sprint Planning",
+      description: "Plan tasks and goals for the upcoming sprint.",
       date: "02/01/2024 09:00",
       status: "Pending",
       day: "Wed",
     },
     {
       id: 8,
-      title: "Code Review",
-      description: "Review and provide feedback on the team's code.",
+      title: "Unit Testing",
+      description: "Write and execute unit tests for the project codebase.",
       date: "02/01/2024 13:45",
       status: "Done",
       day: "Wed",
@@ -103,24 +103,24 @@ export default function App() {
       tasks: [
         {
           id: 1,
-          title: "Complete Project A",
-          description: "Finish all the tasks related to Project A.",
+          title: "Implement Feature A",
+          description: "Write code to implement Feature A in the project.",
           date: "02/01/2024 14:30",
           status: "Pending",
           day: "Tue",
         },
         {
           id: 2,
-          title: "Review Meeting",
-          description: "Discuss the project status with the team.",
+          title: "Code Review Meeting",
+          description: "Discuss and review the code changes with the team.",
           date: "02/01/2024 15:45",
           status: "Pending",
           day: "Tue",
         },
         {
           id: 3,
-          title: "Prepare Presentation",
-          description: "Create a presentation for the upcoming client meeting.",
+          title: "Bug Fixing Session",
+          description: "Identify and fix bugs reported in the project.",
           date: "02/01/2024 12:00",
           status: "Pending",
           day: "Tue",
@@ -159,6 +159,7 @@ export default function App() {
       ],
     },
   ]);
+
   //! To do list data end
 
   return (
@@ -168,7 +169,10 @@ export default function App() {
           <Route element={<AppLayout tasksData={tasksData} />}>
             {/* Dashboard */}
             <Route index element={<Navigate replace to="dashboard" />} />
-            <Route path="dashboard" element={<Dashboard tasksDataChart={tasksDataChart} />} />
+            <Route
+              path="dashboard"
+              element={<Dashboard tasksDataChart={tasksDataChart} />}
+            />
 
             {/* Resources */}
             <Route path="resources/design" element={<Design />} />
@@ -176,9 +180,9 @@ export default function App() {
             <Route path="resources/study" element={<Study />} />
 
             {/* Apps */}
-            <Route path="apps/tracker" element={<Tracker />} />
+            <Route path="apps/coding-tracker" element={<Tracker />} />
             <Route
-              path="apps/todolist"
+              path="apps/tasks-tracker"
               element={
                 <ToDoList
                   tasksData={tasksData}

@@ -22,7 +22,7 @@ function ToDoCard({
   const [isDeleteTaskModalOpen, setIsDeleteTaskModalOpen] = useState(false);
 
   const truncatedDescription =
-    description.length >= 20 ? `${description.slice(0, 13)}...` : description;
+    description.length >= 30 ? `${description.slice(0, 23)}...` : description;
 
   const openDeleteTaskModal = () => {
     setIsDeleteTaskModalOpen(true);
@@ -34,11 +34,13 @@ function ToDoCard({
 
   return (
     <div
-      className={`flex flex-col w-[45%] h-[100px] bg-[rgba(148,163,184,0.26)] rounded-md px-4 py-2 border ${
+      className={`flex flex-col h-[100px] bg-[rgba(148,163,184,0.26)] rounded-md px-5 mx-20 py-4 border ${
         status === "Done" ? "border-[#5fcf65a3]" : "border-[#c4b131a2]"
       }`}
     >
-      <div className="flex items-center h-full justify-end">
+      <div className="flex items-center h-full justify-between mb-2">
+        <h4 className="text-lg ">{title}</h4>
+
         <div className="flex items-center gap-2">
           <TooltipComponent
             content={status}
@@ -127,7 +129,6 @@ function ToDoCard({
           </Modal>
         </div>
       </div>
-      <h4 className="text-md mb-2">{title}</h4>
       <div className="flex items-center justify-between">
         <p className="text-sm text-slate-400">{truncatedDescription}</p>
         <span className="text-[10px] text-slate-400">{date}</span>

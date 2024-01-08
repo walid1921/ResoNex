@@ -29,7 +29,7 @@ function UpdateChartBtn({
         animation={TooltipAnimation}
       >
         <button
-          className="border-[#3654ff] hover:bg-[#3a6ef0cb] bg-[#3a6df0] px-2 py-2 rounded-md flex gap-2"
+          className="text-[10px] border border-[#3654ff] hover:bg-[#3a6ef0cb] bg-[#3a6df0] px-2 py-2 rounded-md flex gap-2 transition-all ease-in duration-150"
           onClick={openUpdateModal}
         >
           <HiOutlineRefresh size={15} /> Update Chart

@@ -31,14 +31,14 @@ const resourcesData = [
 const appsData = [
   {
     id: 1,
-    name: 'Tracker',
-    path: '/apps/tracker',
+    name: 'Coding Tracker',
+    path: '/apps/coding-tracker',
     icon: <HiOutlineChartSquareBar size={23} />,
   },
   {
     id: 2,
-    name: 'To Do List',
-    path: '/apps/todolist',
+    name: 'Tasks Tracker',
+    path: '/apps/tasks-tracker',
     icon: <HiOutlineClipboardList size={23} />,
   },
   {

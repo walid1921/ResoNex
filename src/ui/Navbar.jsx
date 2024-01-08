@@ -48,14 +48,14 @@ const Navbar = ({ tasksData }) => {
   const appsData = [
     {
       id: 1,
-      name: "Tracker",
-      path: "/apps/tracker",
+      name: "Coding Tracker",
+      path: "/apps/coding-tracker",
       icon: <HiOutlineChartSquareBar size={19} />,
     },
     {
       id: 2,
-      name: "To Do List",
-      path: "/apps/todolist",
+      name: "Tasks Tracker",
+      path: "/apps/tasks-tracker",
       icon: <HiOutlineClipboardList size={19} />,
       numPendingTasks,
     },

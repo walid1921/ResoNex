@@ -14,7 +14,7 @@ function TodayDate() {
   
   const [currentDate, setCurrentDate] = useState(todayDate());
 
-  return <p className="text-sm text-slate-400 flex justify-end items-end h-full mb-2 mr-2">
+  return <p className="text-sm text-slate-400">
   {currentDate}
 </p>;
 }

@@ -77,12 +77,12 @@ function LineChart({ tasksDataChart }) {
     });
   }, [tasksDataChart]);
 
-  const canvasStyle = {
-    width: "830px",
-    height: "430px",
-  };
+  // const canvasStyle = {
+  //   width: "830px",
+  //   height: "430px",
+  // };
 
-  return <canvas ref={chartRef} style={canvasStyle} />;
+  return <canvas ref={chartRef}  />;
 }
 
 export default LineChart;
