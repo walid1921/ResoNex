@@ -54,7 +54,7 @@ function UpdateChartBtn({
             border: "1px solid rgba(0, 0, 0, 0.3)",
             color: "#fff",
             width: "25%",
-            height: isChartUpdatedToday ? "18%" : "54%",
+            height: isChartUpdatedToday ? "18%" : "50%",
             margin: "auto",
           },
         }}
@@ -77,14 +77,11 @@ function UpdateChartBtn({
               <></>
             ) : (
               <div className="flex flex-col gap-2 text-center border mb-6 py-4 rounded-md bg-[rgba(58,111,240,0.2)] border-[rgba(58,111,240,0.5)]">
-                <p>Your Progress info for Today</p>
-                <p>Day : {getCurrentDay()}</p>
-                <p>
-                  Progress :{" "}
-                  <span className=" text-yellow-400">
-                    {percentage ? percentage : 0}%
-                  </span>
-                </p>
+                <p>Your Progress for Today ({getCurrentDay()})</p>
+
+                <span className=" text-yellow-400">
+                  {percentage ? percentage : 0}%
+                </span>
               </div>
             )}
 
@@ -93,7 +90,7 @@ function UpdateChartBtn({
                 <BsFillExclamationCircleFill size={13} />
               </div>
 
-              <p >
+              <p>
                 {isChartUpdatedToday
                   ? "Next update will be the next day"
                   : "You can update only one time per day"}
@@ -107,7 +104,7 @@ function UpdateChartBtn({
                 <span className="p-1 rounded-full  hover:cursor-pointer">
                   <BsFillExclamationCircleFill size={13} />
                 </span>
-                <p >
+                <p>
                   Your tasks will be saved automatically when you update the
                   chart
                 </p>

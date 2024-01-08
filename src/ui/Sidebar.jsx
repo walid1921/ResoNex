@@ -4,13 +4,13 @@ import AsideSmall from './AsideSmall'
 
 
 
-function Sidebar() {
+function Sidebar({tasksData}) {
   const { activeMenu } = useStateContext();
 
   return (
     <>
       {activeMenu ?
-       <AsideBig /> 
+       <AsideBig tasksData={tasksData} /> 
        : 
        <AsideSmall />
        }

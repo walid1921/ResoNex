@@ -1,6 +1,5 @@
 import ToDoCard from "../ui/ToDoCard";
 import { useState, useEffect } from "react";
-import { MdOutlineSaveAlt } from "react-icons/md";
 import { HiOutlineClipboardList, HiOutlineSearch } from "react-icons/hi";
 // import { CircularProgressbar, buildStyles } from "react-circular-progressbar"; //npm install react-circular-progressbar
 import "react-circular-progressbar/dist/styles.css";
@@ -30,7 +29,6 @@ import SeeAllTasksModal from "../ui/SeeAllTasksModal";
 import SeeAllTasksBtn from "../ui/buttons/SeeAllTasksBtn";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { LuEye } from "react-icons/lu";
-import UpdateChartBtn from "../ui/buttons/UpdateChartBtn";
 
 const getCurrentDate = () => {
   const now = new Date();
@@ -50,149 +48,14 @@ const getCurrentDay = () => {
   return daysOfWeek[dayIndex];
 };
 
-const ToDoList = () => {
-  const [tasksData, setTasksData] = useState([
-    {
-      id: 1,
-      title: "Complete Project A",
-      description: "Finish all the tasks related to Project A.",
-      date: "02/01/2024 14:30",
-      status: "Done",
-      day: "Wed",
-    },
-    {
-      id: 2,
-      title: "Review Meeting",
-      description: "Discuss the project status with the team.",
-      date: "02/01/2024 15:45",
-      status: "Pending",
-      day: "Wed",
-    },
-    {
-      id: 3,
-      title: "Prepare Presentation",
-      description: "Create a presentation for the upcoming client meeting.",
-      date: "02/01/2024 12:00",
-      status: "Pending",
-      day: "Wed",
-    },
-    {
-      id: 4,
-      title: "Call with Client",
-      description: "Schedule and conduct a call with the client.",
-      date: "02/01/2024 16:30",
-      status: "Done",
-      day: "Wed",
-    },
-    {
-      id: 5,
-      title: "Update Documentation",
-      description: "Revise and update project documentation.",
-      date: "02/01/2024 11:15",
-      status: "Pending",
-      day: "Wed",
-    },
-    {
-      id: 6,
-      title: "Team Training",
-      description: "Conduct a training session for the team.",
-      date: "02/01/2024 14:30",
-      status: "Done",
-      day: "Wed",
-    },
-    {
-      id: 7,
-      title: "Project Planning",
-      description: "Plan tasks and milestones for the next project phase.",
-      date: "02/01/2024 09:00",
-      status: "Pending",
-      day: "Wed",
-    },
-    {
-      id: 8,
-      title: "Code Review",
-      description: "Review and provide feedback on the team's code.",
-      date: "02/01/2024 13:45",
-      status: "Done",
-      day: "Wed",
-    },
-  ]);
-
-  const [tasksDataChart, setTasksDataChart] = useState([
-    { day: "Sun", percentage: 0 },
-    { day: "Mon", percentage: 0 },
-    { day: "Tue", percentage: 0 },
-    { day: "Wed", percentage: 0 },
-    { day: "Thu", percentage: 0 },
-    { day: "Fri", percentage: 0 },
-    { day: "Sat", percentage: 0 },
-  ]);
-
-  const [savedTasks, setSavedTasks] = useState([
-    {
-      id: 1,
-      savedDay: "02/01/2024 13:45",
-      percentage: 20,
-      tasks: [
-        {
-          id: 1,
-          title: "Complete Project A",
-          description: "Finish all the tasks related to Project A.",
-          date: "02/01/2024 14:30",
-          status: "Pending",
-          day: "Tue",
-        },
-        {
-          id: 2,
-          title: "Review Meeting",
-          description: "Discuss the project status with the team.",
-          date: "02/01/2024 15:45",
-          status: "Pending",
-          day: "Tue",
-        },
-        {
-          id: 3,
-          title: "Prepare Presentation",
-          description: "Create a presentation for the upcoming client meeting.",
-          date: "02/01/2024 12:00",
-          status: "Pending",
-          day: "Tue",
-        },
-      ],
-    },
-    {
-      id: 2,
-      savedDay: "03/01/2024 15:33",
-      percentage: 90,
-      tasks: [
-        {
-          id: 1,
-          title: "Complete Project A",
-          description: "Finish all the tasks related to Project A.",
-          date: "03/01/2024 14:30",
-          status: "Done",
-          day: "Wed",
-        },
-        {
-          id: 2,
-          title: "Review Meeting",
-          description: "Discuss the project status with the team.",
-          date: "03/01/2024 15:45",
-          status: "Pending",
-          day: "Wed",
-        },
-        {
-          id: 3,
-          title: "Prepare Presentation",
-          description: "Create a presentation for the upcoming client meeting.",
-          date: "03/01/2024 12:00",
-          status: "Pending",
-          day: "Wed",
-        },
-      ],
-    },
-  ]);
-
+function ToDoList({
+  tasksData,
+  setTasksData,
+  tasksDataChart,
+  setTasksDataChart,
+  savedTasks,
+  setSavedTasks,
+}) {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -578,7 +441,9 @@ const ToDoList = () => {
       />
 
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-semibold flex items-center gap-3"><HiOutlineClipboardList size={25} /> Task Tracker</h2>
+        <h2 className="text-2xl font-semibold flex items-center gap-3">
+          <HiOutlineClipboardList size={25} /> Task Tracker
+        </h2>
 
         <div className="flex items-center gap-4 ">
           <div className="relative text-slate-400 transition-all ease-in-out duration-300">
@@ -748,8 +613,6 @@ const ToDoList = () => {
                 <LuEye size={15} />
               </div>
             </TooltipComponent>
-
-            
           </div>
 
           <div className="mt-8">
@@ -765,7 +628,7 @@ const ToDoList = () => {
       </div>
     </div>
   );
-};
+}
 
 export default ToDoList;
 

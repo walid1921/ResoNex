@@ -23,13 +23,13 @@ const DIV = styled.div`
     `}
 `;
 
-const AppLayout = () => {
+const AppLayout = ({tasksData}) => {
   const { activeMenu } = useStateContext();
 
 
   return (
     <DIV activeMenu={activeMenu}  >
-      <Sidebar />
+      <Sidebar tasksData={tasksData} />
       <Header />
       <main className='p-6'>
         <Outlet />

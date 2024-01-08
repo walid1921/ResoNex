@@ -5,7 +5,7 @@ import { useStateContext } from "../contexts/ContextProvider";
 import { Link } from "react-router-dom";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 
-const AsideBig = () => {
+const AsideBig = ({tasksData}) => {
   const { activeMenu, setActiveMenu } = useStateContext();
 
   let TooltipAnimation = {
@@ -39,7 +39,7 @@ const AsideBig = () => {
       </div>
 
       <User />
-      <Navbar />
+      <Navbar tasksData={tasksData} />
     </aside>
   );
 };
