@@ -14,6 +14,7 @@ export const ContextProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [calendarData, setCalendarData] = useState([]);
+  const [tasksData, setTasksData] = useState([]);
 
 
   const handleClick = (name) => {
@@ -29,7 +30,7 @@ export const ContextProvider = ({ children }) => {
   // }
 
   return (
-    <StateContext.Provider value={{ activeMenu, setActiveMenu, isClicked, setIsClicked, handleClick, isLoading, setIsLoading, error, setError, calendarData, setCalendarData }}>
+    <StateContext.Provider value={{ activeMenu, setActiveMenu, isClicked, setIsClicked, handleClick, isLoading, setIsLoading, error, setError, calendarData, setCalendarData, tasksData, setTasksData}}>
       {children}
     </StateContext.Provider>
   )

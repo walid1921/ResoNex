@@ -27,12 +27,9 @@ import SaveBtn from "../ui/buttons/SaveBtn";
 import SaveTasksModal from "../ui/SaveTasksModal";
 import SeeAllTasksModal from "../ui/SeeAllTasksModal";
 import SeeAllTasksBtn from "../ui/buttons/SeeAllTasksBtn";
-import { TooltipComponent } from "@syncfusion/ej2-react-popups";
-import { LuEye } from "react-icons/lu";
+import axios from "axios";
 
-let TooltipAnimation = {
-  open: { effect: "FadeIn", duration: 300, delay: 0 },
-};
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const getCurrentDate = () => {
   const now = new Date();
@@ -55,6 +52,7 @@ const getCurrentDay = () => {
 function TasksTracker({
   tasksData,
   setTasksData,
+  editTask,
   tasksDataChart,
   setTasksDataChart,
   savedTasks,
@@ -76,6 +74,9 @@ function TasksTracker({
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isSavingModalOpen, setIsSavingModalOpen] = useState(false);
   const [allTasksOpen, setAllTasksOpen] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
@@ -115,20 +116,16 @@ function TasksTracker({
 
   const calculatePercentageForToday = () => {
     const today = getCurrentDay();
-    console.log("Today:", today);
 
     const todayTasks = tasksData.filter((task) => {
       const taskDay = task.day; // or task.date.split(" ")[0];
       return taskDay === today;
     });
-    console.log("Today's Tasks:", todayTasks);
 
     const totalTasks = todayTasks.length;
     const doneTasks = todayTasks.filter(
       (task) => task.status === "Done"
     ).length;
-    console.log("Total Tasks:", totalTasks);
-    console.log("Done Tasks:", doneTasks);
 
     const percentage = totalTasks === 0 ? 0 : (doneTasks / totalTasks) * 100;
     console.log("Today's Percentage:", percentage);
@@ -224,36 +221,47 @@ function TasksTracker({
     setAllTasksOpen(false);
   };
 
-  //! Edit Completed
-  const handleCompleted = () => {
-    const updatedTasks = tasksData.map((task) =>
-      task.id === completed
-        ? {
-            ...task,
-            status: formData.status,
-          }
-        : task
-    );
-
-    setTasksData(updatedTasks);
-
-    setFormData({
-      status: "Pending",
-    });
-
-    closeCompletedModal();
-
-    if (formData.status === "Done") {
-      toast.success("Task completed");
-    } else {
-      toast("Task Pending!", {
-        icon: <span className="text-xl">⏳</span>,
+  //! Edit Completed Task
+  const handleCompleted = async () => {
+    try {
+      // Send a PUT request to update the completion status on the backend
+      const response = await axios.put(`${BACKEND_URL}/tasks/${completed}`, {
+        status: formData.status,
       });
+
+      // Handle the response from the backend
+      if (response.status === 200) {
+        // Update the local state with the edited task
+        setTasksData((prevTasks) =>
+          prevTasks.map((task) =>
+            task._id === completed ? response.data : task
+          )
+        );
+
+        setFormData({
+          status: "Pending",
+        });
+
+        closeCompletedModal();
+
+        if (formData.status === "Done") {
+          toast.success("Task completed");
+        } else {
+          toast("Task Pending!", {
+            icon: <span className="text-xl">⏳</span>,
+          });
+        }
+      } else {
+        toast.error("Failed to update task status");
+      }
+    } catch (error) {
+      console.error("Error updating task status:", error);
+      toast.error("Failed to update task status");
     }
   };
 
   //! Edit Task
-  const handleEditTask = () => {
+  const handleEditTask = async () => {
     if (formData.title.trim() === "") {
       toast.error("Title is required!");
       return;
@@ -262,100 +270,145 @@ function TasksTracker({
       return;
     }
 
-    // Simulating save action
-    toast.promise(
-      new Promise((resolve, reject) => {
-        setTimeout(() => {
-          const updatedTasks = tasksData.map((task) =>
-            task.id === editingTask
-              ? {
-                  ...task,
-                  title: formData.title,
-                  description: formData.description,
-                  date: date,
-                  status: formData.status,
-                }
-              : task
-          );
+    try {
+      // Send a PUT request to update the task on the backend
+      const response = await axios.put(
+        `${BACKEND_URL}/tasks/${editingTask}`,
+        formData
+      );
 
-          setTasksData(updatedTasks);
+      // Handle the response from the backend
+      if (response.status === 200) {
+        // Update the local state with the edited task
+        setTasksData((prevTasks) =>
+          prevTasks.map((task) =>
+            task._id === editingTask ? response.data : task
+          )
+        );
 
-          setFormData({
-            title: "",
-            description: "",
-            status: "Pending",
-          });
-
-          closeEditModal();
-
-          resolve();
-        }, 1000);
-      }),
-      {
-        loading: "Saving...",
-        success: <p>Task Updated!</p>,
-        error: <p>Could not save.</p>,
+        toast.success("Task updated successfully");
+      } else {
+        toast.error("Failed to update task");
       }
-    );
+    } catch (error) {
+      console.error("Error editing task:", error);
+      toast.error("Failed to update task");
+    } finally {
+      closeEditModal();
+    }
   };
 
   //! Add Task
-  const handleAddTask = () => {
-    if (formData.title.trim() === "") {
-      toast.error("Title is required!");
-      return;
+  const handleAddTask = async () => {
+    try {
+      if (formData.title.trim() === "") {
+        toast.error("Title is required!");
+        return;
+      }
+
+      // Send a POST request to create a new task on the backend
+      const response = await axios.post(`${BACKEND_URL}/tasks`, {
+        title: formData.title,
+        description: formData.description,
+        date: getCurrentDate(),
+        status: formData.status,
+        day: getCurrentDay(),
+      });
+
+      // Handle the response from the backend
+      if (response.status === 200) {
+        // Update the local state with the newly created task
+        setTasksData([...tasksData, response.data]);
+
+        setFormData({
+          title: "",
+          description: "",
+          status: "Pending",
+        });
+
+        closeAddModal();
+        toast.success("New Task Added Successfully");
+      } else {
+        toast.error("Failed to add a new task");
+      }
+    } catch (error) {
+      console.error("Error adding a new task:", error);
+      toast.error("Failed to add a new task");
     }
-
-    const newTask = {
-      id: tasksData.length + 1,
-      title: formData.title,
-      description: formData.description,
-      date: getCurrentDate(),
-      status: formData.status,
-      day: getCurrentDay(),
-    };
-
-    setTasksData([...tasksData, newTask]);
-
-    setFormData({
-      title: "",
-      description: "",
-      status: "Pending",
-    });
-
-    closeAddModal();
-    toast.success("New Task Added Successfully");
   }; //!
 
   //! Delete Task
-  const handleDeleteTask = (id) => {
-    const filteredTasks = tasksData.filter((task) => task.id !== id);
-    setTasksData(filteredTasks);
-    closeTask();
-    toast.success("Task Deleted Successfully");
+  const handleDeleteTask = async (id) => {
+    try {
+      // Send a DELETE request to delete the task on the backend
+      const response = await axios.delete(`${BACKEND_URL}/tasks/${id}`);
+
+      // Handle the response from the backend
+      if (response.status === 200) {
+        // Update the local state by filtering out the deleted task
+        const filteredTasks = tasksData.filter((task) => task._id !== id);
+        setTasksData(filteredTasks);
+
+        closeTask();
+        toast.success("Task Deleted Successfully");
+      } else {
+        toast.error("Failed to delete the task");
+      }
+    } catch (error) {
+      console.error("Error deleting the task:", error);
+      toast.error("Failed to delete the task");
+    }
   }; //!
 
   //! Delete All Tasks
-  const handleDeleteAllTasks = () => {
-    if (tasksData.length === 0) {
-      toast.error("No tasks to delete!");
-      return;
-    }
+  const handleDeleteAllTasks = async () => {
+    try {
+      if (tasksData.length === 0) {
+        toast.error("No tasks to delete!");
+        return;
+      }
 
-    setTasksData([]);
-    closeDeleteModal();
-    toast.success("All Tasks Deleted Successfully");
+      // Send a DELETE request to delete all tasks on the backend
+      const response = await axios.delete(`${BACKEND_URL}/tasks`);
+
+      // Handle the response from the backend
+      if (response.status === 200) {
+        // Update the local state by setting tasksData to an empty array
+        setTasksData([]);
+
+        closeDeleteModal();
+        toast.success("All Tasks Deleted Successfully");
+      } else {
+        toast.error("Failed to delete all tasks");
+      }
+    } catch (error) {
+      console.error("Error deleting all tasks:", error);
+      toast.error("Failed to delete all tasks");
+    }
   }; //!
 
   //! Delete All Saved Tasks
-  const handleDeleteAllSavedTasks = () => {
-    if (savedTasks.length === 0) {
-      toast.error("No saved tasks to delete!");
-      return;
-    }
+  const handleDeleteAllSavedTasks = async () => {
+    try {
+      if (savedTasks.length === 0) {
+        toast.error("No saved tasks to delete!");
+        return;
+      }
 
-    setSavedTasks([]);
-    toast.success("All Saved Tasks Deleted Successfully");
+      const response = await axios.delete(`${BACKEND_URL}/savedTasks`);
+
+      if (response.status === 200) {
+        // Update the local state by setting savedTasks to an empty array
+        setSavedTasks([]);
+
+        toast.success("All Saved Tasks Deleted Successfully");
+      } else {
+        toast.error("Failed To Delete All Saved Tasks");
+      }
+    } catch (error) {
+      console.error("Error Deleting All Saved Tasks:", error);
+      toast.error("Failed To Delete All Saved Tasks");
+    }
   }; //!
 
   //! handle change
@@ -416,24 +469,43 @@ function TasksTracker({
     setSelectedTask(null);
   }; //!
 
-  //! Save Tasks
-  const handleSaveAllTasks = () => {
-    if (tasksData.length === 0) {
-      toast.error("No tasks to save!");
-      return;
+  //! Save All Tasks
+  const handleSaveAllTasks = async () => {
+    try {
+      if (tasksData.length === 0) {
+        toast.error("No tasks to save!");
+        return;
+      }
+
+      const newSavedTask = {
+        savedDay: getCurrentDate(),
+        percentage,
+        tasks: tasksData.map((task) => ({
+          title: task.title,
+          description: task.description,
+          status: task.status,
+          date: task.date,
+          day: task.day,
+        })),
+      };
+
+      // Make a POST request to save the tasks on the backend
+      const response = await axios.post(
+        `${BACKEND_URL}/savedTasks`,
+        newSavedTask
+      );
+
+      // Handle the response from the backend if needed
+
+      setSavedTasks([...savedTasks, response.data]);
+
+      closeSavingModal();
+      handleDeleteAllTasks();
+      toast.success("Tasks Saved Successfully");
+    } catch (error) {
+      console.error("Error saving tasks:", error);
+      toast.error("Failed to save tasks");
     }
-
-    const newSavedTask = {
-      savedDay: getCurrentDate(),
-      percentage,
-      tasks: tasksData,
-    };
-
-    setSavedTasks([...savedTasks, newSavedTask]);
-
-    closeSavingModal();
-    handleDeleteAllTasks();
-    toast.success("Tasks Saved Successfully");
   };
 
   return (
@@ -487,8 +559,6 @@ function TasksTracker({
                 <DeleteAllTasksBtn openDeleteModal={openDeleteModal} />
 
                 <SaveBtn openSavingModal={openSavingModal} />
-
-                <AddTaskBtn openAddModal={openAddModal} />
 
                 {/* Add Task component (Modal) */}
                 <AddTaskModal
@@ -559,16 +629,18 @@ function TasksTracker({
             </div>
           </div>
 
+          <AddTaskBtn openAddModal={openAddModal} />
+
           {tasksData.length === 0 ? (
             <NoTasks />
           ) : (
             <div
-              className={`flex flex-col gap-5 justify-center mt-8 pt-52 h-[82%] overflow-y-scroll custom-scrollbar mx-4`}
+              className={`flex flex-col gap-5 mt-4 h-[82%] overflow-y-scroll custom-scrollbar mx-4`}
             >
               {tasksData.map((task) => (
                 <ToDoCard
-                  key={task.id}
-                  id={task.id}
+                  key={task._id}
+                  id={task._id}
                   title={task.title}
                   description={task.description}
                   date={task.date}
@@ -580,7 +652,6 @@ function TasksTracker({
                   isCompletedModalOpen={isCompletedModalOpen}
                   handleCompleted={handleCompleted}
                   selectedTask={selectedTask}
-             
                 />
               ))}
             </div>

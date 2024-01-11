@@ -21,7 +21,6 @@ const BACKEND_URL = 'http://localhost:5001/api';
 
 const useCalendarAPI = () => {
   const [calendarData, setCalendarData] = useState([]);
-
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -32,6 +31,7 @@ const useCalendarAPI = () => {
     try {
       const response = await axios.get(`${BACKEND_URL}/events`);
       setCalendarData(response.data);
+      console.log(response.data)
     } catch (error) {
       console.error('Error fetching data:', error);
       setError(error);

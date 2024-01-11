@@ -5,11 +5,13 @@ function LineChart({ tasksDataChart }) {
   const chartRef = useRef(null);
   const chartInstance = useRef(null); // Ref to store the Chart instance
 
-  console.log(tasksDataChart);
+  // console.log(tasksDataChart);
 
   Chart.defaults.color = "rgb(148 163 184)";
 
   useEffect(() => {
+    console.log(tasksDataChart);
+
     const ctx = chartRef.current.getContext("2d");
 
     let gradient = ctx.createLinearGradient(0, 0, 0, 400);
@@ -26,6 +28,8 @@ function LineChart({ tasksDataChart }) {
     }
 
     const taskData = tasksDataChart.map((task) => task.percentage);
+
+    console.log(taskData)
 
     // Create a new Chart instance
     chartInstance.current = new Chart(ctx, {
@@ -76,11 +80,6 @@ function LineChart({ tasksDataChart }) {
       },
     });
   }, [tasksDataChart]);
-
-  // const canvasStyle = {
-  //   width: "830px",
-  //   height: "430px",
-  // };
 
   return <canvas ref={chartRef}  />;
 }

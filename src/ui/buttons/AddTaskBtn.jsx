@@ -2,9 +2,9 @@ import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { HiOutlinePlus } from "react-icons/hi";
 
 let TooltipAnimation = {
-    open: { effect: "FadeIn", duration: 300, delay: 0 },
-  };
-  
+  open: { effect: "FadeIn", duration: 300, delay: 0 },
+};
+
 function AddTaskBtn({ openAddModal }) {
   return (
     <TooltipComponent
@@ -14,7 +14,7 @@ function AddTaskBtn({ openAddModal }) {
       animation={TooltipAnimation}
     >
       <button
-        className="bg-[rgba(95,207,101,0.64)] p-1 rounded-full"
+        className="border border-[#ffffff66] hover:border-white  border-dashed rounded-md w-[62%] py-3 justify-center items-center flex  mt-5 mx-auto transition-all ease-in-out duration-300 text-[#ffffff66] hover:text-white"
         onClick={openAddModal}
       >
         <HiOutlinePlus size={11} />

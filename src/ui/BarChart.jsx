@@ -4,6 +4,9 @@ import Chart from "chart.js/auto";
 function BarChart({ tasksDataChart }) {
   const chartRef = useRef(null);
 
+  console.log(tasksDataChart);
+
+
   useEffect(() => {
     const ctx = chartRef.current.getContext("2d");
 

@@ -34,8 +34,10 @@ function ToDoCard({
 
   return (
     <div
-      className={`flex flex-col h-[100px] bg-[rgba(148,163,184,0.26)] rounded-md px-5 mx-20 py-4 border ${
-        status === "Done" ? "border-[#5fcf65a3]" : "border-[#c4b131a2]"
+      className={`flex flex-col h-[100px]  rounded-md px-5 mx-20 py-4 border ${
+        status === "Done"
+          ? "border-[#5fcf65a3] opacity-50 bg-[rgba(95,207,101,0.26)]"
+          : "border-[#c4b131a2] bg-[rgba(148,163,184,0.26)]"
       }`}
     >
       <div className="flex items-center h-full justify-between mb-2">

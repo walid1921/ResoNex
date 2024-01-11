@@ -35,22 +35,22 @@ function DetailsTaskModal({ selectedTask, closeTask, tasksData, handleDeleteTask
           >
             <h2 className="text-xl text-center my-5 pb-5 border-b-1 border-slate-600">
               {tasksData
-                .filter((task) => task.id === selectedTask)
+                .filter((task) => task._id === selectedTask)
                 .map((task) => task.title)}
             </h2>
 
             <div>
               <p className="text-center mb-10">
-                {tasksData.find((task) => task.id === selectedTask).description}
+                {tasksData.find((task) => task._id === selectedTask).description}
               </p>
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
                   <div
                     className={`w-[20px] h-[4px] rounded-sm cursor-pointer ${
-                      tasksData.find((task) => task.id === selectedTask)
+                      tasksData.find((task) => task._id === selectedTask)
                         .status === "Done"
                         ? "bg-[#5fcf65a3]"
-                        : tasksData.find((task) => task.id === selectedTask)
+                        : tasksData.find((task) => task._id === selectedTask)
                             .status === "Pending"
                         ? "bg-[#c4b131a2] animate-lightInfinite"
                         : ""
@@ -58,12 +58,12 @@ function DetailsTaskModal({ selectedTask, closeTask, tasksData, handleDeleteTask
                   ></div>
 
                   <p className="text-sm">
-                    {tasksData.find((task) => task.id === selectedTask).status}
+                    {tasksData.find((task) => task._id === selectedTask).status}
                   </p>
                 </div>
 
                 <div className="text-slate-400 text-sm">
-                  {tasksData.find((task) => task.id === selectedTask).date}
+                  {tasksData.find((task) => task._id === selectedTask).date}
                 </div>
               </div>
             </div>
