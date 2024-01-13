@@ -3,11 +3,16 @@ import Chart from "chart.js/auto";
 
 function BarChart({ tasksDataChart }) {
   const chartRef = useRef(null);
+  const chartInstance = useRef(null); // Ref to store the Chart instance
 
   console.log(tasksDataChart);
 
   useEffect(() => {
     const ctx = chartRef.current.getContext("2d");
+
+    if (chartInstance.current) {
+      chartInstance.current.destroy();
+    }
 
     const taskData = tasksDataChart.map((task) => task.percentage);
     const dateData = tasksDataChart.map((task) => task.date);
@@ -33,7 +38,7 @@ function BarChart({ tasksDataChart }) {
       }
     });
 
-    new Chart(ctx, {
+    chartInstance.current = new Chart(ctx, {
       type: "bar",
       data: {
         labels,
@@ -60,12 +65,7 @@ function BarChart({ tasksDataChart }) {
     });
   }, [tasksDataChart]);
 
-  const canvasStyle = {
-    width: "840px",
-    height: "430px",
-  };
-
-  return <canvas ref={chartRef} style={canvasStyle} />;
+  return <canvas ref={chartRef}  />;
 }
 
 export default BarChart;

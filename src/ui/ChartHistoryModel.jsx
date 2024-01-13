@@ -31,10 +31,10 @@ function ChartHistory({
       }}
     >
       <div className="flex flex-col h-full justify-between">
-        <div className="overflow-y-scroll custom-scrollbar">
-          <h2 className="text-lg text-center mt-3">Chart History</h2>
+        <div className="overflow-y-scroll custom-scrollbar my-3">
+          <h2 className="text-lg text-center">Chart History</h2>
 
-          <div className="mt-10 mr-3">
+          <div className="mt-10 mr-3 mb-4">
             {chartHistory.length === 0 ? (
               <div className=" flex justify-center items-center  ">
                 <span className="text-md text-center font-light px-6 py-6 border bg-[rgba(148,163,184,0.26)] border-[rgba(58,111,240,0.5)] text-[#ffffff6f] rounded-md">
@@ -50,6 +50,7 @@ function ChartHistory({
                   <div className="flex justify-center gap-5 border-b pb-4 border-slate-400 text-slate-400">
                     
                     <p>{chart.duration}</p>
+                    
                   </div>
                   <div className="flex justify-center mb-2 gap-6">
                     {chart.weekProgress.map((progress) => (
