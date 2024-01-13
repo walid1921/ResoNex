@@ -1,6 +1,6 @@
 import ToDoCard from "../ui/ToDoCard";
 import { useState, useEffect } from "react";
-import { HiOutlineClipboardList, HiOutlineSearch } from "react-icons/hi";
+import { HiOutlineClipboardList } from "react-icons/hi";
 // import { CircularProgressbar, buildStyles } from "react-circular-progressbar"; //npm install react-circular-progressbar
 import "react-circular-progressbar/dist/styles.css";
 // import {Line} from "react-progress-bar"; // npm install react-progress-bar
@@ -9,6 +9,7 @@ import "react-progress-bar-plus/lib/progress-bar.css";
 import toast from "react-hot-toast";
 import BarChart from "../ui/BarChart";
 import LineChart from "../ui/LineChart";
+import Spinner from "../ui/Spinner";
 import TodayDate from "../ui/TodayDate";
 import CompleteTaskModal from "../ui/CompleteTaskModal";
 import EditTaskModal from "../ui/EditTaskModal";
@@ -27,7 +28,11 @@ import SaveBtn from "../ui/buttons/SaveBtn";
 import SaveTasksModal from "../ui/SaveTasksModal";
 import SeeAllTasksModal from "../ui/SeeAllTasksModal";
 import SeeAllTasksBtn from "../ui/buttons/SeeAllTasksBtn";
+import ChartHistoryBtn from "../ui/buttons/ChartHistoryBtn";
 import axios from "axios";
+import ChartHostory from "../ui/ChartHistoryModel";
+import ChartHistory from "../ui/ChartHistoryModel";
+import SaveChart from "../ui/buttons/saveChart";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -57,6 +62,8 @@ function TasksTracker({
   setTasksDataChart,
   savedTasks,
   setSavedTasks,
+  chartHistory,
+  setChartHistory,
 }) {
   const [formData, setFormData] = useState({
     title: "",
@@ -66,7 +73,7 @@ function TasksTracker({
 
   const [date, setDate] = useState(getCurrentDate());
 
-  const [sortBy, setSortBy] = useState("pending");
+  const [sortBy, setSortBy] = useState("all");
   const [selectedTask, setSelectedTask] = useState(null);
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -74,9 +81,9 @@ function TasksTracker({
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isSavingModalOpen, setIsSavingModalOpen] = useState(false);
   const [allTasksOpen, setAllTasksOpen] = useState(false);
+  const [chartHistoryOpen, setChartHistoryOpen] = useState(false);
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
@@ -128,28 +135,38 @@ function TasksTracker({
     ).length;
 
     const percentage = totalTasks === 0 ? 0 : (doneTasks / totalTasks) * 100;
-    console.log("Today's Percentage:", percentage);
 
     return percentage;
   };
 
   //! Update the chart data for the current day
-  const handleUpdateChartClick = () => {
-    //A check using localStorage to see if the current date is different from the last update date stored in localStorage. If it's different, the chart gets updated, and the current date is stored as the last update date. If it's the same, it means the chart has already been updated today, and a message is shown. This ensures that the chart gets updated only once per day.
+  const handleUpdateChartClick = async () => {
+    // A check using localStorage to see if the current date is different from the last update date stored in localStorage. If it's different, the chart gets updated, and the current date is stored as the last update date. If it's the same, it means the chart has already been updated today, and a message is shown. This ensures that the chart gets updated only once per day.
 
     if (!hasChartBeenUpdatedToday()) {
-      const todayPercentage = calculatePercentageForToday();
+      const newPercentage = calculatePercentageForToday();
+      const date = getCurrentDay();
 
-      // Update the chart data for the current day
-      setTasksDataChart((prevChartData) => {
-        return prevChartData.map((chartItem) =>
-          chartItem.day === getCurrentDay()
-            ? { ...chartItem, percentage: todayPercentage }
-            : chartItem
-        );
-      });
+      try {
+        const response = await axios.post(`${BACKEND_URL}/percentages`, {
+          percentage: newPercentage,
+          date,
+        });
 
-      toast.success("Chart Updated with Today's Percentage!");
+        if (response.status === 200) {
+          setTasksDataChart([...tasksDataChart, response.data]);
+
+          toast.success("Chart Updated with Today's Percentage!");
+          setIsLoading(false);
+        } else {
+          toast.error("Failed to update Chart");
+        }
+      } catch (error) {
+        console.error("Error updating Chart:", error);
+        toast.error("Failed to update Chart");
+      } finally {
+        closeEditModal();
+      }
 
       // Save the current date as the last update date
       localStorage.setItem("lastUpdateDate", getCurrentDate().split(" ")[0]);
@@ -160,6 +177,8 @@ function TasksTracker({
     handleSaveAllTasks();
     closeUpdateModal();
   };
+
+  // !
 
   const openAddModal = () => {
     setIsAddModalOpen(true);
@@ -221,8 +240,18 @@ function TasksTracker({
     setAllTasksOpen(false);
   };
 
+  const openChartHistoryModal = () => {
+    setChartHistoryOpen(true);
+  };
+
+  const closeChartHistoryModal = () => {
+    setChartHistoryOpen(false);
+  };
+
   //! Edit Completed Task
   const handleCompleted = async () => {
+    setIsLoading(true);
+
     try {
       // Send a PUT request to update the completion status on the backend
       const response = await axios.put(`${BACKEND_URL}/tasks/${completed}`, {
@@ -251,6 +280,8 @@ function TasksTracker({
             icon: <span className="text-xl">⏳</span>,
           });
         }
+
+        setIsLoading(false);
       } else {
         toast.error("Failed to update task status");
       }
@@ -262,6 +293,8 @@ function TasksTracker({
 
   //! Edit Task
   const handleEditTask = async () => {
+    setIsLoading(true);
+
     if (formData.title.trim() === "") {
       toast.error("Title is required!");
       return;
@@ -287,6 +320,7 @@ function TasksTracker({
         );
 
         toast.success("Task updated successfully");
+        setIsLoading(false);
       } else {
         toast.error("Failed to update task");
       }
@@ -300,6 +334,7 @@ function TasksTracker({
 
   //! Add Task
   const handleAddTask = async () => {
+    setIsLoading(true);
     try {
       if (formData.title.trim() === "") {
         toast.error("Title is required!");
@@ -328,6 +363,7 @@ function TasksTracker({
 
         closeAddModal();
         toast.success("New Task Added Successfully");
+        setIsLoading(false);
       } else {
         toast.error("Failed to add a new task");
       }
@@ -339,6 +375,8 @@ function TasksTracker({
 
   //! Delete Task
   const handleDeleteTask = async (id) => {
+    setIsLoading(true);
+
     try {
       // Send a DELETE request to delete the task on the backend
       const response = await axios.delete(`${BACKEND_URL}/tasks/${id}`);
@@ -351,6 +389,7 @@ function TasksTracker({
 
         closeTask();
         toast.success("Task Deleted Successfully");
+        setIsLoading(false);
       } else {
         toast.error("Failed to delete the task");
       }
@@ -362,6 +401,8 @@ function TasksTracker({
 
   //! Delete All Tasks
   const handleDeleteAllTasks = async () => {
+    setIsLoading(true);
+
     try {
       if (tasksData.length === 0) {
         toast.error("No tasks to delete!");
@@ -378,6 +419,7 @@ function TasksTracker({
 
         closeDeleteModal();
         toast.success("All Tasks Deleted Successfully");
+        setIsLoading(false);
       } else {
         toast.error("Failed to delete all tasks");
       }
@@ -442,11 +484,11 @@ function TasksTracker({
       sortedTasks = tasksData
         .slice()
         .sort((a, b) => a.status.localeCompare(b.status));
-    } else if (value === "date") {
+    } else if (value === "pending") {
       sortedTasks = tasksData
         .slice()
-        .sort((a, b) => a.date.localeCompare(b.date));
-    } else if (value === "pending") {
+        .sort((a, b) => b.status.localeCompare(a.status));
+    } else if (value === "all") {
       sortedTasks = tasksData
         .slice()
         .sort((a, b) => b.status.localeCompare(a.status));
@@ -471,6 +513,8 @@ function TasksTracker({
 
   //! Save All Tasks
   const handleSaveAllTasks = async () => {
+    setIsLoading(true);
+
     try {
       if (tasksData.length === 0) {
         toast.error("No tasks to save!");
@@ -502,11 +546,97 @@ function TasksTracker({
       closeSavingModal();
       handleDeleteAllTasks();
       toast.success("Tasks Saved Successfully");
+
+      setIsLoading(false);
     } catch (error) {
       console.error("Error saving tasks:", error);
       toast.error("Failed to save tasks");
     }
   };
+
+  //! Delete All tasksDataChart
+  const handleDeleteAllTasksDataChart = async () => {
+    try {
+      if (tasksDataChart.length === 0) {
+        toast.error("No tasks to delete!");
+        return;
+      }
+
+      // Send a DELETE request to delete all tasks on the backend
+      const response = await axios.delete(`${BACKEND_URL}/percentages`);
+
+      // Handle the response from the backend
+      if (response.status === 200) {
+        // Update the local state by setting tasksData to an empty array
+        setTasksDataChart([]);
+      } else {
+        toast.error("Failed to save Chart data");
+      }
+    } catch (error) {
+      console.error("Error saving Chart data:", error);
+      toast.error("Failed to save Chart data");
+    }
+  }; //!
+
+  //! Save Progress
+  const handleSaveProgress = async () => {
+    try {
+      if (tasksDataChart.length === 0) {
+        toast.error("No progress to save!");
+        return;
+      }
+
+      const hasSunday = tasksDataChart.some((chart) => chart.date === "Sun");
+
+      if (!hasSunday) {
+        toast.warning(
+          "You still have to wait until the end of the week to save your progress!"
+        );
+        return;
+      }
+
+      const newChartHistory = {
+        duration: getCurrentDate(),
+        weekProgress: tasksDataChart.map((chart) => ({
+          date: chart.date,
+          percentage: chart.percentage,
+        })),
+      };
+
+      // Make a POST request to save the tasks on the backend
+      const response = await axios.post(
+        `${BACKEND_URL}/chartHistory`,
+        newChartHistory
+      );
+
+      // Handle the response from the backend if needed
+
+      setChartHistory([...chartHistory, response.data]);
+
+      handleDeleteAllTasksDataChart();
+      toast.success("Progress Saved in the Chart History Successfully");
+    } catch (error) {
+      console.error("Error saving progress:", error);
+      toast.error("Failed to save progress");
+    }
+  };
+
+  //! Save progress automatically when the current day is Sunday
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     const currentDay = new Date().toLocaleDateString("en-US", {
+  //       weekday: "short",
+  //     });
+
+  //     if (currentDay === "Sun") {
+  //       handleSaveProgress();
+  //     }
+  //   }, 1000 * 60 * 60); // Check every hour
+
+  //   return () => clearInterval(intervalId); // Cleanup on component unmount
+  // }, [handleSaveProgress]);
+
+  console.log(chartHistory);
 
   return (
     <div>
@@ -521,21 +651,8 @@ function TasksTracker({
           <HiOutlineClipboardList size={25} /> Task Tracker
         </h2>
 
-        <div className="flex items-center gap-4 ">
-          <div className="relative text-slate-400 transition-all ease-in-out duration-300">
-            <input
-              type="text"
-              placeholder="Search"
-              name="search"
-              className="border border-gray-700 focus:border-gray-700 bg-[rgba(148,163,184,0.26)]  focus:pr-16 pl-3 py-2 rounded-full text-sm focus:outline-none transition-all ease-in-out duration-300 "
-            />
-            <button
-              type="submit"
-              className="absolute right-0 top-[10px] mr-3 border-l border-slate-400 pl-2 "
-            >
-              <HiOutlineSearch size={20} />
-            </button>
-          </div>
+        <div className="flex items-center gap-5">
+          <ChartHistoryBtn openChartHistoryModal={openChartHistoryModal} />
           <SeeAllTasksBtn openAllTasksModal={openAllTasksModal} />
         </div>
       </div>
@@ -622,8 +739,15 @@ function TasksTracker({
                   setAllTasksOpen={setAllTasksOpen}
                   savedTasks={savedTasks}
                   closeAllTasksModal={closeAllTasksModal}
-                  openAllTasksModal={openAllTasksModal}
                   handleDeleteAllSavedTasks={handleDeleteAllSavedTasks}
+                />
+
+                {/* Chart History (Modal) */}
+                <ChartHistory
+                  chartHistoryOpen={chartHistoryOpen}
+                  setChartHistoryOpen={setChartHistoryOpen}
+                  chartHistory={chartHistory}
+                  closeChartHistoryModal={closeChartHistoryModal}
                 />
               </div>
             </div>
@@ -631,11 +755,19 @@ function TasksTracker({
 
           <AddTaskBtn openAddModal={openAddModal} />
 
-          {tasksData.length === 0 ? (
+          {!tasksData ? (
+            <NoTasks
+              text="Error fetching tasks"
+              border="border-[#ff4d4dad]"
+              bg="bg-[#ff4d4d42]"
+            />
+          ) : isLoading ? (
+            <Spinner />
+          ) : tasksData.length === 0 ? (
             <NoTasks />
           ) : (
             <div
-              className={`flex flex-col gap-5 mt-4 h-[82%] overflow-y-scroll custom-scrollbar mx-4`}
+              className={`flex flex-col gap-5 mt-4 h-[78%] overflow-y-scroll custom-scrollbar mx-4`}
             >
               {tasksData.map((task) => (
                 <ToDoCard
@@ -685,13 +817,15 @@ function TasksTracker({
               />
             </div>
 
-            <div className="mt-8 w-[600px] h-[800px]">
+            <div className="mt-8 mb-4 w-[600px] h-[300px]">
               {barsView ? (
                 <BarChart tasksDataChart={tasksDataChart} />
               ) : (
                 <LineChart tasksDataChart={tasksDataChart} />
               )}
             </div>
+
+            <SaveChart handleSaveProgress={handleSaveProgress} />
           </div>
         </div>
       </div>

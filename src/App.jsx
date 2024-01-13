@@ -18,61 +18,13 @@ import axios from "axios";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
-//! Example of savedTasks
-// [
-//   {
-//     id: 1,
-//     savedDay: "02/01/2024 13:45",
-//     percentage: 20,
-//     tasks: [
-//       {
-//         id: 1,
-//         title: "Implement Feature A",
-//         description: "Write code to implement Feature A in the project.",
-//         date: "02/01/2024 14:30",
-//         status: "Pending",
-//         day: "Tue",
-//       },
-//       {
-//         id: 2,
-//         title: "Code Review Meeting",
-//         description: "Discuss and review the code changes with the team.",
-//         date: "02/01/2024 15:45",
-//         status: "Pending",
-//         day: "Tue",
-//       },
-//     ],
-//   },
-//   {
-//     id: 2,
-//     savedDay: "03/01/2024 15:33",
-//     percentage: 90,
-//     tasks: [
-//       {
-//         id: 1,
-//         title: "Complete Project A",
-//         description: "Finish all the tasks related to Project A.",
-//         date: "03/01/2024 14:30",
-//         status: "Done",
-//         day: "Wed",
-//       },
-//       {
-//         id: 2,
-//         title: "Review Meeting",
-//         description: "Discuss the project status with the team.",
-//         date: "03/01/2024 15:45",
-//         status: "Pending",
-//         day: "Wed",
-//       },
-//     ],
-//   },
-// ]
-
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [tasksData, setTasksData] = useState([]);
   const [savedTasks, setSavedTasks] = useState([]);
+  const [tasksDataChart, setTasksDataChart] = useState([]);
+  const [chartHistory, setChartHistory] = useState([]);
 
   //! Fetch tasks data
   useEffect(() => {
@@ -108,20 +60,39 @@ export default function App() {
     fetchData();
   }, []);
 
-  //! To do list data
-  // const { tasksData, setTasksData, editTask, isLoading, error } = useTaskAPI();
+  //! Fetch tasks data for chart
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${BACKEND_URL}/percentages`);
+        setTasksDataChart(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setError(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  const [tasksDataChart, setTasksDataChart] = useState([
-    { day: "Sun", percentage: 0 },
-    { day: "Mon", percentage: 0 },
-    { day: "Tue", percentage: 0 },
-    { day: "Wed", percentage: 0 },
-    { day: "Thu", percentage: 0 },
-    { day: "Fri", percentage: 0 },
-    { day: "Sat", percentage: 0 },
-  ]);
+    fetchData();
+  }, []);
 
-  //! To do list data end
+  //! Fetch chart History
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${BACKEND_URL}/chartHistory`);
+        setChartHistory(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setError(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -152,6 +123,8 @@ export default function App() {
                   setTasksDataChart={setTasksDataChart}
                   savedTasks={savedTasks}
                   setSavedTasks={setSavedTasks}
+                  chartHistory={chartHistory}
+                  setChartHistory={setChartHistory}
                 />
               }
             />

@@ -8,13 +8,13 @@ let TooltipAnimation = {
 function AddTaskBtn({ openAddModal }) {
   return (
     <TooltipComponent
-      content="Add"
+      content="Add New Task"
       position="TopCenter"
       offsetY={-5}
       animation={TooltipAnimation}
     >
       <button
-        className="border border-[#ffffff66] hover:border-white  border-dashed rounded-md w-[62%] py-3 justify-center items-center flex  mt-5 mx-auto transition-all ease-in-out duration-300 text-[#ffffff66] hover:text-white"
+        className="border border-[#ffffff66] hover:border-white  border-dashed rounded-md w-[62%] py-3 justify-center items-center flex  mt-5 mx-auto transition-all ease-in-out duration-200 text-[#ffffff66] hover:text-white"
         onClick={openAddModal}
       >
         <HiOutlinePlus size={11} />

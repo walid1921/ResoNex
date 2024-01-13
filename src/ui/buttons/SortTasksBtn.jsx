@@ -18,9 +18,9 @@ function SortTasksBtn({ sortBy, handleSortChange }) {
         onChange={(e) => handleSortChange(e.target.value)}
         style={{ backgroundColor: "#76829285" }}
       >
+        <option value="all">All</option>
         <option value="pending">Pending</option>
         <option value="done">Done</option>
-        <option value="date">Date</option>
       </select>
     </TooltipComponent>
   );

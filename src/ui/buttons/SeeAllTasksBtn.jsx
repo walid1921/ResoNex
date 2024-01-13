@@ -14,7 +14,7 @@ function SeeAllTasksBtn({ openAllTasksModal }) {
       animation={TooltipAnimation}
     >
       <button
-        className="border border-[#3654ff] hover:bg-[#3a6ef0cb] bg-[#3a6df0] px-2 py-2 rounded-md flex items-center gap-2"
+        className="border border-[#3654ff] hover:bg-[#3a6ef0cb] bg-[#3a6df0] px-2 py-2 rounded-md flex items-center gap-2 transition-all ease-in-out duration-300"
         onClick={openAllTasksModal}
       >
         <RiDropdownList size={15} /> All Tasks

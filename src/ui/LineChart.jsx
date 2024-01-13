@@ -5,13 +5,11 @@ function LineChart({ tasksDataChart }) {
   const chartRef = useRef(null);
   const chartInstance = useRef(null); // Ref to store the Chart instance
 
-  // console.log(tasksDataChart);
+  console.log(tasksDataChart);
 
   Chart.defaults.color = "rgb(148 163 184)";
 
   useEffect(() => {
-    console.log(tasksDataChart);
-
     const ctx = chartRef.current.getContext("2d");
 
     let gradient = ctx.createLinearGradient(0, 0, 0, 400);
@@ -20,16 +18,37 @@ function LineChart({ tasksDataChart }) {
 
     let delayed;
 
-    const labels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
     // Destroy the existing Chart instance
     if (chartInstance.current) {
       chartInstance.current.destroy();
     }
 
     const taskData = tasksDataChart.map((task) => task.percentage);
+    const dateData = tasksDataChart.map((task) => task.date);
+    const labels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-    console.log(taskData)
+    const dataPoints = Array(labels.length).fill(0);
+
+    dateData.forEach((date, index) => {
+      if (date === "Mon") {
+        dataPoints[0] = taskData[index];
+      } else if (date === "Tue") {
+        dataPoints[1] = taskData[index];
+      } else if (date === "Wed") {
+        dataPoints[2] = taskData[index];
+      } else if (date === "Thu") {
+        dataPoints[3] = taskData[index];
+      } else if (date === "Fri") {
+        dataPoints[4] = taskData[index];
+      } else if (date === "Sat") {
+        dataPoints[5] = taskData[index];
+      } else if (date === "Sun") {
+        dataPoints[6] = taskData[index];
+      }
+    });
+
+
+    console.log(taskData);
 
     // Create a new Chart instance
     chartInstance.current = new Chart(ctx, {
@@ -38,8 +57,8 @@ function LineChart({ tasksDataChart }) {
         labels,
         datasets: [
           {
-            label: "This week's progress",
-            data: taskData,
+            label: "This week progress",
+            data: dataPoints,
             backgroundColor: gradient,
             borderColor: "rgba(58,111,240,1)",
             borderWidth: 1,
@@ -81,7 +100,7 @@ function LineChart({ tasksDataChart }) {
     });
   }, [tasksDataChart]);
 
-  return <canvas ref={chartRef}  />;
+  return <canvas ref={chartRef} />;
 }
 
 export default LineChart;

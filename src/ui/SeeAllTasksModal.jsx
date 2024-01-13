@@ -1,3 +1,4 @@
+import { HiOutlineSearch } from "react-icons/hi";
 import SecondaryBtn from "./buttons/SecondaryBtn";
 import Modal from "react-modal"; //npm install react-modal
 
@@ -11,7 +12,7 @@ function SeeAllTasksModal({
     <Modal
       isOpen={allTasksOpen}
       onRequestClose={closeAllTasksModal}
-      contentLabel="Save All Tasks"
+      contentLabel="Saved All Tasks"
       style={{
         overlay: {
           backgroundColor: "rgba(0, 0, 0, 0.4)",
@@ -31,11 +32,28 @@ function SeeAllTasksModal({
         },
       }}
     >
-      <div className="flex flex-col h-full justify-between">
-        <div className="overflow-y-scroll custom-scrollbar">
-          <h2 className="flex justify-center mt-3">Saved Tasks</h2>
+      <div className="flex flex-col h-full justify-between ">
+        <div className="overflow-y-scroll custom-scrollbar mx-3 my-3">
+          <div className="flex items-center justify-between gap-4 mx-4 ">
+            <h2 className="text-lg">Saved Tasks</h2>
 
-          <div className="mt-10 mr-3">
+            <div className="relative  text-slate-400 transition-all ease-in-out duration-300">
+              <input
+                type="text"
+                placeholder="Search"
+                name="search"
+                className="border border-gray-700 focus:border-gray-700 bg-[rgba(148,163,184,0.26)]  focus:pr-16 pl-3 py-1 rounded-full text-sm focus:outline-none transition-all ease-in-out duration-300 "
+              />
+              <button
+                type="submit"
+                className="absolute right-0 top-[8px] mr-3 border-l border-slate-400 pl-2 "
+              >
+                <HiOutlineSearch size={16} />
+              </button>
+            </div>
+          </div>
+
+          <div className="mt-10 mx-6">
             {savedTasks.length === 0 ? (
               <div className=" flex justify-center items-center  ">
                 <span className="text-md text-center font-light px-6 py-6 border bg-[rgba(148,163,184,0.26)] border-[rgba(58,111,240,0.5)] text-[#ffffff6f] rounded-md">
@@ -65,7 +83,7 @@ function SeeAllTasksModal({
                   <div className="flex justify-center mb-2 flex-col text-center">
                     {task.tasks.map((task) => (
                       <div
-                        key={task.id}
+                        key={task.id}ß
                         className="flex justify-between mt-4 mx-5 text-sm"
                       >
                         <p>{task.title}</p>
