@@ -8,13 +8,12 @@ import AppLayout from "./ui/AppLayout";
 import Login from "./pages/Login";
 import Account from "./pages/Account";
 import ToDoList from "./pages/TasksTracker";
-import Design from "./pages/Design";
-import Web from "./pages/Web";
-import Study from "./pages/Study";
+import Resources from "./pages/Resources";
 import Calendar from "./pages/Calendar";
 import { Toaster } from "react-hot-toast"; // npm i react-hot-toast (you can check the docs for more customization options)
 import { useEffect, useState } from "react";
 import axios from "axios";
+import ResourcesList from "./ui/ResourcesList";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -25,6 +24,14 @@ export default function App() {
   const [savedTasks, setSavedTasks] = useState([]);
   const [tasksDataChart, setTasksDataChart] = useState([]);
   const [chartHistory, setChartHistory] = useState([]);
+  const [resourcesData, setResourcesData] = useState([]);
+
+  const [folderId, setFolderId] = useState("");
+
+  // const [isAddResourceModalOpen, setIsAddResourceModalOpen] = useState(false);
+
+  const initialData = { name: "", logoUrl: "", url: "" };
+  const [formData, setFormData] = useState(initialData);
 
   //! Fetch tasks data
   useEffect(() => {
@@ -94,6 +101,75 @@ export default function App() {
     fetchData();
   }, []);
 
+  //! Fetch resources data
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${BACKEND_URL}/resources`);
+        setResourcesData(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setError(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5001/api/resources/${folderId}`
+        );
+        setResourcesData(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [folderId, setResourcesData]); // Trigger the fetch when folderId changes
+
+  const handleAddData = (newData) => {
+    setResourcesData((prevDataList) => [...prevDataList, newData]);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  // const openAddResourceModal = () => {
+  //   setIsAddResourceModalOpen(true);
+  // };
+
+  // const closeAddResourceModal = () => {
+  //   setIsAddResourceModalOpen(false);
+  // };
+
+  const handleSubmit = async (e, folderId) => {
+    e.preventDefault();
+    try {
+      setError(null);
+  
+      // Update the URL to match your backend API
+      const response = await axios.post(
+        `${BACKEND_URL}/resources/${folderId}`,
+        formData
+      );
+  
+      handleAddData(response.data); // Pass the new data back to the parent component
+      setFormData(initialData); // Reset form after successful submission
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      setError("Error submitting form. Please try again."); // Display a generic error message
+    }
+  };
+  
+
   return (
     <>
       <BrowserRouter>
@@ -107,9 +183,30 @@ export default function App() {
             />
 
             {/* Resources */}
-            <Route path="resources/design" element={<Design />} />
-            <Route path="resources/web" element={<Web />} />
-            <Route path="resources/study" element={<Study />} />
+            <Route
+              path="resources"
+              element={
+                <Resources
+                  resourcesData={resourcesData}
+                  setResourcesData={setResourcesData}
+                />
+              }
+            />
+            {resourcesData.map((resource) => (
+              <Route
+                key={resource._id}
+                path={resource.path}
+                element={
+                  <ResourcesList
+                    resourcesData={resource.data}
+                    handleSubmit={handleSubmit}
+                    formData={formData}
+                    handleChange={handleChange}
+                    folderId={resource._id}
+                  />
+                }
+              />
+            ))}
 
             {/* Apps */}
             <Route path="apps/coding-tracker" element={<Tracker />} />
