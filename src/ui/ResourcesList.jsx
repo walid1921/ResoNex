@@ -1,70 +1,119 @@
-import { HiOutlineFolder } from "react-icons/hi";
+import { TooltipComponent } from "@syncfusion/ej2-react-popups";
+import {
+  HiArrowCircleLeft,
+  HiOutlineFolder,
+  HiOutlineMinusSm,
+  HiOutlinePlus,
+} from "react-icons/hi";
 import { Link } from "react-router-dom";
+import ResourceModal from "./ResourceModal";
 
-function ResourcesList({ resourcesData, folderId, handleSubmit, formData , handleChange}) {
-  console.log(resourcesData);
+let TooltipAnimation = {
+  open: { effect: "FadeIn", duration: 300, delay: 0 },
+};
+
+function ResourcesList({
+  resourcesDataName,
+  resourcesDataData,
+  folderId,
+  handleSubmit,
+  formData,
+  handleCloseList,
+  handleDeleteData,
+  setFormData,
+  isAddResourceModalOpen,
+  openAddResourceModal,
+  closeAddResourceModal
+}) {
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
   return (
     <>
-      <h2 className="text-2xl font-semibold flex items-center gap-3 mb-10 ">
-        <HiOutlineFolder size={25} /> List
-      </h2>
-      <ul className="flex flex-wrap gap-5 ">
-        {resourcesData &&
-          resourcesData.map((resource) => (
-            <li key={resource._id}>
-              <Link to={resource.url} target="_blank" rel="noopener noreferrer">
-                <div className="flex justify-center items-center gap-4 px-4 py-1 bg-[rgba(148,163,184,0.26)] hover:bg-[rgba(58,111,240,0.2)] hover:border-[rgba(58,111,240,0.5)] hover:text-[#bbb] rounded-lg border border-slate-400 transition-all ease-in-out duration-300">
-                  <img
-                    className="h-8 rounded-full"
-                    src={resource.logoUrl}
-                    alt=""
-                  />
+      <div className=" flex items-center gap-3 mb-10">
+        <HiOutlineFolder size={25} />
+        <h2 className="text-2xl font-semibold">{resourcesDataName}</h2>
+      </div>
 
-                  <span>{resource.name}</span>
-                </div>
-              </Link>
-            </li>
-          ))}
-      </ul>
+      <div className="flex gap-6">
+        <button
+          onClick={handleCloseList}
+          className="hover:text-[#3a6df0] cursor-pointer text-[#e2e2e2] opacity-50 hover:opacity-100 transition-all ease-in-out duration-300"
+        >
+          <HiArrowCircleLeft size={30} />
+        </button>
 
-      <form onSubmit={(e) => handleSubmit(e, folderId)} className="data-form">
-        <div className="form-group">
-          <label>Data Name:</label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-        </div>
+        <ul className="flex items-center flex-wrap gap-5">
+          {resourcesDataData &&
+            resourcesDataData.map((resource) => (
+              <li
+                key={resource._id}
+                className="flex items-center gap-5 bg-[rgba(148,163,184,0.26)] hover:bg-[rgba(58,111,240,0.2)] hover:border-[rgba(58,111,240,0.5)] hover:text-[#bbb] rounded-lg border border-slate-400 transition-all ease-in-out duration-300 px-4 py-1"
+              >
+                <Link
+                  to={resource.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div className="flex justify-center items-center gap-4  ">
+                    <img
+                      className="h-8 rounded-full"
+                      src={resource.logoUrl}
+                      alt=""
+                    />
 
-        <div className="form-group">
-          <label>Logo URL:</label>
-          <input
-            type="text"
-            name="logoUrl"
-            value={formData.logoUrl}
-            onChange={handleChange}
-            required
-          />
-        </div>
+                    <span>{resource.name}</span>
+                  </div>
+                </Link>
 
-        <div className="form-group">
-          <label>URL:</label>
-          <input
-            type="text"
-            name="url"
-            value={formData.url}
-            onChange={handleChange}
-            required
-          />
-        </div>
+                <TooltipComponent
+                  content="Delete"
+                  position="TopCenter"
+                  offsetY={-5}
+                  animation={TooltipAnimation}
+                  className="flex items-center justify-normal"
+                >
+                  <button
+                    className="bg-[#ff4d4dad] hover:bg-[#c6141d9d] rounded-full p-[2px]"
+                    onClick={() => {
+                      console.log(resource._id);
+                      handleDeleteData(resource._id, folderId);
+                    }}
+                  >
+                    <HiOutlineMinusSm size={15} />
+                  </button>
+                </TooltipComponent>
+              </li>
+            ))}
 
-        {/* {error && <div className="error-message">{error}</div>} */}
+          <TooltipComponent
+            content="Add"
+            position="TopCenter"
+            offsetY={-5}
+            animation={TooltipAnimation}
+          >
+            <button
+              className="border border-[#ffffff66] hover:border-white  border-dashed rounded-md py-3 px-10 justify-center items-center flex mx-auto transition-all ease-in-out duration-200 text-[#ffffff66] hover:text-white"
+              onClick={openAddResourceModal}
+            >
+              <HiOutlinePlus size={15} />
+            </button>
+          </TooltipComponent>
+        </ul>
+      </div>
 
-        <button type="submit">Add Data</button>
-      </form>
+      {/* Add Resource Modal */}
+      <ResourceModal
+        isAddResourceModalOpen={isAddResourceModalOpen}
+        closeAddResourceModal={closeAddResourceModal}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        formData={formData}
+        folderId={folderId}
+      />
     </>
   );
 }

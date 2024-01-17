@@ -1,4 +1,10 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Settings from "./pages/Settings";
 import Help from "./pages/Help";
@@ -10,7 +16,7 @@ import Account from "./pages/Account";
 import ToDoList from "./pages/TasksTracker";
 import Resources from "./pages/Resources";
 import Calendar from "./pages/Calendar";
-import { Toaster } from "react-hot-toast"; // npm i react-hot-toast (you can check the docs for more customization options)
+import toast, { Toaster } from "react-hot-toast"; // npm i react-hot-toast (you can check the docs for more customization options)
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ResourcesList from "./ui/ResourcesList";
@@ -28,10 +34,24 @@ export default function App() {
 
   const [folderId, setFolderId] = useState("");
 
-  // const [isAddResourceModalOpen, setIsAddResourceModalOpen] = useState(false);
-
   const initialData = { name: "", logoUrl: "", url: "" };
   const [formData, setFormData] = useState(initialData);
+
+  const [isAddResourceModalOpen, setIsAddResourceModalOpen] = useState(false);
+
+  const openAddResourceModal = () => {
+    setIsAddResourceModalOpen(true);
+  };
+
+  const closeAddResourceModal = () => {
+    setIsAddResourceModalOpen(false);
+  };
+
+  const navigate = useNavigate();
+
+  const handleCloseList = () => {
+    navigate("/resources");
+  };
 
   //! Fetch tasks data
   useEffect(() => {
@@ -118,6 +138,7 @@ export default function App() {
     fetchData();
   }, []);
 
+  //! Fetch resources data for each folder
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -137,106 +158,131 @@ export default function App() {
     setResourcesData((prevDataList) => [...prevDataList, newData]);
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
-  // const openAddResourceModal = () => {
-  //   setIsAddResourceModalOpen(true);
-  // };
-
-  // const closeAddResourceModal = () => {
-  //   setIsAddResourceModalOpen(false);
-  // };
-
+  //! Add data to a folder
   const handleSubmit = async (e, folderId) => {
     e.preventDefault();
     try {
-      setError(null);
-  
-      // Update the URL to match your backend API
+      if (!formData.name || !formData.logoUrl || !formData.url) {
+        setError("Please fill in all fields.");
+        toast.error("Please fill in all fields.");
+        return;
+      }
+
       const response = await axios.post(
         `${BACKEND_URL}/resources/${folderId}`,
         formData
       );
-  
-      handleAddData(response.data); // Pass the new data back to the parent component
-      setFormData(initialData); // Reset form after successful submission
+
+      if (response.status === 200) {
+        handleAddData(response.data); // Pass the new data back to the parent component
+        setFormData(initialData); // Reset form after successful submission
+
+        closeAddResourceModal(); // Close the modal
+        toast.success("Resource added successfully!");
+      } else {
+        toast.error("Failed to add the resource");
+      }
     } catch (error) {
       console.error("Error submitting form:", error);
       setError("Error submitting form. Please try again."); // Display a generic error message
+      toast.error("Error submitting form. Please try again.");
     }
   };
-  
+
+  //! Delete data from a folder
+  const handleDeleteData = async (dataId, folderId) => {
+    try {
+      const response = await axios.delete(
+        `${BACKEND_URL}/resources/${folderId}/${dataId}`
+      );
+
+      if (response.status === 200) {
+        setResourcesData((prevDataList) =>
+          prevDataList.filter((data) => data._id !== dataId)
+        );
+
+        toast.success("Resource deleted successfully!");
+      } else {
+        toast.error("Failed to delete the resource");
+      }
+    } catch (error) {
+      console.error("Error deleting data:", error);
+      setError("Error deleting data. Please try again.");
+      toast.error("Error deleting data. Please try again.");
+    }
+  };
 
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route element={<AppLayout tasksData={tasksData} />}>
-            {/* Dashboard */}
-            <Route index element={<Navigate replace to="dashboard" />} />
-            <Route
-              path="dashboard"
-              element={<Dashboard tasksDataChart={tasksDataChart} />}
-            />
+      <Routes>
+        <Route element={<AppLayout tasksData={tasksData} />}>
+          {/* Dashboard */}
+          <Route index element={<Navigate replace to="dashboard" />} />
+          <Route
+            path="dashboard"
+            element={<Dashboard tasksDataChart={tasksDataChart} />}
+          />
 
-            {/* Resources */}
-            <Route
-              path="resources"
-              element={
-                <Resources
-                  resourcesData={resourcesData}
-                  setResourcesData={setResourcesData}
-                />
-              }
-            />
-            {resourcesData.map((resource) => (
-              <Route
-                key={resource._id}
-                path={resource.path}
-                element={
-                  <ResourcesList
-                    resourcesData={resource.data}
-                    handleSubmit={handleSubmit}
-                    formData={formData}
-                    handleChange={handleChange}
-                    folderId={resource._id}
-                  />
-                }
+          {/* Resources */}
+          <Route
+            path="resources"
+            element={
+              <Resources
+                resourcesData={resourcesData}
+                setResourcesData={setResourcesData}
               />
-            ))}
-
-            {/* Apps */}
-            <Route path="apps/coding-tracker" element={<Tracker />} />
+            }
+          />
+          {resourcesData.map((resource) => (
             <Route
-              path="apps/tasks-tracker"
+              key={resource._id}
+              path={resource.path}
               element={
-                <ToDoList
-                  tasksData={tasksData}
-                  setTasksData={setTasksData}
-                  tasksDataChart={tasksDataChart}
-                  setTasksDataChart={setTasksDataChart}
-                  savedTasks={savedTasks}
-                  setSavedTasks={setSavedTasks}
-                  chartHistory={chartHistory}
-                  setChartHistory={setChartHistory}
+                <ResourcesList
+                  resourcesDataName={resource.name}
+                  resourcesDataData={resource.data}
+                  handleSubmit={handleSubmit}
+                  formData={formData}
+                  setFormData={setFormData}
+                  folderId={resource._id}
+                  handleCloseList={handleCloseList}
+                  handleDeleteData={handleDeleteData}
+                  isAddResourceModalOpen={isAddResourceModalOpen}
+                  openAddResourceModal={openAddResourceModal}
+                  closeAddResourceModal={closeAddResourceModal}
                 />
               }
             />
-            <Route path="apps/calendar" element={<Calendar />} />
+          ))}
 
-            {/* Settings */}
-            <Route path="help" element={<Help />} />
-            <Route path="account" element={<Account />} />
-            <Route path="settings" element={<Settings />} />
-          </Route>
+          {/* Apps */}
+          <Route path="apps/coding-tracker" element={<Tracker />} />
+          <Route
+            path="apps/tasks-tracker"
+            element={
+              <ToDoList
+                tasksData={tasksData}
+                setTasksData={setTasksData}
+                tasksDataChart={tasksDataChart}
+                setTasksDataChart={setTasksDataChart}
+                savedTasks={savedTasks}
+                setSavedTasks={setSavedTasks}
+                chartHistory={chartHistory}
+                setChartHistory={setChartHistory}
+              />
+            }
+          />
+          <Route path="apps/calendar" element={<Calendar />} />
 
-          <Route path="login" element={<Login />} />
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      </BrowserRouter>
+          {/* Settings */}
+          <Route path="help" element={<Help />} />
+          <Route path="account" element={<Account />} />
+          <Route path="settings" element={<Settings />} />
+        </Route>
+
+        <Route path="login" element={<Login />} />
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
 
       <Toaster
         position="top-center"

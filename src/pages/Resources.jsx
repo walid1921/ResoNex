@@ -1,7 +1,5 @@
 import { HiOutlineFolder } from "react-icons/hi";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import axios from "axios";
 
 import {
   Briefcase,
@@ -22,8 +20,6 @@ import {
   Type,
   Wand2,
 } from "lucide-react";
-import AddResource from "../ui/buttons/AddResource";
-import ResourceModal from "../ui/ResourceModal";
 
 function Resources({ resourcesData, setResourcesData }) {
   
@@ -61,24 +57,13 @@ function Resources({ resourcesData, setResourcesData }) {
                   <PersonStanding size={50} />
                 )}
                 {resource.icon === "Type" && <Type size={50} />}
-                {resource.icon === "Wand2" && <Wand2 size={50} />}
+                {resource.icon === "Wand2" && <Wand2 size={50} color="red" />}
                 <span>{resource.name}</span>
               </div>
             </Link>
           </li>
         ))}
       </ul>
-
-      
-
-      {/* <ResourceModal
-        closeAddResourceModal={closeAddResourceModal}
-        openAddResourceModal={openAddResourceModal}
-        folderId={folderId}
-        onAddData={handleAddData}
-      /> */}
-
-      {/* <AddResource openAddResourceModal={openAddResourceModal} /> */}
     </>
   );
 }
