@@ -23,9 +23,8 @@ function ResourcesList({
   setFormData,
   isAddResourceModalOpen,
   openAddResourceModal,
-  closeAddResourceModal
+  closeAddResourceModal,
 }) {
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -35,37 +34,37 @@ function ResourcesList({
     <>
       <div className=" flex items-center gap-3 mb-10">
         <HiOutlineFolder size={25} />
-        <h2 className="text-2xl font-semibold">{resourcesDataName}</h2>
+        <h2 className="text-2xl font-semibold  bg-gradient-to-r from-white to-[#a5a5a5] bg-clip-text text-transparent">
+          {resourcesDataName}
+        </h2>
       </div>
-
-      <div className="flex gap-6">
-        <button
-          onClick={handleCloseList}
-          className="hover:text-[#3a6df0] cursor-pointer text-[#e2e2e2] opacity-50 hover:opacity-100 transition-all ease-in-out duration-300"
-        >
-          <HiArrowCircleLeft size={30} />
-        </button>
-
+      <button
+        onClick={handleCloseList}
+        className="hover:text-[#3a6df0] cursor-pointer text-[#e2e2e2] opacity-50 hover:opacity-100 transition-all ease-in-out duration-300"
+      >
+        <HiArrowCircleLeft size={30} />
+      </button>
+      <div className="flex gap-6 mt-5">
         <ul className="flex items-center flex-wrap gap-5">
           {resourcesDataData &&
             resourcesDataData.map((resource) => (
               <li
                 key={resource._id}
-                className="flex items-center gap-5 bg-[rgba(148,163,184,0.26)] hover:bg-[rgba(58,111,240,0.2)] hover:border-[rgba(58,111,240,0.5)] hover:text-[#bbb] rounded-lg border border-slate-400 transition-all ease-in-out duration-300 px-4 py-1"
+                className="relative flex items-center gap-5 bg-[rgba(148,163,184,0.26)] hover:bg-[rgba(58,111,240,0.2)] hover:border-[rgba(58,111,240,0.5)] rounded-lg border border-slate-400 transition-all ease-in-out duration-300 px-4 py-2"
               >
                 <Link
                   to={resource.url}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <div className="flex justify-center items-center gap-4  ">
+                  <div className="flex justify-center items-center  ">
                     <img
-                      className="h-8 rounded-full"
+                      className="h-8 w-8 rounded-full object-cover object-center"
                       src={resource.logoUrl}
                       alt=""
                     />
 
-                    <span>{resource.name}</span>
+                    <span className="mx-5">{resource.name}</span>
                   </div>
                 </Link>
 
@@ -74,10 +73,10 @@ function ResourcesList({
                   position="TopCenter"
                   offsetY={-5}
                   animation={TooltipAnimation}
-                  className="flex items-center justify-normal"
+                  className="absolute top-[2px] right-[2px]"
                 >
                   <button
-                    className="bg-[#ff4d4dad] hover:bg-[#c6141d9d] rounded-full p-[2px]"
+                    className="bg-[#ff4d4dad] hover:bg-[#c6141d9d] rounded-full"
                     onClick={() => {
                       console.log(resource._id);
                       handleDeleteData(resource._id, folderId);
@@ -96,13 +95,27 @@ function ResourcesList({
             animation={TooltipAnimation}
           >
             <button
-              className="border border-[#ffffff66] hover:border-white  border-dashed rounded-md py-3 px-10 justify-center items-center flex mx-auto transition-all ease-in-out duration-200 text-[#ffffff66] hover:text-white"
+              className="border border-[#ffffff66] hover:border-white  border-dashed rounded-md py-4 px-10 justify-center items-center flex mx-auto transition-all ease-in-out duration-200 text-[#ffffff66] hover:text-white"
               onClick={openAddResourceModal}
             >
               <HiOutlinePlus size={15} />
             </button>
           </TooltipComponent>
         </ul>
+      </div>
+
+      <div className="h-[60%] flex justify-center items-center">
+        {resourcesDataData.length === 0 && (
+          <div
+            className={`text-md text-center font-light px-6 py-6 border bg-[rgba(148,163,184,0.24)] border-[rgba(58,111,240,0.5)]  text-[#ffffff6f] rounded-md`}
+          >
+            Start by Adding New Resources in{" "}
+            <span className=" text-xl font-semibold  bg-gradient-to-r from-white to-[#a5a5a5] bg-clip-text text-transparent">
+              {resourcesDataName}
+            </span>{" "}
+            Folder
+          </div>
+        )}
       </div>
 
       {/* Add Resource Modal */}

@@ -647,9 +647,12 @@ function TasksTracker({
       />
 
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-semibold flex items-center gap-3">
-          <HiOutlineClipboardList size={25} /> Task Tracker
-        </h2>
+        <div className=" flex items-center gap-3 mb-10">
+          <HiOutlineClipboardList size={25} />
+          <h2 className="text-2xl font-semibold  bg-gradient-to-r from-white to-[#a5a5a5] bg-clip-text text-transparent">
+            Tasks Tracker
+          </h2>
+        </div>
 
         <div className="flex items-center gap-5">
           <ChartHistoryBtn openChartHistoryModal={openChartHistoryModal} />
