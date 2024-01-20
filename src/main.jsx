@@ -4,6 +4,7 @@ import "./index.css";
 import "./tailwind-dark.css";
 import { ContextProvider } from "./contexts/ContextProvider.jsx";
 import { BrowserRouter } from "react-router-dom";
+import { AuthProvider } from "./contexts/authContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <>
@@ -15,14 +16,16 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       />
     </video>
 
-    <ContextProvider>
-      <BrowserRouter>
-        <App />{" "}
-        {/* didn't use strict mode so that syncfusion components work */}
-      </BrowserRouter>
-    </ContextProvider>
-
-    {/* <React.StrictMode> 
+    <AuthProvider>
+      <ContextProvider>
+        <BrowserRouter>
+          <App />{" "}
+          {/* didn't use strict mode so that syncfusion calendar component works */}
+        </BrowserRouter>
+      </ContextProvider>
+    </AuthProvider>
+    {/* 
+    <React.StrictMode>
       <App />
     </React.StrictMode> */}
   </>

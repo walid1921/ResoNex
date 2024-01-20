@@ -16,6 +16,7 @@ import {
 import { HiOutlineChartSquareBar } from "react-icons/hi";
 import { NavLink } from "react-router-dom";
 import useCalendarAPI from "../services/CalendarAPI";
+import { useAuth } from "../contexts/authContext";
 
 const Navbar = ({ tasksData }) => {
   const { calendarData } = useCalendarAPI();
@@ -68,6 +69,17 @@ const Navbar = ({ tasksData }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isResourcesExpanded, isAppsExpanded]);
+
+
+  const { logout } = useAuth();
+
+  function handleLogout() {
+    logout()
+  }
+
+  // useEffect(() => {
+  //   if (isAuthenticated) navigate("/dashboard");
+  // }, [isAuthenticated, navigate]);
 
   return (
     <nav className="h-full py-4">
@@ -193,6 +205,7 @@ const Navbar = ({ tasksData }) => {
           <li>
             <NavLink
               to="/login"
+              onClick={handleLogout}  
               className="flex items-center text-slate-200 gap-3  py-2 px-4 hover:bg-[#0c0f194d] hover:text-[#3a6df0] transition-all ease-in-out duration-150"
             >
               <HiOutlineLogout size={20} className="origin-center rotate-180" />

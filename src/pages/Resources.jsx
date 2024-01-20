@@ -5,6 +5,7 @@ import { SiGmail } from "react-icons/si";
 import { FaGithub, FaYoutube, FaLinkedin } from "react-icons/fa";
 import { MdGTranslate } from "react-icons/md";
 import { BsGoogle } from "react-icons/bs";
+import Spinner from "../ui/Spinner";
 
 import {
   Briefcase,
@@ -76,14 +77,17 @@ const resourcesFastAccess = [
   },
 ];
 
-function Resources({ resourcesData, setResourcesData }) {
+function Resources({ resourcesData, setResourcesData, isLoading }) {
+  const resourcesNum = resourcesData.map((resource) => resource.data.length).reduce((a, b) => a + b, 0);
+
+
   return (
     <div className="flex flex-col gap-20  h-full">
       <div className="flex flex-col gap-8">
         <div className="flex items-center gap-3">
           <HiOutlineFolder size={25} />
           <h2 className="text-2xl font-semibold  bg-gradient-to-r from-white to-[#a5a5a5] bg-clip-text text-transparent">
-            Resources
+            {resourcesNum} Resources
           </h2>
         </div>
 
@@ -113,6 +117,8 @@ function Resources({ resourcesData, setResourcesData }) {
         </ul>
       </div>
 
+
+      {isLoading && <Spinner />}
       <ul className="flex justify-center flex-wrap gap-5">
         {resourcesData.map((resource) => (
           <li key={resource._id}>

@@ -10,7 +10,7 @@ function Sidebar({tasksData}) {
   return (
     <>
       {activeMenu ?
-       <AsideBig tasksData={tasksData} /> 
+       <AsideBig tasksData={tasksData}  /> 
        : 
        <AsideSmall />
        }

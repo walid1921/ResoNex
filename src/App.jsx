@@ -1,10 +1,4 @@
-import {
-  BrowserRouter,
-  Navigate,
-  Route,
-  Routes,
-  useNavigate,
-} from "react-router-dom";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Settings from "./pages/Settings";
 import Help from "./pages/Help";
@@ -17,19 +11,21 @@ import ToDoList from "./pages/TasksTracker";
 import Resources from "./pages/Resources";
 import Calendar from "./pages/Calendar";
 import toast, { Toaster } from "react-hot-toast"; // npm i react-hot-toast (you can check the docs for more customization options)
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import ResourcesList from "./ui/ResourcesList";
+import PrivateRoute from "./pages/PrivateRoute";
+
+// react-progress-bar / react-progress-bar-plus / react-circular-progressbar
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 export default function App() {
+  const [username, setUsername] = useState("walidka");
+  const [password, setPassword] = useState("1234567");
+
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [tasksData, setTasksData] = useState([]);
-  const [savedTasks, setSavedTasks] = useState([]);
-  const [tasksDataChart, setTasksDataChart] = useState([]);
-  const [chartHistory, setChartHistory] = useState([]);
   const [resourcesData, setResourcesData] = useState([]);
 
   const [folderId, setFolderId] = useState("");
@@ -53,77 +49,10 @@ export default function App() {
     navigate("/resources");
   };
 
-  //! Fetch tasks data
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${BACKEND_URL}/tasks`);
-        setTasksData(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setError(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  //! Fetch savedTasks
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${BACKEND_URL}/savedTasks`);
-        setSavedTasks(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setError(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  //! Fetch tasks data for chart
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${BACKEND_URL}/percentages`);
-        setTasksDataChart(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setError(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  //! Fetch chart History
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${BACKEND_URL}/chartHistory`);
-        setChartHistory(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setError(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
   //! Fetch resources data
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       try {
         const response = await axios.get(`${BACKEND_URL}/resources`);
         setResourcesData(response.data);
@@ -139,20 +68,22 @@ export default function App() {
   }, []);
 
   //! Fetch resources data for each folder
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5001/api/resources/${folderId}`
-        );
-        setResourcesData(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
 
-    fetchData();
-  }, [folderId, setResourcesData]); // Trigger the fetch when folderId changes
+  const fetchResourcesData = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(`${BACKEND_URL}/resources/${folderId}`);
+      setResourcesData(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [folderId]);
+
+  useEffect(() => {
+    fetchResourcesData();
+  }, [fetchResourcesData]); // Trigger the fetch when folderId changes
 
   const handleAddData = (newData) => {
     setResourcesData((prevDataList) => [...prevDataList, newData]);
@@ -177,6 +108,7 @@ export default function App() {
         handleAddData(response.data); // Pass the new data back to the parent component
         setFormData(initialData); // Reset form after successful submission
 
+        fetchResourcesData(); // Fetch the data again to update the list
         closeAddResourceModal(); // Close the modal
         toast.success("Resource added successfully!");
       } else {
@@ -201,6 +133,7 @@ export default function App() {
           prevDataList.filter((data) => data._id !== dataId)
         );
 
+        fetchResourcesData(); // Fetch the data again to update the list
         toast.success("Resource deleted successfully!");
       } else {
         toast.error("Failed to delete the resource");
@@ -215,13 +148,16 @@ export default function App() {
   return (
     <>
       <Routes>
-        <Route element={<AppLayout tasksData={tasksData} />}>
+        <Route
+          element={
+            <PrivateRoute>
+              <AppLayout />
+            </PrivateRoute>
+          }
+        >
           {/* Dashboard */}
           <Route index element={<Navigate replace to="dashboard" />} />
-          <Route
-            path="dashboard"
-            element={<Dashboard tasksDataChart={tasksDataChart} />}
-          />
+          <Route path="dashboard" element={<Dashboard />} />
 
           {/* Resources */}
           <Route
@@ -230,6 +166,7 @@ export default function App() {
               <Resources
                 resourcesData={resourcesData}
                 setResourcesData={setResourcesData}
+                isLoading={isLoading}
               />
             }
           />
@@ -250,6 +187,7 @@ export default function App() {
                   isAddResourceModalOpen={isAddResourceModalOpen}
                   openAddResourceModal={openAddResourceModal}
                   closeAddResourceModal={closeAddResourceModal}
+                  isLoading={isLoading}
                 />
               }
             />
@@ -257,21 +195,7 @@ export default function App() {
 
           {/* Apps */}
           <Route path="apps/coding-tracker" element={<Tracker />} />
-          <Route
-            path="apps/tasks-tracker"
-            element={
-              <ToDoList
-                tasksData={tasksData}
-                setTasksData={setTasksData}
-                tasksDataChart={tasksDataChart}
-                setTasksDataChart={setTasksDataChart}
-                savedTasks={savedTasks}
-                setSavedTasks={setSavedTasks}
-                chartHistory={chartHistory}
-                setChartHistory={setChartHistory}
-              />
-            }
-          />
+          <Route path="apps/tasks-tracker" element={<ToDoList />} />
           <Route path="apps/calendar" element={<Calendar />} />
 
           {/* Settings */}

@@ -1,7 +1,9 @@
 import { HiOutlineChip } from "react-icons/hi";
 import LineChart from "../ui/LineChart";
+import useTaskAPI from "../services/TaskAPI";
 
-const Dashboard = ({ tasksDataChart }) => {
+const Dashboard = () => {
+  const { tasksDataChart } = useTaskAPI();
   return (
     <div>
       <div className=" flex items-center gap-3 mb-10">

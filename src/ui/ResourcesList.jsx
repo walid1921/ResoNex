@@ -7,6 +7,7 @@ import {
 } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import ResourceModal from "./ResourceModal";
+import Spinner from "../ui/Spinner";
 
 let TooltipAnimation = {
   open: { effect: "FadeIn", duration: 300, delay: 0 },
@@ -24,18 +25,21 @@ function ResourcesList({
   isAddResourceModalOpen,
   openAddResourceModal,
   closeAddResourceModal,
+  isLoading,
 }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
+  const folderLength = resourcesDataData.length;
 
   return (
     <>
       <div className=" flex items-center gap-3 mb-10">
         <HiOutlineFolder size={25} />
         <h2 className="text-2xl font-semibold  bg-gradient-to-r from-white to-[#a5a5a5] bg-clip-text text-transparent">
-          {resourcesDataName}
+          {resourcesDataName}{" "}
+          <span className="text-[16px]">({folderLength})</span>
         </h2>
       </div>
       <button
@@ -44,65 +48,70 @@ function ResourcesList({
       >
         <HiArrowCircleLeft size={30} />
       </button>
-      <div className="flex gap-6 mt-5">
-        <ul className="flex items-center flex-wrap gap-5">
-          {resourcesDataData &&
-            resourcesDataData.map((resource) => (
-              <li
-                key={resource._id}
-                className="relative flex items-center gap-5 bg-[rgba(148,163,184,0.26)] hover:bg-[rgba(58,111,240,0.2)] hover:border-[rgba(58,111,240,0.5)] rounded-lg border border-slate-400 transition-all ease-in-out duration-300 px-4 py-2"
-              >
-                <Link
-                  to={resource.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <div className="flex justify-center items-center  ">
-                    <img
-                      className="h-8 w-8 rounded-full object-cover object-center"
-                      src={resource.logoUrl}
-                      alt=""
-                    />
 
-                    <span className="mx-5">{resource.name}</span>
-                  </div>
-                </Link>
-
-                <TooltipComponent
-                  content="Delete"
-                  position="TopCenter"
-                  offsetY={-5}
-                  animation={TooltipAnimation}
-                  className="absolute top-[2px] right-[2px]"
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <div className="flex gap-6 mt-5">
+          <ul className="flex items-center flex-wrap gap-5">
+            {resourcesDataData &&
+              resourcesDataData.map((resource) => (
+                <li
+                  key={resource._id}
+                  className="relative flex items-center gap-5 bg-[rgba(148,163,184,0.26)] hover:bg-[rgba(58,111,240,0.2)] hover:border-[rgba(58,111,240,0.5)] rounded-lg border border-slate-400 transition-all ease-in-out duration-300 px-4 py-2"
                 >
-                  <button
-                    className="bg-[#ff4d4dad] hover:bg-[#c6141d9d] rounded-full"
-                    onClick={() => {
-                      console.log(resource._id);
-                      handleDeleteData(resource._id, folderId);
-                    }}
+                  <Link
+                    to={resource.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    <HiOutlineMinusSm size={15} />
-                  </button>
-                </TooltipComponent>
-              </li>
-            ))}
+                    <div className="flex justify-center items-center  ">
+                      <img
+                        className="h-8 w-8 rounded-full object-cover object-center"
+                        src={resource.logoUrl}
+                        alt=""
+                      />
 
-          <TooltipComponent
-            content="Add"
-            position="TopCenter"
-            offsetY={-5}
-            animation={TooltipAnimation}
-          >
-            <button
-              className="border border-[#ffffff66] hover:border-white  border-dashed rounded-md py-4 px-10 justify-center items-center flex mx-auto transition-all ease-in-out duration-200 text-[#ffffff66] hover:text-white"
-              onClick={openAddResourceModal}
+                      <span className="mx-5">{resource.name}</span>
+                    </div>
+                  </Link>
+
+                  <TooltipComponent
+                    content="Delete"
+                    position="TopCenter"
+                    offsetY={-5}
+                    animation={TooltipAnimation}
+                    className="absolute top-[2px] right-[2px]"
+                  >
+                    <button
+                      className="bg-[#ff4d4dad] hover:bg-[#c6141d9d] rounded-full"
+                      onClick={() => {
+                        console.log(resource._id);
+                        handleDeleteData(resource._id, folderId);
+                      }}
+                    >
+                      <HiOutlineMinusSm size={15} />
+                    </button>
+                  </TooltipComponent>
+                </li>
+              ))}
+
+            <TooltipComponent
+              content="Add"
+              position="TopCenter"
+              offsetY={-5}
+              animation={TooltipAnimation}
             >
-              <HiOutlinePlus size={15} />
-            </button>
-          </TooltipComponent>
-        </ul>
-      </div>
+              <button
+                className="border border-[#ffffff66] hover:border-white  border-dashed rounded-md py-4 px-10 justify-center items-center flex mx-auto transition-all ease-in-out duration-200 text-[#ffffff66] hover:text-white"
+                onClick={openAddResourceModal}
+              >
+                <HiOutlinePlus size={15} />
+              </button>
+            </TooltipComponent>
+          </ul>
+        </div>
+      )}
 
       <div className="h-[60%] flex justify-center items-center">
         {resourcesDataData.length === 0 && (

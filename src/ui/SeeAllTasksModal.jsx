@@ -63,7 +63,7 @@ function SeeAllTasksModal({
             ) : (
               savedTasks.map((task) => (
                 <div
-                  key={task.id}
+                  key={task._id}
                   className="flex flex-col justify-center mt-8"
                 >
                   <div className="flex justify-center gap-5 border-b pb-4 border-slate-400 text-slate-400">
@@ -83,7 +83,7 @@ function SeeAllTasksModal({
                   <div className="flex justify-center mb-2 flex-col text-center">
                     {task.tasks.map((task) => (
                       <div
-                        key={task.id}ß
+                        key={task._id}
                         className="flex justify-between mt-4 mx-5 text-sm"
                       >
                         <p>{task.title}</p>
