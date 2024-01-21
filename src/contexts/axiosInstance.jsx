@@ -19,7 +19,7 @@ const axiosInstance = axios.create({
     (config) => {
       const token = localStorage.getItem('token');
 
-      console.log("token", token)
+      // console.log("token", token)
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }

@@ -14,21 +14,22 @@ import EditTaskModal from "../ui/EditTaskModal";
 import DetailsTaskModal from "../ui/DetailsTaskModal";
 import DeleteAllTasksModal from "../ui/DeleteAllTasksModal";
 import AddTaskModal from "../ui/AddTaskModal";
-import AddTaskBtn from "../ui/buttons/AddTaskBtn";
-import DeleteAllTasksBtn from "../ui/buttons/DeleteAllTasksBtn";
-import SortTasksBtn from "../ui/buttons/SortTasksBtn";
-import InfoTaskBtn from "../ui/buttons/InfoTaskBtn";
 import NoTasks from "../ui/NoTasks";
 import BarProgress from "../ui/BarProgress";
-import TaskStatus from "../ui/buttons/TaskStatus";
-import SaveBtn from "../ui/buttons/SaveBtn";
 import SaveTasksModal from "../ui/SaveTasksModal";
 import SeeAllTasksModal from "../ui/SeeAllTasksModal";
-import SeeAllTasksBtn from "../ui/buttons/SeeAllTasksBtn";
-import ChartHistoryBtn from "../ui/buttons/ChartHistoryBtn";
 import ChartHistory from "../ui/ChartHistoryModel";
-import SaveChart from "../ui/buttons/saveChart";
 import useTaskAPI from "../services/TaskAPI";
+
+import AddTaskBtn from "@ui/buttons/AddTaskBtn";
+import DeleteAllTasksBtn from "@ui/buttons/DeleteAllTasksBtn";
+import SortTasksBtn from "@ui/buttons/SortTasksBtn";
+import InfoTaskBtn from "@ui/buttons/InfoTaskBtn";
+import TaskStatus from "@ui/buttons/TaskStatus";
+import SaveBtn from "@ui/buttons/SaveBtn";
+import SeeAllTasksBtn from "@ui/buttons/SeeAllTasksBtn";
+import ChartHistoryBtn from "@ui/buttons/ChartHistoryBtn";
+import SaveChart from "@ui/buttons/saveChart";
 
 function TasksTracker() {
   //! All are in the TaskAPI.js File
