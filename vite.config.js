@@ -7,7 +7,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@ui': '/src/ui', // Adjust the path accordingly
+      '@ui': './src/ui', // Adjust the path accordingly
     },
   },
 })
