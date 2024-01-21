@@ -1,6 +1,9 @@
 import axios from "axios";
 import { createContext, useContext, useReducer } from "react";
 import toast from "react-hot-toast";
+import axiosInstance from "./axiosInstance";
+
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const AuthContext = createContext();
 
@@ -36,15 +39,22 @@ function AuthProvider({ children }) {
 
   const login = async (username, password) => {
     try {
-      const response = await axios.post(`http://localhost:5001/api/login`, {
+      const response = await axios.post(`${BACKEND_URL}/login`, {
         username,
         password,
       });
 
       const token = response.data.token; // the backend returns a token upon successful login
 
+      console.log("token", token);
+
       // save the token in localStorage or a state management solution
       localStorage.setItem("token", token);
+
+      // Set the token in axiosInstance immediately after saving to localStorage
+      axiosInstance.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${token}`;
 
       dispatch({ type: "login", payload: { username, token } });
       toast.success(`Welcome back ${username.toLocaleLowerCase()}`);
@@ -71,16 +81,52 @@ function AuthProvider({ children }) {
     }
   };
 
+  const register = async (username, password, email) => {
+    try {
+      const response = await axios.post(`${BACKEND_URL}/register`, {
+        username,
+        password,
+        email,
+      });
+
+      const token = response.data.token; // the backend returns a token upon successful login
+
+      console.log("token", token);
+
+      // save the token in localStorage or a state management solution
+      localStorage.setItem("token", token);
+
+      // Set the token in axiosInstance immediately after saving to localStorage
+      axiosInstance.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${token}`;
+
+      dispatch({ type: "login", payload: { username, token } });
+      toast.success(`Welcome ${username.toLocaleLowerCase()}`);
+    } catch (error) {
+      console.error("Error registering", error);
+
+      if (error.response) {
+        toast.error(error.response.data.message);
+      } else if (error.request) {
+        toast.error("No response received from the server.");
+      } else {
+        toast.error("Error setting up the request.");
+      }
+    }
+  }
+
   const logout = () => {
     // remove the token from localStorage or state management solution
     localStorage.removeItem("token");
 
     dispatch({ type: "logout" });
-
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, login, logout }}>
+    <AuthContext.Provider
+      value={{ user, isAuthenticated, login, logout, register }}
+    >
       {children}
     </AuthContext.Provider>
   );

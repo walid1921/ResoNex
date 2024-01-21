@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Route, Navigate, useNavigate } from "react-router-dom";
+import  { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/authContext";
 
 const PrivateRoute = ({ children }) => {

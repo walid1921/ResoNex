@@ -15,14 +15,14 @@ import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import ResourcesList from "./ui/ResourcesList";
 import PrivateRoute from "./pages/PrivateRoute";
+import { useAuth } from "./contexts/authContext";
 
 // react-progress-bar / react-progress-bar-plus / react-circular-progressbar
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 export default function App() {
-  const [username, setUsername] = useState("walidka");
-  const [password, setPassword] = useState("1234567");
+  const { isAuthenticated } = useAuth();
 
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -53,6 +53,7 @@ export default function App() {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
+      if (!isAuthenticated) return; // this is to prevent the app from making a request to the backend when the user is not logged in, because will return unauthorized error
       try {
         const response = await axios.get(`${BACKEND_URL}/resources`);
         setResourcesData(response.data);
@@ -65,12 +66,12 @@ export default function App() {
     };
 
     fetchData();
-  }, []);
+  }, [isAuthenticated]);
 
   //! Fetch resources data for each folder
-
   const fetchResourcesData = useCallback(async () => {
     setIsLoading(true);
+    if (!isAuthenticated) return; // this is to prevent the app from making a request to the backend when the user is not logged in, because will return unauthorized error
     try {
       const response = await axios.get(`${BACKEND_URL}/resources/${folderId}`);
       setResourcesData(response.data);
@@ -79,7 +80,7 @@ export default function App() {
     } finally {
       setIsLoading(false);
     }
-  }, [folderId]);
+  }, [folderId, isAuthenticated]);
 
   useEffect(() => {
     fetchResourcesData();
