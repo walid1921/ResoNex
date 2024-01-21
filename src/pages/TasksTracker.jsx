@@ -1,7 +1,7 @@
 import ToDoCard from "../ui/ToDoCard";
 import { HiOutlineClipboardList } from "react-icons/hi";
 // import { CircularProgressbar, buildStyles } from "react-circular-progressbar"; //npm install react-circular-progressbar
-import "react-circular-progressbar/dist/styles.css";
+// import "react-circular-progressbar/dist/styles.css";
 // import {Line} from "react-progress-bar"; // npm install react-progress-bar
 // import ProgressBar from "react-progress-bar-plus";
 // import "react-progress-bar-plus/lib/progress-bar.css";
