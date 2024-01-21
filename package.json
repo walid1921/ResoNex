@@ -22,6 +22,7 @@
     "@syncfusion/ej2-react-schedule": "^19.4.50",
     "axios": "^1.6.2",
     "chart.js": "^4.4.1",
+    "embla-carousel-react": "^8.0.0-rc19",
     "lucide-react": "^0.309.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

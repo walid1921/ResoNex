@@ -5,6 +5,8 @@ let TooltipAnimation = {
 };
 
 function TaskStatus({ numDoneTasks, numPendingTasks }) {
+
+  console.log(numDoneTasks, numPendingTasks)
   return (
     <div className="flex items-center gap-3 justify-end ">
       <TooltipComponent

@@ -39,7 +39,7 @@ function AuthProvider({ children }) {
 
   const login = async (username, password) => {
     try {
-      const response = await axios.post(`${BACKEND_URL}/login`, {
+      const response = await axios.post(`http://localhost:5001/api/login`, {
         username,
         password,
       });
@@ -114,7 +114,7 @@ function AuthProvider({ children }) {
         toast.error("Error setting up the request.");
       }
     }
-  }
+  };
 
   const logout = () => {
     // remove the token from localStorage or state management solution

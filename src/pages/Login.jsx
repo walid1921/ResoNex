@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/authContext";
 import PrimaryBtn from "../ui/buttons/PrimaryBtn";
 import SecondaryBtn from "../ui/buttons/SecondaryBtn";
+import { FaLinkedin } from "react-icons/fa";
+import { TooltipComponent } from "@syncfusion/ej2-react-popups";
+
+let TooltipAnimation = {
+  open: { effect: "FadeIn", duration: 300, delay: 0 },
+};
 
 const Login = () => {
   const [username, setUsername] = useState("walidka");
@@ -45,9 +51,21 @@ const Login = () => {
         <img src="../../public/logox.png" className="h-16 ml-10" alt="logo" />
         <div className="flex items-center gap-20">
           <ul className="flex items-center gap-10">
-            <li>About</li>
-            <li>About</li>
-            <li>About</li>
+            <Link>
+              <li className=" hover:text-white transition-all ease-in-out duration-200 cursor-pointer">
+                USER GUIDE
+              </li>
+            </Link>
+            <Link to={"/features"}>
+              <li className=" hover:text-white transition-all ease-in-out duration-200 cursor-pointer">
+                FEATURES
+              </li>
+            </Link>
+            <Link>
+              <li className=" hover:text-white transition-all ease-in-out duration-200 cursor-pointer">
+                ABOUT
+              </li>
+            </Link>
           </ul>
           <div className="flex gap-4">
             <PrimaryBtn text="Login" onClick={handleLoginForm} />
@@ -66,12 +84,16 @@ const Login = () => {
 
       {/* Login Form */}
       {loginForm && (
-        <div className=" mr-40  flex flex-col justify-center items-center h-[50%] w-[60%] gap-12 border bg-[rgba(148,163,184,0.26)] border-[#3a6ff080] text-[#ffffff6f] rounded-md">
-          <div className="text-3xl flex gap-2">
+        <div className=" mr-40  flex flex-col justify-center items-center h-[50%] w-[60%] gap-12 border bg-[rgba(148,163,184,0.26)] border-[#3a6ff080] text-[#ffffff6f]  rounded-md">
+          <div className="text-3xl flex items-center gap-4">
             <p className=" bg-gradient-to-r from-white to-[#a5a5a5] bg-clip-text text-transparent">
               Sign in to{" "}
             </p>
-            <span className="text-[#3a6df0]">ResoNex</span>
+            <img
+              src="../../public/ResoNex text.png"
+              className="h-6"
+              alt="logo text"
+            />
           </div>
 
           <form
@@ -105,11 +127,15 @@ const Login = () => {
       {/* Register Form */}
       {registerForm && (
         <div className=" mr-40  flex flex-col justify-center items-center h-[50%] w-[60%] gap-12 border bg-[rgba(148,163,184,0.26)] border-[#3a6ff080] text-[#ffffff6f] rounded-md">
-          <div className="text-3xl flex gap-2">
+          <div className="text-3xl flex items-center gap-4">
             <p className=" bg-gradient-to-r from-white to-[#a5a5a5] bg-clip-text text-transparent">
               Register to{" "}
             </p>
-            <span className="text-[#3a6df0]">ResoNex</span>
+            <img
+              src="../../public/ResoNex text.png"
+              className="h-6"
+              alt="logo text"
+            />
           </div>
 
           <form
@@ -146,6 +172,23 @@ const Login = () => {
           </form>
         </div>
       )}
+
+      <TooltipComponent
+        content="Creator LinkedIn"
+        position="TopCenter"
+        offsetY={-5}
+        animation={TooltipAnimation}
+        className="absolute bottom-6 right-6"
+      >
+        <Link
+          to="https://www.linkedin.com/in/walid-kouider-ayad-487902218"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex border opacity-50 hover:opacity-100 border-[#ffffff] hover:border-white rounded-full p-3 mx-auto transition-all ease-in-out duration-200 text-[#ffffff] hover:text-white"
+        >
+          <FaLinkedin size={20} />
+        </Link>
+      </TooltipComponent>
     </div>
   );
 };
