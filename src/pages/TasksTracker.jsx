@@ -1,11 +1,10 @@
 import ToDoCard from "../ui/ToDoCard";
-import { useState, useEffect } from "react";
 import { HiOutlineClipboardList } from "react-icons/hi";
 // import { CircularProgressbar, buildStyles } from "react-circular-progressbar"; //npm install react-circular-progressbar
 import "react-circular-progressbar/dist/styles.css";
 // import {Line} from "react-progress-bar"; // npm install react-progress-bar
-import ProgressBar from "react-progress-bar-plus";
-import "react-progress-bar-plus/lib/progress-bar.css";
+// import ProgressBar from "react-progress-bar-plus";
+// import "react-progress-bar-plus/lib/progress-bar.css";
 import BarChart from "../ui/BarChart";
 import LineChart from "../ui/LineChart";
 import Spinner from "../ui/Spinner";
@@ -99,11 +98,11 @@ function TasksTracker() {
 
   return (
     <div>
-      <ProgressBar
+      {/* <ProgressBar
         className=" px-3 pt-[2px] rounded-md"
         percent={loading}
         autoIncrement
-      />
+      /> */}
 
       <div className="flex justify-between items-center">
         <div className=" flex items-center gap-3 mb-10">
