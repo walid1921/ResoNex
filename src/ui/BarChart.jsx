@@ -10,14 +10,6 @@ function BarChart({ tasksDataChart }) {
   useEffect(() => {
     const ctx = chartRef.current.getContext("2d");
 
-    if (tasksDataChart.length === 0) {
-      // Handle empty data, for example, display a message
-      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-      ctx.font = "16px Arial";
-      ctx.fillText("No data available", 10, 50);
-      return;
-    }
-
     if (chartInstance.current) {
       chartInstance.current.destroy();
     }
@@ -73,7 +65,7 @@ function BarChart({ tasksDataChart }) {
     });
   }, [tasksDataChart]);
 
-  return <canvas ref={chartRef} />;
+  return <canvas ref={chartRef}  />;
 }
 
 export default BarChart;

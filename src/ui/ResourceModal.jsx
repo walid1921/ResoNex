@@ -2,6 +2,8 @@ import Modal from "react-modal";
 import PrimaryBtn from "./buttons/PrimaryBtn";
 import SecondaryBtn from "./buttons/SecondaryBtn";
 
+
+
 function ResourceModal({
   isAddResourceModalOpen,
   closeAddResourceModal,
@@ -54,7 +56,6 @@ function ResourceModal({
           name="logoUrl"
           value={formData.logoUrl}
           onChange={handleChange}
-          required
         />
 
         <label className="mt-8">URL:</label>

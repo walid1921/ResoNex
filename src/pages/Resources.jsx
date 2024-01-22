@@ -43,7 +43,7 @@ function Resources({ resourcesData, isLoading, resourcesFastAccess }) {
           </h2>
         </div>
 
-        <ul className="flex gap-5 items-center">
+        <ul className="flex gap-5 items-center ">
           {resourcesFastAccess.map((resource) => (
             <TooltipComponent
               content={resource.name}
@@ -70,11 +70,12 @@ function Resources({ resourcesData, isLoading, resourcesFastAccess }) {
       </div>
 
       {isLoading && <Spinner />}
-      <ul className="flex justify-center flex-wrap gap-5">
+      <ul className="flex justify-center flex-wrap gap-5 ">
         {resourcesData.map((resource) => (
           <li key={resource._id}>
             <Link to={resource.path}>
-              <div className="flex flex-col justify-center items-center gap-6 w-[180px] h-[130px] bg-[rgba(148,163,184,0.26)] hover:bg-[rgba(58,111,240,0.2)] hover:border-[rgba(58,111,240,0.5)] rounded-lg border border-slate-400 transition-all ease-in-out duration-300">
+              {/* w-[180px] h-[130px] */}
+              <div className="flex flex-col justify-center items-center gap-6 w-[140px] h-[115px]  bg-[rgba(148,163,184,0.26)] hover:bg-[rgba(58,111,240,0.2)] hover:border-[rgba(58,111,240,0.5)] rounded-lg border border-slate-400 transition-all ease-in-out duration-300">
                 {resource.icon === "Sparkles" && <Sparkles size={45} />}
                 {resource.icon === "Star" && <Star size={45} />}
                 {resource.icon === "Briefcase" && <Briefcase size={45} />}

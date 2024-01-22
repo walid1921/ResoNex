@@ -6,7 +6,7 @@ const featuresData = [
   {
     title: "Resources Storage",
     description:
-      "Easily store and manage your resources, files, and documents in a centralized location.",
+      "Explore our expanding repository of +1000 design resources, regularly updated for the community. Easily store and manage your resources, files, and documents in a centralized location.",
   },
   {
     title: "Tasks Tracker",
@@ -55,17 +55,18 @@ function Features() {
           <HiArrowCircleLeft size={40} />
         </Link>
 
-        <h2 className="text-4xl font-semibold bg-gradient-to-r from-white to-[#a5a5a5] bg-clip-text text-transparent">
+        <h2 className="text-4xl font-semibold bg-gradient-to-r from-white to-[#a5a5a5] bg-clip-text text-transparent animate-moveInTop">
           Features
         </h2>
 
-        <ul className="grid grid-cols-2 gap-10 w-[60%] mt-32 justify-center">
+        <ul className="grid grid-cols-2 gap-10 w-[90%] h-[70%] mt-14 justify-center animate-moveInLeft">
           {featuresData.map((feature, index) => (
             <li key={index} className="flex gap-4 mx-10">
-              <HiCheckCircle size={35} color="#3a6ef0cb" />
               <div className="flex flex-col  gap-2">
                 <div className="flex items-center gap-3">
-                  <h3 className="font-semibold text-xl bg-gradient-to-r from-white to-[#a5a5a5] bg-clip-text text-transparent">
+                  <h3 className="font-semibold text-xl bg-gradient-to-r from-white to-[#a5a5a5] bg-clip-text text-transparent flex gap-2 ">
+                    <HiCheckCircle size={25} color="#3a6ef0cb" />
+
                     {feature.title}
                   </h3>
                   <span className="text-sm text-[#bbb]">{feature.status}</span>

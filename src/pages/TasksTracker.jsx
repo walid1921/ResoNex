@@ -119,7 +119,7 @@ function TasksTracker() {
         </div>
       </div>
 
-      <div className="mt-5 justify-center items-center h-[574px]  flex gap-10 ">
+      <div className="mt-5 justify-center items-center h-[500px] flex gap-10 ">
         <div className=" h-full w-[50%] rounded-md border border-slate-600">
           <div className="flex items-center justify-between  mt-5 mx-5 ">
             <div className="flex items-center justify-between w-full">
@@ -279,7 +279,7 @@ function TasksTracker() {
               />
             </div>
 
-            <div className="mt-8 mb-4 w-[600px] h-[300px]">
+            <div className="mt-8 mb-4 w-[480px] h-[250px]">
               {barsView ? (
                 <BarChart tasksDataChart={tasksDataChart} />
               ) : (

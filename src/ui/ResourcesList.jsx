@@ -49,11 +49,23 @@ function ResourcesList({
         <HiArrowCircleLeft size={30} />
       </button>
 
-      {isLoading ? (
+      {resourcesDataData.length === 0 ? (
+        <div className="h-[60%] flex justify-center items-center">
+          <div
+            className={`text-md text-center font-light px-6 py-6 border bg-[rgba(148,163,184,0.24)] border-[rgba(58,111,240,0.5)]  text-[#ffffff6f] rounded-md`}
+          >
+            Start by Adding New Resources in{" "}
+            <span className=" text-xl font-semibold  bg-gradient-to-r from-white to-[#a5a5a5] bg-clip-text text-transparent">
+              {resourcesDataName}
+            </span>{" "}
+            Folder
+          </div>
+        </div>
+      ) : isLoading ? (
         <Spinner />
       ) : (
-        <div className="flex gap-6 mt-5">
-          <ul className="flex items-center flex-wrap gap-5">
+        <div className="flex items-start gap-6 mt-5 ">
+          <ul className="flex items-center flex-wrap  gap-5 overflow-y-scroll custom-scrollbar h-[480px] ">
             {resourcesDataData &&
               resourcesDataData.map((resource) => (
                 <li
@@ -112,20 +124,6 @@ function ResourcesList({
           </ul>
         </div>
       )}
-
-      <div className="h-[60%] flex justify-center items-center">
-        {resourcesDataData.length === 0 && (
-          <div
-            className={`text-md text-center font-light px-6 py-6 border bg-[rgba(148,163,184,0.24)] border-[rgba(58,111,240,0.5)]  text-[#ffffff6f] rounded-md`}
-          >
-            Start by Adding New Resources in{" "}
-            <span className=" text-xl font-semibold  bg-gradient-to-r from-white to-[#a5a5a5] bg-clip-text text-transparent">
-              {resourcesDataName}
-            </span>{" "}
-            Folder
-          </div>
-        )}
-      </div>
 
       {/* Add Resource Modal */}
       <ResourceModal

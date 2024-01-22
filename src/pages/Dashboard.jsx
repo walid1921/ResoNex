@@ -14,8 +14,7 @@ let TooltipAnimation = {
 };
 
 const Dashboard = ({ resourcesData, resourcesFastAccess, isLoading }) => {
-  console.log(resourcesData)
-
+  console.log(resourcesData);
 
   const [clock, setClock] = useState(new Date().toLocaleTimeString());
 
@@ -44,8 +43,8 @@ const Dashboard = ({ resourcesData, resourcesFastAccess, isLoading }) => {
           Dashboard
         </h2>
       </div>
-      <div className="flex gap-7 h-full">
-        <div className="flex flex-col  gap-4 w-[35%]  px-5 py-8 border rounded-md border-slate-500 bg-[rgba(148,163,184,0.17)]">
+      <div className="flex gap-7">
+        <div className="flex flex-col  gap-4 w-[50%]   px-5 py-8 border rounded-md border-slate-500 bg-[rgba(148,163,184,0.17)]">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-semibold  bg-gradient-to-r from-white to-[#a5a5a5] bg-clip-text text-transparent">
               Progress Details
@@ -60,8 +59,8 @@ const Dashboard = ({ resourcesData, resourcesFastAccess, isLoading }) => {
           <BarChart tasksDataChart={tasksDataChart} />
         </div>
 
-        <div className="flex flex-col w-[62%] gap-10">
-          <div className="flex flex-col  gap-4 h-[60%]  px-5 py-8 border rounded-md border-slate-500 bg-[rgba(148,163,184,0.17)]">
+        <div className="flex flex-col w-[65%]  gap-10">
+          <div className="flex flex-col  gap-4  px-5 py-8 border rounded-md border-slate-500 bg-[rgba(148,163,184,0.17)]">
             <div className="flex items-center gap-3">
               <h3 className="text-lg font-semibold  bg-gradient-to-r from-white to-[#a5a5a5] bg-clip-text text-transparent">
                 All Resources{" "}
@@ -69,7 +68,7 @@ const Dashboard = ({ resourcesData, resourcesFastAccess, isLoading }) => {
             </div>
 
             {isLoading && <Spinner />}
-            <ul className="flex gap-10 ml-8 items-center my-4">
+            <ul className="flex gap-5 ml-4 items-center my-2">
               {resourcesFastAccess.map((resource) => (
                 <TooltipComponent
                   content={resource.name}
@@ -94,10 +93,10 @@ const Dashboard = ({ resourcesData, resourcesFastAccess, isLoading }) => {
               ))}
             </ul>
 
-            <Slider resourcesData={resourcesData} resourcesNum={resourcesNum} /> 
+            <Slider resourcesData={resourcesData} resourcesNum={resourcesNum} />
           </div>
 
-          <div className="flex flex-col justify-center gap-4 w-[50%] h-[40%]  px-5 py-8 border rounded-md border-slate-500 bg-[rgba(148,163,184,0.17)]">
+          <div className="flex flex-col justify-center gap-4 w-[100%]  px-5 py-8 border rounded-md border-slate-500 bg-[rgba(148,163,184,0.17)]">
             <h3 className="text-center text-6xl font-semibold  bg-gradient-to-br from-white to-[#504f4f] bg-clip-text text-transparent">
               {clock}
             </h3>

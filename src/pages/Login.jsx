@@ -51,7 +51,7 @@ const Login = () => {
         <img src="../../public/logox.png" className="h-16 ml-10" alt="logo" />
         <div className="flex items-center gap-20">
           <ul className="flex items-center gap-10">
-            <Link>
+            <Link to={"/userGuide"}>
               <li className=" hover:text-white transition-all ease-in-out duration-200 cursor-pointer">
                 USER GUIDE
               </li>
@@ -61,7 +61,7 @@ const Login = () => {
                 FEATURES
               </li>
             </Link>
-            <Link>
+            <Link to={"/about"}>
               <li className=" hover:text-white transition-all ease-in-out duration-200 cursor-pointer">
                 ABOUT
               </li>
@@ -74,7 +74,7 @@ const Login = () => {
         </div>
       </nav>
       <div className="login-bg flex flex-col justify-center">
-        <div className="ml-40 w-[500px] flex flex-col gap-8 ">
+        <div className="ml-20 w-[500px] flex flex-col gap-8 ">
           <p className="text-5xl leading-[60px] font-semibold  bg-gradient-to-r from-white to-[#a5a5a5] bg-clip-text text-transparent animate-moveInLeft">
             FOCUS ON BEING PRODUCTIVE INSTEAD OF BUSY.
           </p>

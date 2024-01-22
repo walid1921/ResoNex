@@ -1,10 +1,14 @@
 import ReactDOM from "react-dom/client";
+import Modal from "react-modal";
 import App from "./App.jsx";
 import "./index.css";
 import "./tailwind-dark.css";
 import { ContextProvider } from "./contexts/ContextProvider.jsx";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./contexts/authContext.jsx";
+
+
+Modal.setAppElement('#root'); // for accessibility, to make the modal accessible to screen readers
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <>

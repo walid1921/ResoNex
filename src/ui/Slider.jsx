@@ -17,8 +17,8 @@ export const Slider = ({ resourcesData, resourcesNum }) => {
 
 
   return (
-    <div className="overflow-hidden h-[160px] w-[917px]">
-      <div className="embla__viewport h-[120px]" ref={emblaRef}>
+    <div className="overflow-hidden h-[120px] w-[600px]">
+      <div className="embla__viewport h-[80px]" ref={emblaRef}>
         <div className="embla__container">
           {resourcesData
             .flatMap((resource) => resource.data)
@@ -27,15 +27,15 @@ export const Slider = ({ resourcesData, resourcesNum }) => {
                 to={data.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="embla__slide relative flex items-center gap-2 bg-[rgba(148,163,184,0.26)] hover:bg-[rgba(58,111,240,0.2)] hover:border-[rgba(58,111,240,0.5)] rounded-lg border border-slate-400 transition-all ease-in-out duration-300 px-4 py-4 cursor-pointer mr-4"
+                className="embla__slide relative flex items-center gap-2 bg-[rgba(148,163,184,0.26)] hover:bg-[rgba(58,111,240,0.2)] hover:border-[rgba(58,111,240,0.5)] rounded-lg border border-slate-400 transition-all ease-in-out duration-300 px-1  cursor-pointer mr-4"
                 key={data._id} // Assuming you have a unique identifier for each data item
               >
                 <img
-                  className="h-12 w-12 rounded-full object-cover object-center"
+                  className="h-6 w-6 rounded-full object-cover object-center"
                   src={data.logoUrl}
                   alt=""
                 />
-                <span className="mx-5">{data.name}</span>
+                <span className="mx-2">{data.name}</span>
               </Link>
             ))}
         </div>

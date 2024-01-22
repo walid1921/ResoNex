@@ -23,6 +23,8 @@ import { SiGmail } from "react-icons/si";
 import { FaGithub, FaYoutube, FaLinkedin } from "react-icons/fa";
 import { MdGTranslate } from "react-icons/md";
 import { BsGoogle } from "react-icons/bs";
+import About from "./pages/About";
+import UserGuide from "./pages/UserGuide";
 
 // react-progress-bar / react-progress-bar-plus / react-circular-progressbar
 
@@ -146,15 +148,20 @@ export default function App() {
   const handleSubmit = async (e, folderId) => {
     e.preventDefault();
     try {
-      if (!formData.name || !formData.logoUrl || !formData.url) {
+      if (!formData.name || !formData.url) {
         setError("Please fill in all fields.");
         toast.error("Please fill in all fields.");
         return;
       }
 
+      const logoUrl =
+        formData.logoUrl.trim() === ""
+          ? "https://cdn.icon-icons.com/icons2/3409/PNG/512/unknown_icon_217159.png"
+          : formData.logoUrl;
+
       const response = await axios.post(
         `${BACKEND_URL}/resources/${folderId}`,
-        formData
+        { ...formData, logoUrl }
       );
 
       if (response.status === 200) {
@@ -197,8 +204,6 @@ export default function App() {
       toast.error("Error deleting data. Please try again.");
     }
   };
-
-
 
   return (
     <>
@@ -271,6 +276,8 @@ export default function App() {
 
         <Route path="login" element={<Login />} />
         <Route path="features" element={<Features />} />
+        <Route path="about" element={<About />} />
+        <Route path="userGuide" element={<UserGuide />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
 
