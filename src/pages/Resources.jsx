@@ -75,31 +75,31 @@ function Resources({ resourcesData, isLoading, resourcesFastAccess }) {
           <li key={resource._id}>
             <Link to={resource.path}>
               {/* w-[180px] h-[130px] */}
-              <div className="flex flex-col justify-center items-center gap-6 w-[140px] h-[115px]  bg-[rgba(148,163,184,0.26)] hover:bg-[rgba(58,111,240,0.2)] hover:border-[rgba(58,111,240,0.5)] rounded-lg border border-slate-400 transition-all ease-in-out duration-300">
-                {resource.icon === "Sparkles" && <Sparkles size={45} />}
-                {resource.icon === "Star" && <Star size={45} />}
-                {resource.icon === "Briefcase" && <Briefcase size={45} />}
-                {resource.icon === "Brush" && <Brush size={45} />}
-                {resource.icon === "Database" && <Database size={45} />}
-                {resource.icon === "Globe" && <Globe size={45} />}
+              <div className="flex flex-col justify-center items-center gap-4 w-[160px] h-[115px]  bg-[rgba(148,163,184,0.26)] hover:bg-[rgba(58,111,240,0.2)] hover:border-[rgba(58,111,240,0.5)] rounded-lg border border-slate-400 transition-all ease-in-out duration-300">
+                {resource.icon === "Sparkles" && <Sparkles size={40} />}
+                {resource.icon === "Star" && <Star size={40} />}
+                {resource.icon === "Briefcase" && <Briefcase size={40} />}
+                {resource.icon === "Brush" && <Brush size={40} />}
+                {resource.icon === "Database" && <Database size={40} />}
+                {resource.icon === "Globe" && <Globe size={40} />}
                 {resource.icon === "GraduationCap" && (
-                  <GraduationCap size={45} />
+                  <GraduationCap size={40} />
                 )}
-                {resource.icon === "ImagePlus" && <ImagePlus size={45} />}
-                {resource.icon === "LibraryBig" && <LibraryBig size={45} />}
-                {resource.icon === "Maximize" && <Maximize size={45} />}
+                {resource.icon === "ImagePlus" && <ImagePlus size={40} />}
+                {resource.icon === "LibraryBig" && <LibraryBig size={40} />}
+                {resource.icon === "Maximize" && <Maximize size={40} />}
                 {resource.icon === "MessageSquareText" && (
-                  <MessageSquareText size={45} />
+                  <MessageSquareText size={40} />
                 )}
-                {resource.icon === "Mic" && <Mic size={45} />}
-                {resource.icon === "Network" && <Network size={45} />}
-                {resource.icon === "PenTool" && <PenTool size={45} />}
+                {resource.icon === "Mic" && <Mic size={40} />}
+                {resource.icon === "Network" && <Network size={40} />}
+                {resource.icon === "PenTool" && <PenTool size={40} />}
                 {resource.icon === "PersonStanding" && (
-                  <PersonStanding size={45} />
+                  <PersonStanding size={40} />
                 )}
-                {resource.icon === "Type" && <Type size={45} />}
-                {resource.icon === "Wand2" && <Wand2 size={45} />}
-                <span>{resource.name}</span>
+                {resource.icon === "Type" && <Type size={40} />}
+                {resource.icon === "Wand2" && <Wand2 size={40} />}
+                <span className="text-center text-sm">{resource.name}</span>
               </div>
             </Link>
           </li>

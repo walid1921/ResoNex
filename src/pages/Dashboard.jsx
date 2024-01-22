@@ -14,9 +14,9 @@ let TooltipAnimation = {
 };
 
 const Dashboard = ({ resourcesData, resourcesFastAccess, isLoading }) => {
-  console.log(resourcesData);
-
   const [clock, setClock] = useState(new Date().toLocaleTimeString());
+
+  console.log("called");
 
   const UpdateTime = () => {
     setClock(new Date().toLocaleTimeString());
@@ -24,6 +24,7 @@ const Dashboard = ({ resourcesData, resourcesFastAccess, isLoading }) => {
 
   useEffect(() => {
     const intervalId = setInterval(UpdateTime);
+    console.log("called");
 
     return () => clearInterval(intervalId);
   }, []);
@@ -32,19 +33,18 @@ const Dashboard = ({ resourcesData, resourcesFastAccess, isLoading }) => {
     .map((resource) => resource.data.length)
     .reduce((a, b) => a + b, 0);
 
-  const { tasksDataChart } = useTaskAPI();
-  const { numDoneTasks, numPendingTasks } = useTaskAPI();
+  const { numDoneTasks, numPendingTasks, tasksDataChart } = useTaskAPI();
 
   return (
     <div>
-      <div className=" flex items-center gap-3 mb-10">
+      <div className=" flex items-center gap-3 mb-10 ">
         <HiOutlineChip size={25} />
         <h2 className="text-2xl font-semibold  bg-gradient-to-r from-white to-[#a5a5a5] bg-clip-text text-transparent">
           Dashboard
         </h2>
       </div>
-      <div className="flex gap-7">
-        <div className="flex flex-col  gap-4 w-[50%]   px-5 py-8 border rounded-md border-slate-500 bg-[rgba(148,163,184,0.17)]">
+      <div className="flex justify-evenly">
+        <div className="flex flex-col  gap-4  px-5 py-8 border rounded-md border-slate-500 bg-[rgba(148,163,184,0.17)]">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-semibold  bg-gradient-to-r from-white to-[#a5a5a5] bg-clip-text text-transparent">
               Progress Details
@@ -54,16 +54,17 @@ const Dashboard = ({ resourcesData, resourcesFastAccess, isLoading }) => {
               numPendingTasks={numPendingTasks}
             />
           </div>
-
-          <LineChart tasksDataChart={tasksDataChart} />
-          <BarChart tasksDataChart={tasksDataChart} />
+          <div className="fle flex-col w-[400px]">
+            <LineChart tasksDataChart={tasksDataChart} />
+            <BarChart tasksDataChart={tasksDataChart} />
+          </div>
         </div>
 
-        <div className="flex flex-col w-[65%]  gap-10">
-          <div className="flex flex-col  gap-4  px-5 py-8 border rounded-md border-slate-500 bg-[rgba(148,163,184,0.17)]">
+        <div className="flex flex-col  justify-between">
+          <div className="flex flex-col  gap-4  px-5 py-10 border rounded-md border-slate-500 bg-[rgba(148,163,184,0.17)]">
             <div className="flex items-center gap-3">
-              <h3 className="text-lg font-semibold  bg-gradient-to-r from-white to-[#a5a5a5] bg-clip-text text-transparent">
-                All Resources{" "}
+              <h3 className="text-lg items-center font-semibold bg-gradient-to-r from-white to-[#a5a5a5] bg-clip-text text-transparent">
+                {resourcesNum} Resources{" "}
               </h3>
             </div>
 
@@ -96,7 +97,7 @@ const Dashboard = ({ resourcesData, resourcesFastAccess, isLoading }) => {
             <Slider resourcesData={resourcesData} resourcesNum={resourcesNum} />
           </div>
 
-          <div className="flex flex-col justify-center gap-4 w-[100%]  px-5 py-8 border rounded-md border-slate-500 bg-[rgba(148,163,184,0.17)]">
+          <div className="flex flex-col justify-center gap-4  px-5 py-10 border rounded-md border-slate-500 bg-[rgba(148,163,184,0.17)]">
             <h3 className="text-center text-6xl font-semibold  bg-gradient-to-br from-white to-[#504f4f] bg-clip-text text-transparent">
               {clock}
             </h3>

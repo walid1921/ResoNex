@@ -50,79 +50,92 @@ function ResourcesList({
       </button>
 
       {resourcesDataData.length === 0 ? (
-        <div className="h-[60%] flex justify-center items-center">
-          <div
-            className={`text-md text-center font-light px-6 py-6 border bg-[rgba(148,163,184,0.24)] border-[rgba(58,111,240,0.5)]  text-[#ffffff6f] rounded-md`}
+        <>
+          <TooltipComponent
+            content="Add"
+            position="TopCenter"
+            offsetY={-5}
+            animation={TooltipAnimation}
           >
-            Start by Adding New Resources in{" "}
-            <span className=" text-xl font-semibold  bg-gradient-to-r from-white to-[#a5a5a5] bg-clip-text text-transparent">
-              {resourcesDataName}
-            </span>{" "}
-            Folder
+            <button
+              className="border border-[#ffffff66] hover:border-white  border-dashed rounded-md py-4 px-10 justify-center items-center flex mx-auto transition-all ease-in-out duration-200 text-[#ffffff66] hover:text-white"
+              onClick={openAddResourceModal}
+            >
+              <HiOutlinePlus size={15} />
+            </button>
+          </TooltipComponent>
+          <div className="h-[60%] flex justify-center items-center">
+            <div
+              className={`text-md text-center font-light px-6 py-6 border bg-[rgba(148,163,184,0.24)] border-[rgba(58,111,240,0.5)]  text-[#ffffff6f] rounded-md`}
+            >
+              Start by Adding New Resources in{" "}
+              <span className=" text-xl font-semibold  bg-gradient-to-r from-white to-[#a5a5a5] bg-clip-text text-transparent">
+                {resourcesDataName}
+              </span>{" "}
+              Folder
+            </div>
           </div>
-        </div>
+        </>
       ) : isLoading ? (
         <Spinner />
       ) : (
-        <div className="flex items-start gap-6 mt-5 ">
-          <ul className="flex items-center flex-wrap  gap-5 overflow-y-scroll custom-scrollbar h-[480px] ">
-            {resourcesDataData &&
-              resourcesDataData.map((resource) => (
-                <li
-                  key={resource._id}
-                  className="relative flex items-center gap-5 bg-[rgba(148,163,184,0.26)] hover:bg-[rgba(58,111,240,0.2)] hover:border-[rgba(58,111,240,0.5)] rounded-lg border border-slate-400 transition-all ease-in-out duration-300 px-4 py-2"
-                >
-                  <Link
-                    to={resource.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <div className="flex justify-center items-center  ">
-                      <img
-                        className="h-8 w-8 rounded-full object-cover object-center"
-                        src={resource.logoUrl}
-                        alt=""
-                      />
-
-                      <span className="mx-5">{resource.name}</span>
-                    </div>
-                  </Link>
-
-                  <TooltipComponent
-                    content="Delete"
-                    position="TopCenter"
-                    offsetY={-5}
-                    animation={TooltipAnimation}
-                    className="absolute top-[2px] right-[2px]"
-                  >
-                    <button
-                      className="bg-[#ff4d4dad] hover:bg-[#c6141d9d] rounded-full"
-                      onClick={() => {
-                        console.log(resource._id);
-                        handleDeleteData(resource._id, folderId);
-                      }}
-                    >
-                      <HiOutlineMinusSm size={15} />
-                    </button>
-                  </TooltipComponent>
-                </li>
-              ))}
-
-            <TooltipComponent
-              content="Add"
-              position="TopCenter"
-              offsetY={-5}
-              animation={TooltipAnimation}
-            >
-              <button
-                className="border border-[#ffffff66] hover:border-white  border-dashed rounded-md py-4 px-10 justify-center items-center flex mx-auto transition-all ease-in-out duration-200 text-[#ffffff66] hover:text-white"
-                onClick={openAddResourceModal}
+        <ul className="flex items-start flex-wrap gap-5 overflow-y-scroll custom-scrollbar h-[480px] mt-5">
+          {resourcesDataData &&
+            resourcesDataData.map((resource) => (
+              <li
+                key={resource._id}
+                className="relative flex items-center gap-5 bg-[rgba(148,163,184,0.26)] hover:bg-[rgba(58,111,240,0.2)] hover:border-[rgba(58,111,240,0.5)] rounded-lg border border-slate-400 transition-all ease-in-out duration-300 px-4 py-2"
               >
-                <HiOutlinePlus size={15} />
-              </button>
-            </TooltipComponent>
-          </ul>
-        </div>
+                <Link
+                  to={resource.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div className="flex justify-center items-center  ">
+                    <img
+                      className="h-8 w-8 rounded-full object-cover object-center"
+                      src={resource.logoUrl}
+                      alt=""
+                    />
+
+                    <span className="mx-5">{resource.name}</span>
+                  </div>
+                </Link>
+
+                <TooltipComponent
+                  content="Delete"
+                  position="TopCenter"
+                  offsetY={-5}
+                  animation={TooltipAnimation}
+                  className="absolute top-[2px] right-[2px]"
+                >
+                  <button
+                    className="bg-[#ff4d4dad] hover:bg-[#c6141d9d] rounded-full"
+                    onClick={() => {
+                      console.log(resource._id);
+                      handleDeleteData(resource._id, folderId);
+                    }}
+                  >
+                    <HiOutlineMinusSm size={15} />
+                  </button>
+                </TooltipComponent>
+              </li>
+            ))}
+
+          <TooltipComponent
+            content="Add"
+            position="TopCenter"
+            offsetY={-5}
+            animation={TooltipAnimation}
+          >
+            <button
+              className="border border-[#ffffff66] hover:border-white  border-dashed rounded-md py-4 px-10 justify-center items-center flex mx-auto transition-all ease-in-out duration-200 text-[#ffffff66] hover:text-white"
+              onClick={openAddResourceModal}
+            >
+              <HiOutlinePlus size={15} />
+            </button>
+          </TooltipComponent>
+        </ul>
       )}
 
       {/* Add Resource Modal */}

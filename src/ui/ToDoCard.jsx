@@ -41,7 +41,7 @@ function ToDoCard({
       }`}
     >
       <div className="flex items-center h-full justify-between mb-2">
-        <h4 className="text-lg ">{title}</h4>
+        <h4 className="text-sm ">{title}</h4>
 
         <div className="flex items-center gap-2">
           <TooltipComponent

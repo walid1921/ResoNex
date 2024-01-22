@@ -229,7 +229,7 @@ function TasksTracker() {
             <NoTasks />
           ) : (
             <div
-              className={`flex flex-col gap-5 mt-4 h-[78%] overflow-y-scroll custom-scrollbar mx-4`}
+              className={`flex flex-col gap-5 mt-4 h-[73%] overflow-y-scroll custom-scrollbar mx-4`}
             >
               {tasksData.map((task) => (
                 <ToDoCard

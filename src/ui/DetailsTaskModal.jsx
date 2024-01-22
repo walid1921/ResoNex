@@ -39,11 +39,11 @@ function DetailsTaskModal({ selectedTask, closeTask, tasksData, handleDeleteTask
                 .map((task) => task.title)}
             </h2>
 
-            <div>
-              <p className="text-center mb-10">
+            <div className="mx-4">
+              <p className=" mb-10">
                 {tasksData.find((task) => task._id === selectedTask).description}
               </p>
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center ">
                 <div className="flex items-center gap-2">
                   <div
                     className={`w-[20px] h-[4px] rounded-sm cursor-pointer ${
