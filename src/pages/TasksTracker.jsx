@@ -29,7 +29,7 @@ import TaskStatus from "../ui/buttons/TaskStatus";
 import SaveBtn from "../ui/buttons/SaveBtn";
 import SeeAllTasksBtn from "../ui/buttons/SeeAllTasksBtn";
 import ChartHistoryBtn from "../ui/buttons/ChartHistoryBtn";
-import SaveChart from "../ui/buttons/saveChart";
+import SaveChart from "../ui/buttons/SaveChart";
 
 function TasksTracker() {
   //! All are in the TaskAPI.js File
