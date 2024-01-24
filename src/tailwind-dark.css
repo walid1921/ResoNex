@@ -23008,30 +23008,32 @@ body.e-colorpicker-overflow {
   scrollbar-width: thin;
   scrollbar-color: rgba(180, 180, 180, 0.9) transparent; /* Lighter gray with transparency */
 
-  /* For WebKit browsers (e.g., Chrome, Safari) */
-  &::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
-  }
+  
+}
 
-  &::-webkit-scrollbar-thumb {
-    background-color: rgba(
-      180,
-      180,
-      180,
-      0.9
-    ); /* Lighter gray with transparency */
-    border-radius: 6px;
-  }
+/* For WebKit browsers (e.g., Chrome, Safari) */
+.e-schedule .e-scroll-container::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
 
-  &::-webkit-scrollbar-track {
-    background-color: rgba(
-      180,
-      180,
-      180,
-      0.1
-    ); /* Even lighter gray with transparency */
-  }
+.e-schedule .e-scroll-container::-webkit-scrollbar-thumb {
+  background-color: rgba(
+    180,
+    180,
+    180,
+    0.9
+  ); /* Lighter gray with transparency */
+  border-radius: 6px;
+}
+
+.e-schedule .e-scroll-container::-webkit-scrollbar-track {
+  background-color: rgba(
+    180,
+    180,
+    180,
+    0.1
+  ); /* Even lighter gray with transparency */
 }
 
 .e-quick-popup-wrapper
