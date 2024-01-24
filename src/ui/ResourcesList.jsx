@@ -91,14 +91,16 @@ function ResourcesList({
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <div className="flex justify-center items-center  ">
+                  <div className="flex justify-center items-center opacity-70 hover:opacity-100 transition-all ease-in-out duration-200">
                     <img
-                      className="h-8 w-8 rounded-full object-cover object-center"
+                      className="h-8 w-8 rounded-full object-cover object-center  transition-all ease-in-out duration-200"
                       src={resource.logoUrl}
                       alt=""
                     />
 
-                    <span className="mx-5">{resource.name}</span>
+                    <span className="mx-5">
+                      {resource.name}
+                    </span>
                   </div>
                 </Link>
 

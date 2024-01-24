@@ -89,11 +89,7 @@ const Login = () => {
             <p className=" bg-gradient-to-r from-white to-[#a5a5a5] bg-clip-text text-transparent">
               Sign in to{" "}
             </p>
-            <img
-              src="/ResoNex text.png"
-              className="h-6"
-              alt="logo text"
-            />
+            <img src="/ResoNex text.png" className="h-6" alt="logo text" />
           </div>
 
           <form
@@ -131,11 +127,7 @@ const Login = () => {
             <p className=" bg-gradient-to-r from-white to-[#a5a5a5] bg-clip-text text-transparent">
               Register to{" "}
             </p>
-            <img
-              src="/ResoNex text.png"
-              className="h-6"
-              alt="logo text"
-            />
+            <img src="/ResoNex text.png" className="h-6" alt="logo text" />
           </div>
 
           <form
