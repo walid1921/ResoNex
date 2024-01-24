@@ -48,7 +48,7 @@ const Login = () => {
   return (
     <div className="relative page-login flex items-center w-full">
       <nav className="z-20 absolute top-0 right-0 flex justify-between gap-20 pr-20 mt-5 h-20 items-center text-[#bbb] w-full">
-        <img src="../../public/logox.png" className="h-16 ml-10" alt="logo" />
+        <img src="/logox.png" className="h-16 ml-10" alt="logo" />
         <div className="flex items-center gap-20">
           <ul className="flex items-center gap-10">
             <Link to={"/userGuide"}>
@@ -90,7 +90,7 @@ const Login = () => {
               Sign in to{" "}
             </p>
             <img
-              src="../../public/ResoNex text.png"
+              src="/ResoNex text.png"
               className="h-6"
               alt="logo text"
             />
@@ -132,7 +132,7 @@ const Login = () => {
               Register to{" "}
             </p>
             <img
-              src="../../public/ResoNex text.png"
+              src="/ResoNex text.png"
               className="h-6"
               alt="logo text"
             />

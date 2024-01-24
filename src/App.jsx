@@ -37,7 +37,7 @@ const resourcesFastAccess = [
   },
   {
     id: 2,
-    icon: "../../public/chatgpt-icon.png",
+    icon: "/chatgpt-icon.png",
     name: "ChatGPT",
     path: "https://chatgpt.com",
   },
