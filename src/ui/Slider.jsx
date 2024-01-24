@@ -1,10 +1,10 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import { Link } from "react-router-dom";
+import Spinner from "../ui/Spinner";
 
-
-export const Slider = ({ resourcesData }) => {
+export const Slider = ({ resourcesData, isLoading }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel();
 
   const scrollPrev = useCallback(() => {
@@ -15,11 +15,15 @@ export const Slider = ({ resourcesData }) => {
     if (emblaApi) emblaApi.scrollNext();
   }, [emblaApi]);
 
-
   return (
     <div className="overflow-hidden h-[120px] w-[600px]">
       <div className="embla__viewport h-[80px]" ref={emblaRef}>
         <div className="embla__container">
+          {isLoading && (
+            <div className="h-full flex justify-center items-center">
+             loading...
+            </div>
+          )}
           {resourcesData
             .flatMap((resource) => resource.data)
             .map((data) => (
@@ -47,7 +51,7 @@ export const Slider = ({ resourcesData }) => {
         >
           <HiChevronLeft size={25} />
         </button>
-        
+
         <button
           className="text-slate-400 hover:text-[#3a6df0] hover:border-[#3a6df0] transition-all ease-linear duration-200 p-1 border rounded-full border-slate-400"
           onClick={scrollNext}
@@ -57,6 +61,6 @@ export const Slider = ({ resourcesData }) => {
       </div>
     </div>
   );
-}
+};
 
 export default Slider;

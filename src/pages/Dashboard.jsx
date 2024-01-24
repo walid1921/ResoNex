@@ -94,7 +94,7 @@ const Dashboard = ({ resourcesData, resourcesFastAccess, isLoading }) => {
               ))}
             </ul>
 
-            <Slider resourcesData={resourcesData} resourcesNum={resourcesNum} />
+            <Slider resourcesData={resourcesData} resourcesNum={resourcesNum} isLoading={isLoading} />
           </div>
 
           <div className="flex flex-col justify-center gap-4  px-5 py-10 border rounded-md border-slate-500 bg-[rgba(148,163,184,0.17)]">
