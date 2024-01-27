@@ -24,21 +24,21 @@ import { useAuth } from "../contexts/authContext";
 const appsData = [
   {
     id: 1,
-    name: "Coding Tracker",
-    path: "/apps/coding-tracker",
-    icon: <HiOutlineChartSquareBar size={23} />,
-  },
-  {
-    id: 2,
     name: "Tasks Tracker",
     path: "/apps/tasks-tracker",
     icon: <HiOutlineClipboardList size={23} />,
   },
   {
-    id: 3,
+    id: 2,
     name: "Calendar",
     path: "/apps/calendar",
     icon: <HiOutlineCalendar size={23} />,
+  },
+  {
+    id: 3,
+    name: "Coding Tracker",
+    path: "/apps/coding-tracker",
+    icon: <HiOutlineChartSquareBar size={23} />,
   },
 ];
 

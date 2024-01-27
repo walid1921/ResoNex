@@ -30,23 +30,23 @@ const Navbar = ({ tasksData }) => {
   const appsData = [
     {
       id: 1,
-      name: "Coding Tracker",
-      path: "/apps/coding-tracker",
-      icon: <HiOutlineChartSquareBar size={19} />,
-    },
-    {
-      id: 2,
       name: "Tasks Tracker",
       path: "/apps/tasks-tracker",
       icon: <HiOutlineClipboardList size={19} />,
       numPendingTasks,
     },
     {
-      id: 3,
+      id: 2,
       name: "Calendar",
       path: "/apps/calendar",
       icon: <HiOutlineCalendar size={19} />,
       numEvents,
+    },
+    {
+      id: 3,
+      name: "Coding Tracker",
+      path: "/apps/coding-tracker",
+      icon: <HiOutlineChartSquareBar size={19} />,
     },
   ];
 
@@ -70,11 +70,10 @@ const Navbar = ({ tasksData }) => {
     };
   }, [isResourcesExpanded, isAppsExpanded]);
 
-
   const { logout } = useAuth();
 
   function handleLogout() {
-    logout()
+    logout();
   }
 
   // useEffect(() => {
@@ -205,7 +204,7 @@ const Navbar = ({ tasksData }) => {
           <li>
             <NavLink
               to="/login"
-              onClick={handleLogout}  
+              onClick={handleLogout}
               className="flex items-center text-slate-200 gap-3  py-2 px-4 hover:bg-[#0c0f194d] hover:text-[#3a6df0] transition-all ease-in-out duration-150"
             >
               <HiOutlineLogout size={20} className="origin-center rotate-180" />
