@@ -98,7 +98,7 @@ function TasksTracker() {
   console.log(chartHistory);
 
   return (
-    <div>
+    <>
       {/* <ProgressBar
         className=" px-3 pt-[2px] rounded-md"
         percent={loading}
@@ -291,7 +291,7 @@ function TasksTracker() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

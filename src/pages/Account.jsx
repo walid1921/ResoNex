@@ -1,8 +1,8 @@
 function Account() {
   return (
-    <div>
+    <>
       ACCOUNT
-    </div>
+    </>
   )
 }
 

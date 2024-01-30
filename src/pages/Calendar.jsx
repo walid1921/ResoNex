@@ -18,7 +18,7 @@ const Calendar = () => {
   if (error) return <div>Error loading calendar data</div>;
 
   return (
-    <div>
+    <>
       <div className=" flex items-center gap-3 mb-10">
         <HiOutlineCalendar size={25} />
         <h2 className="text-2xl font-semibold  bg-gradient-to-r from-white to-[#a5a5a5] bg-clip-text text-transparent">
@@ -54,7 +54,7 @@ const Calendar = () => {
       >
         <Inject services={[Day, Week, Month, Agenda]} />
       </ScheduleComponent>
-    </div>
+    </>
   );
 };
 

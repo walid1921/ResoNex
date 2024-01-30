@@ -36,7 +36,7 @@ const Dashboard = ({ resourcesData, resourcesFastAccess, isLoading }) => {
   const { numDoneTasks, numPendingTasks, tasksDataChart } = useTaskAPI();
 
   return (
-    <div>
+    <>
       <div className=" flex items-center gap-3 mb-10 ">
         <HiOutlineChip size={25} />
         <h2 className="text-2xl font-semibold  bg-gradient-to-r from-white to-[#a5a5a5] bg-clip-text text-transparent">
@@ -107,7 +107,7 @@ const Dashboard = ({ resourcesData, resourcesFastAccess, isLoading }) => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
