@@ -1,13 +1,13 @@
-import { TooltipComponent } from "@syncfusion/ej2-react-popups";
-import { HiOutlineMinusSm } from "react-icons/hi";
 import Modal from "react-modal"; //npm install react-modal
-import SecondaryBtn from "./buttons/SecondaryBtn";
+import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { useState } from "react";
+
+import { HiOutlineMinusSm } from "react-icons/hi";
 import { BsExclamation } from "react-icons/bs";
 
-let TooltipAnimation = {
-  open: { effect: "FadeIn", duration: 300, delay: 0 },
-};
+import { TooltipAnimation } from "../utils/utils";
+import SecondaryBtn from "./buttons/SecondaryBtn";
+
 
 function ToDoCard({
   id,

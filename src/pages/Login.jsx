@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
+import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+
 import { useAuth } from "../contexts/authContext";
+
 import PrimaryBtn from "../ui/buttons/PrimaryBtn";
 import SecondaryBtn from "../ui/buttons/SecondaryBtn";
+import { TooltipAnimation } from "../utils/utils";
 import { FaLinkedin } from "react-icons/fa";
-import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 
-let TooltipAnimation = {
-  open: { effect: "FadeIn", duration: 300, delay: 0 },
-};
 
 const Login = () => {
   const [username, setUsername] = useState("walidka");

@@ -1,5 +1,6 @@
-import SecondaryBtn from "./buttons/SecondaryBtn";
 import Modal from "react-modal"; //npm install react-modal
+
+import SecondaryBtn from "./buttons/SecondaryBtn";
 
 function ChartHistory({
   closeChartHistoryModal,
@@ -48,9 +49,7 @@ function ChartHistory({
                   className="flex flex-col justify-center mt-8"
                 >
                   <div className="flex justify-center gap-5 border-b pb-4 border-slate-400 text-slate-400">
-                    
                     <p>{chart.duration}</p>
-                    
                   </div>
                   <div className="flex justify-center mb-2 gap-6">
                     {chart.weekProgress.map((progress) => (

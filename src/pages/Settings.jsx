@@ -1,4 +1,3 @@
-import React from "react";
 import { HiOutlineCog } from "react-icons/hi";
 
 const Settings = () => {

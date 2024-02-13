@@ -1,7 +1,8 @@
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
-import { useEffect } from "react";
-import { useRef } from "react";
-import { useState } from "react";
+import { NavLink } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+
+import { HiOutlineChartSquareBar } from "react-icons/hi";
 import {
   HiOutlineCalendar,
   HiOutlineChevronDown,
@@ -13,8 +14,7 @@ import {
   HiOutlineLogout,
   HiOutlineViewGrid,
 } from "react-icons/hi";
-import { HiOutlineChartSquareBar } from "react-icons/hi";
-import { NavLink } from "react-router-dom";
+
 import useCalendarAPI from "../services/CalendarAPI";
 import { useAuth } from "../contexts/authContext";
 

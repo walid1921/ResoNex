@@ -1,4 +1,5 @@
 import Modal from "react-modal";
+
 import PrimaryBtn from "./buttons/PrimaryBtn";
 import SecondaryBtn from "./buttons/SecondaryBtn";
 

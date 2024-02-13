@@ -1,5 +1,3 @@
-
-
 const getCurrentDate = () => {
   const now = new Date();
   const year = now.getFullYear();
@@ -18,3 +16,6 @@ export const hasChartBeenUpdatedToday = () => {
   return lastUpdateDate === currentDate;
 };
 
+export let TooltipAnimation = {
+  open: { effect: "FadeIn", duration: 300, delay: 0 },
+};

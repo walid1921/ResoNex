@@ -1,6 +1,7 @@
+import Modal from "react-modal"; //npm install react-modal
+
 import { HiOutlineSearch } from "react-icons/hi";
 import SecondaryBtn from "./buttons/SecondaryBtn";
-import Modal from "react-modal"; //npm install react-modal
 
 function SeeAllTasksModal({
   closeAllTasksModal,

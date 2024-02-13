@@ -1,8 +1,8 @@
-import React, { useCallback, useState } from "react";
-import useEmblaCarousel from "embla-carousel-react";
-import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 import { Link } from "react-router-dom";
-import Spinner from "../ui/Spinner";
+import useEmblaCarousel from "embla-carousel-react";
+import { useCallback } from "react";
+
+import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
 
 export const Slider = ({ resourcesData, isLoading }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel();
@@ -21,7 +21,7 @@ export const Slider = ({ resourcesData, isLoading }) => {
         <div className="embla__container">
           {isLoading && (
             <div className="h-full flex justify-center items-center">
-             loading...
+              loading...
             </div>
           )}
           {resourcesData

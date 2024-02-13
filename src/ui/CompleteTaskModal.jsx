@@ -1,6 +1,7 @@
+import Modal from "react-modal"; //npm install react-modal
+
 import PrimaryBtn from "./buttons/PrimaryBtn"
 import SecondaryBtn from "./buttons/SecondaryBtn"
-import Modal from "react-modal"; //npm install react-modal
 
 
 function CompleteTaskModal({isCompletedModalOpen, closeCompletedModal, formData, handleStatusChange, handleCompleted}) {

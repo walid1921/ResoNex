@@ -1,4 +1,3 @@
-import { HiOutlineChevronDown } from "react-icons/hi";
 import { useAuth } from "../contexts/authContext";
 
 function User() {

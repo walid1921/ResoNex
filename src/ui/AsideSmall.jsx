@@ -1,3 +1,4 @@
+import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { Link, NavLink } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 
@@ -8,16 +9,12 @@ import {
   HiOutlineChip,
   HiOutlineClipboardList,
   HiOutlineCog,
-  HiOutlineCube,
   HiOutlineExclamationCircle,
   HiOutlineFolder,
-  HiOutlineLink,
   HiOutlineLogout,
-  HiOutlineSparkles,
   HiOutlineViewGrid,
 } from "react-icons/hi";
 
-import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { useStateContext } from "../contexts/ContextProvider";
 import { useAuth } from "../contexts/authContext";
 

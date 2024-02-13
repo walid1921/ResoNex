@@ -1,5 +1,6 @@
-import SecondaryBtn from "./buttons/SecondaryBtn";
 import Modal from "react-modal"; //npm install react-modal
+
+import SecondaryBtn from "./buttons/SecondaryBtn";
 
 
 function DetailsTaskModal({ selectedTask, closeTask, tasksData, handleDeleteTask, openEditModal}) {
