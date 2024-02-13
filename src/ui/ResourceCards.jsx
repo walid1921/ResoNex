@@ -1,7 +1,10 @@
-import { HiOutlineFolder } from "react-icons/hi";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { Link } from "react-router-dom";
+
 import Spinner from "./Spinner";
+import { TooltipAnimation } from "../utils/utils";
+
+import { HiOutlineFolder } from "react-icons/hi";
 import {
   Briefcase,
   Brush,
@@ -21,10 +24,6 @@ import {
   Type,
   Wand2,
 } from "lucide-react";
-
-let TooltipAnimation = {
-  open: { effect: "FadeIn", duration: 300, delay: 0 },
-};
 
 function ResourceCards({ resourcesFastAccess, resourcesData, isLoading }) {
   console.log(resourcesData);

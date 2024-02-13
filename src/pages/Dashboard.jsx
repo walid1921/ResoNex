@@ -8,10 +8,8 @@ import TaskStatus from "../ui/buttons/TaskStatus";
 import { useEffect, useState } from "react";
 import TodayDate from "../ui/TodayDate";
 import BarChart from "../ui/BarChart";
+import { TooltipAnimation } from "../utils/utils";
 
-let TooltipAnimation = {
-  open: { effect: "FadeIn", duration: 300, delay: 0 },
-};
 
 const Dashboard = ({ resourcesData, resourcesFastAccess, isLoading }) => {
   const [clock, setClock] = useState(new Date().toLocaleTimeString());

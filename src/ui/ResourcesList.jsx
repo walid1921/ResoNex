@@ -1,8 +1,6 @@
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
 import { Link } from "react-router-dom";
 
-import ResourceModal from "./ResourceModal";
-
 import {
   HiArrowCircleLeft,
   HiOutlineFolder,
@@ -10,9 +8,8 @@ import {
   HiOutlinePlus,
 } from "react-icons/hi";
 
-let TooltipAnimation = {
-  open: { effect: "FadeIn", duration: 300, delay: 0 },
-};
+import { TooltipAnimation } from "../utils/utils";
+import ResourceModal from "./ResourceModal";
 
 function ResourcesList({
   resourcesDataName,

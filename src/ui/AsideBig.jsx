@@ -1,16 +1,14 @@
+import { TooltipComponent } from "@syncfusion/ej2-react-popups";
+import { Link } from "react-router-dom";
+import { HiArrowCircleLeft } from "react-icons/hi";
+
 import Navbar from "./Navbar";
 import User from "./User";
-import { HiArrowCircleLeft } from "react-icons/hi";
 import { useStateContext } from "../contexts/ContextProvider";
-import { Link } from "react-router-dom";
-import { TooltipComponent } from "@syncfusion/ej2-react-popups";
+import { TooltipAnimation } from "../utils/utils";
 
 const AsideBig = ({tasksData}) => {
   const { activeMenu, setActiveMenu } = useStateContext();
-
-  let TooltipAnimation = {
-    open: { effect: "FadeIn", duration: 300, delay: 0 },
-  };
 
   return (
     <aside className="row-span-full  flex-col py-2 border-r border-slate-600 ease-in-out duration-500 relative flex ">

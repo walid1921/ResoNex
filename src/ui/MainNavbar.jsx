@@ -1,22 +1,21 @@
-import React, { useEffect, useRef } from "react";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
-import { useStateContext } from "../contexts/ContextProvider";
+import { Link } from "react-router-dom";
+import { useEffect, useRef } from "react";
 
+import { RxAvatar } from "react-icons/rx";
 import {
   HiOutlineBell,
   HiOutlineChevronDown,
   HiOutlineCog,
   HiOutlineLogout,
 } from "react-icons/hi";
+
 import Notification from "./Notification";
 import { useAuth } from "../contexts/authContext";
-import { Link } from "react-router-dom";
+import { useStateContext } from "../contexts/ContextProvider";
+import { TooltipAnimation } from "../utils/utils";
 
-import { RxAvatar } from "react-icons/rx";
 
-let TooltipAnimation = {
-  open: { effect: "FadeIn", duration: 300, delay: 0 },
-};
 
 const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
   <TooltipComponent
