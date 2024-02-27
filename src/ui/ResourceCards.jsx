@@ -23,11 +23,13 @@ import {
   Star,
   Type,
   Wand2,
+  Youtube,
 } from "lucide-react";
 
 function ResourceCards({ resourcesFastAccess, resourcesData, isLoading }) {
   console.log(resourcesData);
 
+  //! Calculate the total number of resources
   const resourcesNum =
     resourcesData &&
     resourcesData
@@ -100,6 +102,7 @@ function ResourceCards({ resourcesFastAccess, resourcesData, isLoading }) {
                   )}
                   {resource.icon === "Type" && <Type size={40} />}
                   {resource.icon === "Wand2" && <Wand2 size={40} />}
+                  {resource.icon === "Youtube" && <Youtube size={40} />}
                   <span className="text-center text-sm">{resource.name}</span>
                 </div>
               </Link>
