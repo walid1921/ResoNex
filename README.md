@@ -58,7 +58,7 @@ Resonex is a task management web application developed using the MERN stack to m
 
 As a developer, I always have a lot to manage, like frameworks, websites, tools, and tasks. These things are all over the place – on our laptops, iPads, phones, and buried in messy bookmarks as shown below 😅
 
-![diagram-export-14-07-2024-12_01_08](https://github.com/user-attachments/assets/d19d0b76-7419-4862-8758-b88d514fbd3e)
+![Screenshot 2024-01-27 at 14 38 1](https://github.com/user-attachments/assets/0cd0f11f-d2e7-4377-9336-7f8ffa950ba5)
 
 Therefore, I thought about creating an application that serves as a centralized dashboard, bringing together all our coding resources, frameworks, and task progress into one organized and visually appealing space, making it easy to find and use everything we need. This is **`ResoNex`**
 
