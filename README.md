@@ -7,7 +7,7 @@ Resonex is a task management web application developed using the MERN stack to m
 - **Design:** **`Figma`**
 - **Frontend Development:** **`React`** **`Tailwind CSS`** **`Axios`** **`Vite`**
 - **Backend Development:** **`Node.js`** **`Express.js`** **`MongoDB`**
-- **Other Libraries:** **`Lucide Icons`** **`react-hot-toast`** **`embla-carousel-react`** **`Chart.js`** **`syncfusion library`**
+- **Other Libraries:** **`Postman`** **`Lucide Icons`** **`react-hot-toast`** **`embla-carousel-react`** **`Chart.js`** **`syncfusion library`**
 - **Deployment:** **`Render`** **`Vercel`**
 
 ## 👾 Features
