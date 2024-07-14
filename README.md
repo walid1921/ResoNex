@@ -118,7 +118,7 @@ Frontend Development
 
    - Used Axios to connect frontend with backend APIs.
 
-- Handled data fetching, posting, and updating.
+   - Handled data fetching, posting, and updating.
 
 5. Additional Libraries:
 
