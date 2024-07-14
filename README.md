@@ -2,6 +2,12 @@
 
 Resonex is a task management web application developed using the MERN stack to make life easier for student developers. It’s not just about organizing stuff – it’s about helping us work smarter and have a clear plan for success. It’s a handy tool where everything is organized in one place, allowing us to stay focused on building our projects with efficiency and clarity.
 
+## 📹 Video
+
+https://github.com/user-attachments/assets/f027938a-36aa-404e-8cb4-4d1638871b74
+
+- Check it out live here [Resonex](https://reso-nex.vercel.app/).
+
 ## 🛠️ Technologies & Tools Used
 
 - **Design:** **`Figma`**
@@ -147,9 +153,3 @@ The app still needs more improvements and functionalities for better usability:
 - Allow users to upload an avatar, update their name, and change their password.
 - Enable users to create their own folders.
 - Add a Jobs Tracker to help users track job applications, interviews, and job search progress.
-
-## 📹 Video
-
-https://github.com/user-attachments/assets/f027938a-36aa-404e-8cb4-4d1638871b74
-
-- Check it out live here [Resonex](https://reso-nex.vercel.app/).
