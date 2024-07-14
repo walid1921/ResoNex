@@ -11,8 +11,8 @@ import { FaLinkedin } from "react-icons/fa";
 
 
 const Login = () => {
-  const [username, setUsername] = useState("walidka");
-  const [password, setPassword] = useState("1234567");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
   const [loginForm, setLoginForm] = useState(true);
