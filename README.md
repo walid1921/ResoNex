@@ -75,53 +75,54 @@ Backend Development
 
 1. Setup Development Environment:
 
-- Installed Node.js and initialized the project.
-- Installed Express.js for the server framework.
+   - Installed Node.js and initialized the project.
+   - Installed Express.js for the server framework.
 
 2. Database Setup:
 
-- Set up MongoDB and connect it to the application.
-- Defined models for data structure using Mongoose.
+   - Set up MongoDB and connect it to the application.
+   - Defined models for data structure using Mongoose.
 
 3. API Development:
 
-- Created RESTful API endpoints using Express.js.
-- Implemented controllers for handling business logic.
-- Set up routes to manage incoming requests.
-- Implemented middleware for validation, error handling, and authentication.
+   - Created RESTful API endpoints using Express.js.
+   - Implemented controllers for handling business logic.
+   - Set up routes to manage incoming requests.
+   - Implemented middleware for validation, error handling, and authentication.
 
 4. Authentication:
 
-- Implemented JWT for user authentication and authorization.
-- Set up secure password storage using bcrypt.
+   - Implemented JWT for user authentication and authorization.
+   - Set up secure password storage using bcrypt.
 
 5. Integration of External APIs:
 
-- Used Axios to fetch data from external APIs as needed.
+   - Used Axios to fetch data from external APIs as needed.
 
 Frontend Development
 
 1. Setup Development Environment:
 
-- Initialized the frontend using Vite.
+   - Initialized the frontend using Vite.
 
 2. Component Development:
 
-- Built reusable React components for UI elements.
-- Implemented state management using React hooks.
+   - Built reusable React components for UI elements.
+   - Implemented state management using React hooks.
 
 3. Styling:
 
-- Used Tailwind CSS for styling the components and layout.
+   - Used Tailwind CSS for styling the components and layout.
 
 4. API Integration:
 
-- Used Axios to connect frontend with backend APIs.
+   - Used Axios to connect frontend with backend APIs.
+
 - Handled data fetching, posting, and updating.
 
 5. Additional Libraries:
 
-- Integrated additional libraries like Lucide Icons, react-hot-toast, embla-carousel-react, Chart.js, and Syncfusion Library as needed.
+   - Integrated additional libraries like Lucide Icons, react-hot-toast, embla-carousel-react, Chart.js, and Syncfusion Library as needed.
 
 ### Deployment:
 
